@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">CalorieSnap</string>
+
+    <string name="err_set_preview_display">Camera Setup Error, Quitting</string>
+</resources>
