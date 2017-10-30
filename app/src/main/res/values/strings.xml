@@ -2,4 +2,6 @@
     <string name="app_name">CalorieSnap</string>
 
     <string name="err_set_preview_display">Camera Setup Error, Quitting</string>
+    <string name="request_permission">req perm camera</string>
+    <string name="camera_error">err cam</string>
 </resources>
