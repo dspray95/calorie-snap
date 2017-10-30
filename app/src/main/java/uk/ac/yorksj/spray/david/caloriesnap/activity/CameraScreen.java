@@ -55,11 +55,6 @@ public class CameraScreen extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_camera_screen);
 
-        //We need to get permission to use the camera if we dont already have it
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED){
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA}, 50);
-        }
-
         SetActionListeners();
     }
 
@@ -135,7 +130,6 @@ public class CameraScreen extends AppCompatActivity {
                 }
                 @Override
                 public void onConfigureFailed(@NonNull CameraCaptureSession cameraCaptureSession) {
-                    Toast.makeText(CameraScreen.this, "Configuration change", Toast.LENGTH_SHORT).show();
                 }
             }, null);
         } catch (CameraAccessException e) {
@@ -144,8 +138,8 @@ public class CameraScreen extends AppCompatActivity {
     }
 
     protected void updatePreview() {
-        if(null == cameraDevice) {
-            Log.e(TAG, "updatePreview error, return");
+        if(cameraDevice == null) {
+            Log.e(TAG, "updatePreview error");
         }
         captureRequestBuilder.set(CaptureRequest.CONTROL_MODE, CameraMetadata.CONTROL_MODE_AUTO);
         try {
@@ -175,11 +169,13 @@ public class CameraScreen extends AppCompatActivity {
         CameraManager manager = (CameraManager) getSystemService(Context.CAMERA_SERVICE);
 
         try {
-            cameraId = manager.getCameraIdList()[0];
+            cameraId = manager.getCameraIdList()[0];    //Find the camera in the devices ID list, front facing camera should be in index 0
             CameraCharacteristics characteristics = manager.getCameraCharacteristics(cameraId);
             StreamConfigurationMap map = characteristics.get(CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP);
-            assert map != null;
+
             imageDimension = map.getOutputSizes(SurfaceTexture.class)[0];
+
+            //We need to get permission to use the camera if we dont already have it
             if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED){
                 ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA}, 50);
                 return;
