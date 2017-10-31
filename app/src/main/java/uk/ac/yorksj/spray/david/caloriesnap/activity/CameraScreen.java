@@ -14,6 +14,8 @@
  * limitations under the License.
  */
 
+//TODO - remove unneeded source code
+
 package uk.ac.yorksj.spray.david.caloriesnap.activity;
 
 import android.Manifest;
@@ -24,6 +26,7 @@ import android.app.DialogFragment;
 import android.app.FragmentManager;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.ImageFormat;
 import android.graphics.Matrix;
@@ -62,15 +65,16 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.ByteBuffer;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
 import java.util.concurrent.Semaphore;
 import java.util.concurrent.TimeUnit;
 
-import uk.ac.yorksj.spray.david.caloriesnap.AutoFitTextureView;
 import uk.ac.yorksj.spray.david.caloriesnap.R;
 
 public class CameraScreen extends AppCompatActivity
@@ -164,7 +168,7 @@ public class CameraScreen extends AppCompatActivity
     private String mCameraId;
 
     /**
-     * An {@link AutoFitTextureView} for camera preview.
+     * An {@link TextureView} for camera preview.
      */
     private TextureView mTextureView;
 
@@ -421,7 +425,6 @@ public class CameraScreen extends AppCompatActivity
         setContentView(R.layout.activity_camera_screen);
         this.findViewById(R.id.button_capture).setOnClickListener(this);
         mTextureView = (TextureView)this.findViewById(R.id.texture);
-        mFile = new File(getExternalFilesDir(null), "pic.jpg");
     }
 
     @Override
@@ -712,7 +715,7 @@ public class CameraScreen extends AppCompatActivity
                         @Override
                         public void onConfigureFailed(
                                 @NonNull CameraCaptureSession cameraCaptureSession) {
-                            showToast("Failed");
+                            showToast(getString(R.string.error_camera));
                         }
                     }, null
             );
@@ -784,7 +787,6 @@ public class CameraScreen extends AppCompatActivity
                 public void onCaptureCompleted(@NonNull CameraCaptureSession session,
                                                @NonNull CaptureRequest request,
                                                @NonNull TotalCaptureResult result) {
-                    showToast("Saved: " + mFile);
                     Log.d(TAG, mFile.toString());
                     unlockFocus();
                 }
@@ -870,6 +872,12 @@ public class CameraScreen extends AppCompatActivity
             mState = STATE_PREVIEW;
             mCaptureSession.setRepeatingRequest(mPreviewRequest, mCaptureCallback,
                     mBackgroundHandler);
+
+            Intent mIntent = new Intent(CameraScreen.this,
+                    Gallery.class);
+            mIntent.putExtra("file", mFile.toString());
+            startActivity(mIntent);
+
         } catch (CameraAccessException e) {
             e.printStackTrace();
         }
@@ -879,7 +887,13 @@ public class CameraScreen extends AppCompatActivity
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.button_capture: {
+                String imgType = ".jpg";
+                String timeStamp = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss").format(new Date());
+                String fileName = timeStamp + imgType;
+                mFile = new File(getExternalFilesDir(null), fileName);
+
                 takePicture();
+
                 break;
             }
         }
@@ -932,8 +946,9 @@ public class CameraScreen extends AppCompatActivity
                     }
                 }
             }
-        }
 
+
+        }
     }
 
     /**
