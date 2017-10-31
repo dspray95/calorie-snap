@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="err_set_preview_display">Erreur au niveu de la camera, application se ferme</string>
     <string name="request_permission">req perm camera</string>
-    <string name="camera_error">err cam</string>
+    <string name="error_camera">Erreur au niveu de la camera, application se ferme</string>
 
 </resources>

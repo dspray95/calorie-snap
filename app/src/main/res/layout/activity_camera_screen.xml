@@ -6,7 +6,7 @@
     android:layout_height="fill_parent"
     android:orientation="vertical">
 
-    <uk.ac.yorksj.spray.david.caloriesnap.AutoFitTextureView
+    <TextureView
         android:id="@+id/texture"
         android:layout_width="0dp"
         android:layout_height="551dp"

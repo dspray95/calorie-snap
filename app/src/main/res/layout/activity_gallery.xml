@@ -4,6 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="uk.ac.yorksj.spray.david.caloriesnap.Gallery">
+    tools:context="uk.ac.yorksj.spray.david.caloriesnap.activity.Gallery">
 
 </android.support.constraint.ConstraintLayout>

@@ -9,7 +9,6 @@ import android.widget.Toast;
 
 import java.io.IOException;
 
-import static android.R.attr.data;
 import static android.content.ContentValues.TAG;
 
 /**
@@ -32,7 +31,7 @@ public class CameraView extends SurfaceView implements SurfaceHolder.Callback {
         this.surfaceHolder = getHolder();
         this.surfaceHolder.addCallback(this);
 
-        toastCameraError.makeText(context, context.getString(R.string.err_set_preview_display), Toast.LENGTH_LONG);
+        toastCameraError.makeText(context, context.getString(R.string.error_camera), Toast.LENGTH_LONG);
     }
 
     @Override
