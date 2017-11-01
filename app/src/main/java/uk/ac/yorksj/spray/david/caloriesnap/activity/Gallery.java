@@ -13,48 +13,48 @@ import java.io.FileOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
-import uk.ac.yorksj.spray.david.caloriesnap.ImageManager;
+import uk.ac.yorksj.spray.david.caloriesnap.FoodItem;
+import uk.ac.yorksj.spray.david.caloriesnap.FoodItemManager;
 import uk.ac.yorksj.spray.david.caloriesnap.R;
 
 public class Gallery extends AppCompatActivity {
 
-    String IMAGE_MANAGER_CREATED = "IMAGE_MANAGER_CREATED";
-    ImageManager imageManager;
+    String ITEM_MANAGER_CREATED = "ITEM_MANAGER_CREATED";
+    FoodItemManager imageManager;
     String imageManagerFilename;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_gallery);
+        imageManagerFilename = getExternalFilesDir(null) + "item.manager";
         //We need an image manager if we dont have one.
         if(checkImageManagerCreated()) {
-            imageManager = loadImageManager(imageManagerFilename);
-
-
+                imageManager = loadImageManager(imageManagerFilename);
         }
         else{
-            imageManager = new ImageManager();
-            imageManagerFilename = getExternalFilesDir(null) + "imageManager";
+            imageManager = new FoodItemManager();
             saveImageManager(imageManager, imageManagerFilename);
-            SharedPreferences sharedPref = getPreferences(Context.MODE_PRIVATE);
+            SharedPreferences sharedPref = getSharedPreferences("ITEM_MANAGER", Context.MODE_PRIVATE);
             SharedPreferences.Editor editor = sharedPref.edit();
-            editor.putBoolean(IMAGE_MANAGER_CREATED, true);
+            editor.putBoolean(ITEM_MANAGER_CREATED, true);
             editor.commit();
         }
 
         if(getIntent().hasExtra("ADDING_ITEM")){
             Bundle extras = getIntent().getExtras();
             String filename = extras.getString("FILE");
+            imageManager.addImage(new FoodItem(filename));
             Toast.makeText(this, filename, Toast.LENGTH_LONG).show();
         }
     }
 
     public boolean checkImageManagerCreated(){
-        SharedPreferences sharedPref = getPreferences(Context.MODE_PRIVATE);
-        return sharedPref.getBoolean(IMAGE_MANAGER_CREATED, false);
+        SharedPreferences sharedPref = getSharedPreferences("ITEM_MANAGER", Context.MODE_PRIVATE);
+        return sharedPref.getBoolean(ITEM_MANAGER_CREATED, false);
     }
 
-    public void saveImageManager(ImageManager imageManager, String filename){
+    public void saveImageManager(FoodItemManager imageManager, String filename){
         try {
             ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(new File(filename)));
             oos.writeObject(imageManager);
@@ -63,18 +63,18 @@ public class Gallery extends AppCompatActivity {
         }
         catch(Exception e) {
             Log.v("Serialization Error: ",e.getMessage());
-            e.printStackTrace();
+//            e.printStackTrace();
         }
     }
 
-    public ImageManager loadImageManager(String imageManagerFilename){
+    public FoodItemManager loadImageManager(String imageManagerFilename){
         try {
             ObjectInputStream ois = new ObjectInputStream(new FileInputStream(imageManagerFilename));
             Object o = ois.readObject();
-            return (ImageManager) o;
+            return (FoodItemManager) o;
         }
         catch(Exception ex) {
-            Log.v("Serialization Error: ",ex.getMessage());
+//            Log.v("Serialization Error: ",ex.getMessage());
             ex.printStackTrace();
         }
         return null;

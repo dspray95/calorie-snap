@@ -50,12 +50,16 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.HandlerThread;
 import android.support.annotation.NonNull;
+import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.view.MotionEventCompat;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.util.Size;
 import android.util.SparseIntArray;
+import android.view.MotionEvent;
 import android.view.Surface;
 import android.view.TextureView;
 import android.view.View;
@@ -75,6 +79,7 @@ import java.util.List;
 import java.util.concurrent.Semaphore;
 import java.util.concurrent.TimeUnit;
 
+import uk.ac.yorksj.spray.david.caloriesnap.NavigationListener;
 import uk.ac.yorksj.spray.david.caloriesnap.R;
 
 public class CameraScreen extends AppCompatActivity
@@ -377,47 +382,47 @@ public class CameraScreen extends AppCompatActivity
      * doesn't exist, choose the largest one that is at most as large as the respective max size,
      * and whose aspect ratio matches with the specified value.
      *
-     * @param choices           The list of sizes that the camera supports for the intended output
-     *                          class
-     * @param textureViewWidth  The width of the texture view relative to sensor coordinate
-     * @param textureViewHeight The height of the texture view relative to sensor coordinate
-     * @param maxWidth          The maximum width that can be chosen
-     * @param maxHeight         The maximum height that can be chosen
-     * @param aspectRatio       The aspect ratio
+//     * @param choices           The list of sizes that the camera supports for the intended output
+//     *                          class
+//     * @param textureViewWidth  The width of the texture view relative to sensor coordinate
+//     * @param textureViewHeight The height of the texture view relative to sensor coordinate
+//     * @param maxWidth          The maximum width that can be chosen
+//     * @param maxHeight         The maximum height that can be chosen
+//     * @param aspectRatio       The aspect ratio
      * @return The optimal {@code Size}, or an arbitrary one if none were big enough
      */
-    private static Size chooseOptimalSize(Size[] choices, int textureViewWidth,
-                                          int textureViewHeight, int maxWidth, int maxHeight, Size aspectRatio) {
-
-        // Collect the supported resolutions that are at least as big as the preview Surface
-        List<Size> bigEnough = new ArrayList<>();
-        // Collect the supported resolutions that are smaller than the preview Surface
-        List<Size> notBigEnough = new ArrayList<>();
-        int w = aspectRatio.getWidth();
-        int h = aspectRatio.getHeight();
-        for (Size option : choices) {
-            if (option.getWidth() <= maxWidth && option.getHeight() <= maxHeight &&
-                    option.getHeight() == option.getWidth() * h / w) {
-                if (option.getWidth() >= textureViewWidth &&
-                        option.getHeight() >= textureViewHeight) {
-                    bigEnough.add(option);
-                } else {
-                    notBigEnough.add(option);
-                }
-            }
-        }
-
-        // Pick the smallest of those big enough. If there is no one big enough, pick the
-        // largest of those not big enough.
-        if (bigEnough.size() > 0) {
-            return Collections.min(bigEnough, new CompareSizesByArea());
-        } else if (notBigEnough.size() > 0) {
-            return Collections.max(notBigEnough, new CompareSizesByArea());
-        } else {
-            Log.e(TAG, "Couldn't find any suitable preview size");
-            return choices[0];
-        }
-    }
+//    private static Size chooseOptimalSize(Size[] choices, int textureViewWidth,
+//                                          int textureViewHeight, int maxWidth, int maxHeight, Size aspectRatio) {
+//
+//        // Collect the supported resolutions that are at least as big as the preview Surface
+//        List<Size> bigEnough = new ArrayList<>();
+//        // Collect the supported resolutions that are smaller than the preview Surface
+//        List<Size> notBigEnough = new ArrayList<>();
+//        int w = aspectRatio.getWidth();
+//        int h = aspectRatio.getHeight();
+//        for (Size option : choices) {
+//            if (option.getWidth() <= maxWidth && option.getHeight() <= maxHeight &&
+//                    option.getHeight() == option.getWidth() * h / w) {
+//                if (option.getWidth() >= textureViewWidth &&
+//                        option.getHeight() >= textureViewHeight) {
+//                    bigEnough.add(option);
+//                } else {
+//                    notBigEnough.add(option);
+//                }
+//            }
+//        }
+//
+//        // Pick the smallest of those big enough. If there is no one big enough, pick the
+//        // largest of those not big enough.
+//        if (bigEnough.size() > 0) {
+//            return Collections.min(bigEnough, new CompareSizesByArea());
+//        } else if (notBigEnough.size() > 0) {
+//            return Collections.max(notBigEnough, new CompareSizesByArea());
+//        } else {
+//            Log.e(TAG, "Couldn't find any suitable preview size");
+//            return choices[0];
+//        }
+//    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -425,13 +430,18 @@ public class CameraScreen extends AppCompatActivity
         setContentView(R.layout.activity_camera_screen);
         this.findViewById(R.id.button_capture).setOnClickListener(this);
         mTextureView = (TextureView)this.findViewById(R.id.texture);
+        createOnTouchListener(mTextureView);
+        ConstraintLayout layout = (ConstraintLayout)findViewById(R.id.layout);
+        int x = layout.getWidth();
+        int y = layout.getHeight();
+        mPreviewSize = new Size(x, y);
     }
 
     @Override
     public void onResume() {
         super.onResume();
         startBackgroundThread();
-
+        createOnTouchListener(mTextureView); //Refresh the texture view touch listener
         // When the screen is turned off and turned back on, the SurfaceTexture is already
         // available, and "onSurfaceTextureAvailable" will not be called. In that case, we can open
         // a camera and start preview from here (otherwise, we wait until the surface is ready in
@@ -560,10 +570,10 @@ public class CameraScreen extends AppCompatActivity
 
                 // Danger, W.R.! Attempting to use too large a preview size could  exceed the camera
                 // bus' bandwidth limitation, resulting in gorgeous previews but the storage of
-                // garbage capture data.
-                mPreviewSize = chooseOptimalSize(map.getOutputSizes(SurfaceTexture.class),
-                        rotatedPreviewWidth, rotatedPreviewHeight, maxPreviewWidth,
-                        maxPreviewHeight, largest);
+//                // garbage capture data.
+//                mPreviewSize = chooseOptimalSize(map.getOutputSizes(SurfaceTexture.class),
+//                        rotatedPreviewWidth, rotatedPreviewHeight, maxPreviewWidth,
+//                        maxPreviewHeight, largest);
 
 //                // We fit the aspect ratio of TextureView to the size of preview we picked.
 //                int orientation = getResources().getConfiguration().orientation;
@@ -1031,4 +1041,37 @@ public class CameraScreen extends AppCompatActivity
         }
     }
 
+    public void createOnTouchListener(View view){
+        view.setOnTouchListener(new NavigationListener('u', this, Gallery.class));
+//        view.setOnTouchListener(new View.OnTouchListener() {
+//            boolean changingScreen = false;
+//            float yEventStart = 0;
+//            @Override
+//            public boolean onTouch(View v, MotionEvent event) {
+//                int action = MotionEventCompat.getActionMasked(event);
+//                switch (action) {
+//                    case (MotionEvent.ACTION_DOWN):
+//                        yEventStart = event.getY();
+//                        break;
+//                    case (MotionEvent.ACTION_MOVE):
+////                        if (event.getY() < yEventStart + 100) {
+////                            Intent mIntent = new Intent(CameraScreen.this, Gallery.class);
+////                            startActivity(mIntent);
+////                        }
+//                        if (event.getY() > yEventStart + 25 && !changingScreen){
+//                            changingScreen = true;
+//                            Log.d(TAG, "CHANGE SCREEN");
+//                            closeCamera();
+//                            Intent mIntent = new Intent(CameraScreen.this, Gallery.class);
+//                            startActivity(mIntent);
+//                            return true;
+//                        }
+//                        return true;
+//                    default:
+//                        return true;
+//                }
+//                return true;
+//            }
+//        });
+    }
 }

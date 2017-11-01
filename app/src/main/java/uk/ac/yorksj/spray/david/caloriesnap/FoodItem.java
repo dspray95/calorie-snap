@@ -7,12 +7,12 @@ import java.util.Random;
  * Created by david on 31/10/17.
  */
 
-public class Image implements Serializable{
+public class FoodItem implements Serializable{
 
     private int kcalCount;
     private String imagePath;
 
-    public Image(String imagePath){
+    public FoodItem(String imagePath){
         this.imagePath = imagePath;
         this.kcalCount = calculateKcalCount();
     }

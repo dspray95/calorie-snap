@@ -6,20 +6,20 @@ import java.io.Serializable;
  * Created by david on 31/10/17.
  */
 
-public class ImageManager implements Serializable{
+public class FoodItemManager implements Serializable{
 
-    protected Image[] images;
+    protected FoodItem[] images;
 
-    public ImageManager(){
-        images = new Image[5];
+    public FoodItemManager(){
+        images = new FoodItem[5];
     }
 
-    public void addImage(Image img){
+    public void addImage(FoodItem img){
         if(checkImagesFull()){
             for(int i = 1; i<=images.length; i++){  //Remove the oldest image by bumping newer ones
-                images[i - 1] = images[i];          //down a position
+                images[i - 1] = images[i];          //down a position TODO: Old image file cleanup
             }
-            images[images.length] = img;            //Add the new image at the end
+            images[images.length -1] = img;            //Add the new image at the end
         }
         else{
             images[getFirstEmptyImage()] = img;
@@ -28,7 +28,7 @@ public class ImageManager implements Serializable{
 
     public boolean checkImagesFull(){
         int imageCount = 0;
-        for(Image img : images){
+        for(FoodItem img : images){
             if(null != img){
                 imageCount++;
             }
@@ -45,11 +45,11 @@ public class ImageManager implements Serializable{
         return images.length;
     }
 
-    public Image[] getImages(){
+    public FoodItem[] getImages(){
         return images;
     }
 
-    public Image getImage(int i) throws ArrayIndexOutOfBoundsException{
+    public FoodItem getImage(int i) throws ArrayIndexOutOfBoundsException{
         return images[i];
     }
 }
