@@ -1,5 +1,7 @@
 package uk.ac.yorksj.spray.david.caloriesnap.activity;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -16,30 +18,40 @@ import uk.ac.yorksj.spray.david.caloriesnap.R;
 
 public class Gallery extends AppCompatActivity {
 
+    String IMAGE_MANAGER_CREATED = "IMAGE_MANAGER_CREATED";
     ImageManager imageManager;
     String imageManagerFilename;
-    boolean imageManagerCreated;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_gallery);
+        //We need an image manager if we dont have one.
+        if(checkImageManagerCreated()) {
+            imageManager = loadImageManager(imageManagerFilename);
 
-        if(!imageManagerCreated) {
-            imageManager = new ImageManager();
-            imageManagerCreated = true;
-            imageManagerFilename = getExternalFilesDir(null) + "imageManager";
-            saveImageManager(imageManager, imageManagerFilename);
+
         }
         else{
-            imageManager = loadImageManager(imageManagerFilename);
+            imageManager = new ImageManager();
+            imageManagerFilename = getExternalFilesDir(null) + "imageManager";
+            saveImageManager(imageManager, imageManagerFilename);
+            SharedPreferences sharedPref = getPreferences(Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = sharedPref.edit();
+            editor.putBoolean(IMAGE_MANAGER_CREATED, true);
+            editor.commit();
         }
 
-        Bundle extras = getIntent().getExtras();
-        if(extras.getBoolean("ADDING_IMAGE")){
+        if(getIntent().hasExtra("ADDING_ITEM")){
+            Bundle extras = getIntent().getExtras();
             String filename = extras.getString("FILE");
             Toast.makeText(this, filename, Toast.LENGTH_LONG).show();
         }
+    }
+
+    public boolean checkImageManagerCreated(){
+        SharedPreferences sharedPref = getPreferences(Context.MODE_PRIVATE);
+        return sharedPref.getBoolean(IMAGE_MANAGER_CREATED, false);
     }
 
     public void saveImageManager(ImageManager imageManager, String filename){
