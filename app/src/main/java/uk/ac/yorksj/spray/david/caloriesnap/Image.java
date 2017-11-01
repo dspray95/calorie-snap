@@ -7,4 +7,12 @@ import java.io.Serializable;
  */
 
 public class Image implements Serializable{
+
+    private int kcalCount;
+    private String imagePath;
+
+    public Image(String imagePath){
+        this.imagePath = imagePath;
+    }
+
 }
