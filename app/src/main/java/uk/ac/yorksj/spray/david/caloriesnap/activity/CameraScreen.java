@@ -875,7 +875,8 @@ public class CameraScreen extends AppCompatActivity
 
             Intent mIntent = new Intent(CameraScreen.this,
                     Gallery.class);
-            mIntent.putExtra("file", mFile.toString());
+            mIntent.putExtra("ADDING_ITEM", true); //Add a flag to tell the activity we're adding an item to the gallery
+            mIntent.putExtra("FILE", mFile.toString());
             startActivity(mIntent);
 
         } catch (CameraAccessException e) {
