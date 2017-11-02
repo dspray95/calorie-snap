@@ -48,7 +48,7 @@ public class Gallery extends AppCompatActivity {
             Toast.makeText(this, filename, Toast.LENGTH_LONG).show();
         }
 
-        this.findViewById(R.id.)
+//        this.findViewById(R.id.)
     }
 
     public boolean checkImageManagerCreated(){
