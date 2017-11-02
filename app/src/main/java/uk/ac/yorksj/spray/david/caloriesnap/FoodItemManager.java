@@ -16,14 +16,22 @@ public class FoodItemManager implements Serializable{
 
     public void addFoodItem(FoodItem img){
         if(checkFoodItemsFull()){
-            for(int i = 1; i<=images.length; i++){  //Remove the oldest image by bumping newer ones
-                images[i - 1] = images[i];          //down a position TODO: Old image file cleanup
+            images = removeFoodItem(images);    //delete the oldest item
+            for(int i = 1; i<=images.length; i++){  //Bump newer items down one to add new to the end
+                images[i - 1] = images[i];          // TODO: Old image file cleanup
             }
             images[images.length -1] = img;            //Add the new image at the end
         }
         else{
             images[getFirstEmptyFoodItem()] = img;
         }
+    }
+
+    public FoodItem[] removeFoodItem(FoodItem[] foodItems){
+        String imageToDelete = foodItems[0].getImagePath();
+        //todo delete image
+        foodItems[0] = null;
+        return images;
     }
 
     public boolean checkFoodItemsFull(){

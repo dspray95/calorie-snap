@@ -3,6 +3,7 @@ package uk.ac.yorksj.spray.david.caloriesnap.activity.fragments;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Parcel;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +11,7 @@ import android.view.ViewGroup;
 
 import org.junit.runner.Describable;
 
+import uk.ac.yorksj.spray.david.caloriesnap.FoodItem;
 import uk.ac.yorksj.spray.david.caloriesnap.R;
 
 /**
@@ -23,11 +25,11 @@ import uk.ac.yorksj.spray.david.caloriesnap.R;
 public class GalleryFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
+    private static final String FOOD_ITEM = "food_item";
     private static final String ARG_PARAM2 = "param2";
 
     // TODO: Rename and change types of parameters
-    private String mParam1;
+    private FoodItem foodItem;
     private String mParam2;
 
     private OnFragmentInteractionListener mListener;
@@ -43,11 +45,10 @@ public class GalleryFragment extends Fragment {
      * @return A new instance of fragment GalleryFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static GalleryFragment newInstance(Describable describable) {
+    public static GalleryFragment newInstance(FoodItem foodItem) {
         GalleryFragment fragment = new GalleryFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
+        args.putParcelable(FOOD_ITEM, foodItem);
         fragment.setArguments(args);
         return fragment;
     }
@@ -56,8 +57,7 @@ public class GalleryFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+            this.foodItem = getArguments().getParcelable(FOOD_ITEM);
         }
     }
 

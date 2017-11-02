@@ -2,6 +2,9 @@ package uk.ac.yorksj.spray.david.caloriesnap.activity;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -12,24 +15,30 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.util.ArrayList;
 
 import uk.ac.yorksj.spray.david.caloriesnap.FoodItem;
 import uk.ac.yorksj.spray.david.caloriesnap.FoodItemManager;
 import uk.ac.yorksj.spray.david.caloriesnap.R;
+import uk.ac.yorksj.spray.david.caloriesnap.activity.adapter.GalleryPagerAdapter;
+import uk.ac.yorksj.spray.david.caloriesnap.activity.fragments.GalleryFragment;
 
 public class Gallery extends AppCompatActivity {
 
     String ITEM_MANAGER_CREATED = "ITEM_MANAGER_CREATED";
     FoodItemManager imageManager;
     String imageManagerFilename;
+    ArrayList<Fragment> fragmentArrayList;
+    GalleryPagerAdapter galleryPagerAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_gallery);
-        imageManagerFilename = getExternalFilesDir(null) + "item.manager";
+        imageManagerFilename = getExternalFilesDir(null) + "/item.manager";
+        File imageManagerFile = new File(imageManagerFilename);
         //We need an image manager if we dont have one.
-        if(checkImageManagerCreated()) {
+        if(imageManagerFile.exists()) {
                 imageManager = loadImageManager(imageManagerFilename);
         }
         else{
@@ -48,8 +57,14 @@ public class Gallery extends AppCompatActivity {
             imageManager.addFoodItem(new FoodItem(filename));
             Toast.makeText(this, filename, Toast.LENGTH_LONG).show();
         }
-
-//        this.findViewById(R.id.)
+        //Build the arraylist of fragments out of our items
+        this.fragmentArrayList = new ArrayList<>();
+        for(FoodItem item  : imageManager.getFoodItems()){
+            Fragment fragment = GalleryFragment.newInstance(item);
+        }
+        //Send fragments to pager adapter
+        this.galleryPagerAdapter = new GalleryPagerAdapter(getSupportFragmentManager(),
+                this.fragmentArrayList);
     }
 
     public boolean checkImageManagerCreated(){

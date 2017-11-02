@@ -17,7 +17,6 @@ public class FoodItem implements Serializable, Parcelable{
 
     private int kcalCount;
     private String imagePath;
-    private int mData;
 
     public FoodItem(String imagePath){
         this.imagePath = imagePath;
@@ -60,6 +59,7 @@ public class FoodItem implements Serializable, Parcelable{
     };
 
     private FoodItem(Parcel in) {
-        mData = in.readInt();
+        kcalCount = in.readInt();
+        imagePath = in.readString();
     }
 }
