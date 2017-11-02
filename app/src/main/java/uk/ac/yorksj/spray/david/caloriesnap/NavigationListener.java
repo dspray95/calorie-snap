@@ -13,11 +13,12 @@ import android.view.View;
 
 public class NavigationListener implements View.OnTouchListener {
 
-    char newScreenDirection;
-    boolean changingScreen = false;
-    float yEventStart = 0;
-    Activity currentActivity;
-    Class nextActivity;
+    private char newScreenDirection;
+    private boolean changingScreen = false;
+    private float yEventStart = 0;
+    private int threshhold = 2;
+    private Activity currentActivity;
+    private Class nextActivity;
 
     public NavigationListener(char newScreenDirection, Activity context, Class nextActivity){
         this.newScreenDirection = newScreenDirection;
@@ -33,10 +34,17 @@ public class NavigationListener implements View.OnTouchListener {
                     yEventStart = event.getY();
                     break;
                 case (MotionEvent.ACTION_MOVE):
-                    if (event.getY() > yEventStart + 5 && !changingScreen){
-                        changingScreen = true;
-                        changeScreen();
-                        return true;
+                    if(!changingScreen){
+                        if(event.getY() > yEventStart + threshhold && newScreenDirection == 'u'){
+                            changingScreen = true;
+                            changeScreen('u');
+                            return true;
+                        }
+                        else if(event.getY() < yEventStart - threshhold && newScreenDirection == 'd'){
+                            changingScreen = true;
+                            changeScreen('d');
+                            return true;
+                        }
                     }
                     return true;
                 default:
@@ -45,7 +53,7 @@ public class NavigationListener implements View.OnTouchListener {
             return true;
     }
 
-    public void changeScreen(){
+    public void changeScreen(char newScreenDirection){
         new Intent();
         Intent mIntent = new Intent(currentActivity, nextActivity);
         currentActivity.startActivity(mIntent);

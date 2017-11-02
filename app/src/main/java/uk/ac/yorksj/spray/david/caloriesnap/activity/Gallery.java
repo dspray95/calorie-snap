@@ -47,6 +47,8 @@ public class Gallery extends AppCompatActivity {
             imageManager.addImage(new FoodItem(filename));
             Toast.makeText(this, filename, Toast.LENGTH_LONG).show();
         }
+
+        this.findViewById(R.id.)
     }
 
     public boolean checkImageManagerCreated(){

@@ -430,7 +430,7 @@ public class CameraScreen extends AppCompatActivity
         setContentView(R.layout.activity_camera_screen);
         this.findViewById(R.id.button_capture).setOnClickListener(this);
         mTextureView = (TextureView)this.findViewById(R.id.texture);
-        createOnTouchListener(mTextureView);
+        mTextureView.setOnTouchListener(new NavigationListener('u', this, Gallery.class));
         ConstraintLayout layout = (ConstraintLayout)findViewById(R.id.layout);
         int x = layout.getWidth();
         int y = layout.getHeight();
@@ -441,7 +441,7 @@ public class CameraScreen extends AppCompatActivity
     public void onResume() {
         super.onResume();
         startBackgroundThread();
-        createOnTouchListener(mTextureView); //Refresh the texture view touch listener
+        mTextureView.setOnTouchListener(new NavigationListener('u', this, Gallery.class));
         // When the screen is turned off and turned back on, the SurfaceTexture is already
         // available, and "onSurfaceTextureAvailable" will not be called. In that case, we can open
         // a camera and start preview from here (otherwise, we wait until the surface is ready in
@@ -1039,39 +1039,5 @@ public class CameraScreen extends AppCompatActivity
                             })
                     .create();
         }
-    }
-
-    public void createOnTouchListener(View view){
-        view.setOnTouchListener(new NavigationListener('u', this, Gallery.class));
-//        view.setOnTouchListener(new View.OnTouchListener() {
-//            boolean changingScreen = false;
-//            float yEventStart = 0;
-//            @Override
-//            public boolean onTouch(View v, MotionEvent event) {
-//                int action = MotionEventCompat.getActionMasked(event);
-//                switch (action) {
-//                    case (MotionEvent.ACTION_DOWN):
-//                        yEventStart = event.getY();
-//                        break;
-//                    case (MotionEvent.ACTION_MOVE):
-////                        if (event.getY() < yEventStart + 100) {
-////                            Intent mIntent = new Intent(CameraScreen.this, Gallery.class);
-////                            startActivity(mIntent);
-////                        }
-//                        if (event.getY() > yEventStart + 25 && !changingScreen){
-//                            changingScreen = true;
-//                            Log.d(TAG, "CHANGE SCREEN");
-//                            closeCamera();
-//                            Intent mIntent = new Intent(CameraScreen.this, Gallery.class);
-//                            startActivity(mIntent);
-//                            return true;
-//                        }
-//                        return true;
-//                    default:
-//                        return true;
-//                }
-//                return true;
-//            }
-//        });
     }
 }
