@@ -14,19 +14,19 @@ public class FoodItemManager implements Serializable{
         images = new FoodItem[5];
     }
 
-    public void addImage(FoodItem img){
-        if(checkImagesFull()){
+    public void addFoodItem(FoodItem img){
+        if(checkFoodItemsFull()){
             for(int i = 1; i<=images.length; i++){  //Remove the oldest image by bumping newer ones
                 images[i - 1] = images[i];          //down a position TODO: Old image file cleanup
             }
             images[images.length -1] = img;            //Add the new image at the end
         }
         else{
-            images[getFirstEmptyImage()] = img;
+            images[getFirstEmptyFoodItem()] = img;
         }
     }
 
-    public boolean checkImagesFull(){
+    public boolean checkFoodItemsFull(){
         int imageCount = 0;
         for(FoodItem img : images){
             if(null != img){
@@ -36,7 +36,7 @@ public class FoodItemManager implements Serializable{
         return imageCount==images.length;
     }
 
-    public int getFirstEmptyImage(){
+    public int getFirstEmptyFoodItem(){
         for(int i = 0; i<=images.length; i++){
             if (images[i] == null){
                return i;
@@ -45,11 +45,11 @@ public class FoodItemManager implements Serializable{
         return images.length;
     }
 
-    public FoodItem[] getImages(){
+    public FoodItem[] getFoodItems(){
         return images;
     }
 
-    public FoodItem getImage(int i) throws ArrayIndexOutOfBoundsException{
+    public FoodItem getFoodItem(int i) throws ArrayIndexOutOfBoundsException{
         return images[i];
     }
 }

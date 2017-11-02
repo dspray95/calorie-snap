@@ -1,16 +1,23 @@
 package uk.ac.yorksj.spray.david.caloriesnap;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.io.Serializable;
 import java.util.Random;
+
+import static java.lang.System.out;
+
 
 /**
  * Created by david on 31/10/17.
  */
 
-public class FoodItem implements Serializable{
+public class FoodItem implements Serializable, Parcelable{
 
     private int kcalCount;
     private String imagePath;
+    private int mData;
 
     public FoodItem(String imagePath){
         this.imagePath = imagePath;
@@ -29,4 +36,30 @@ public class FoodItem implements Serializable{
         return this.imagePath;
     }
 
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(kcalCount);
+        dest.writeString(imagePath);
+    }
+
+    public static final Parcelable.Creator<FoodItem> CREATOR = new Parcelable.Creator<FoodItem>() {
+        @Override
+        public FoodItem createFromParcel(Parcel in) {
+            return new FoodItem(in);
+        }
+
+        @Override
+        public FoodItem[] newArray(int size) {
+            return new FoodItem[size];
+        }
+    };
+
+    private FoodItem(Parcel in) {
+        mData = in.readInt();
+    }
 }

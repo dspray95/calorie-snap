@@ -41,10 +41,11 @@ public class Gallery extends AppCompatActivity {
             editor.commit();
         }
 
+        //Check if we have an item to add
         if(getIntent().hasExtra("ADDING_ITEM")){
             Bundle extras = getIntent().getExtras();
             String filename = extras.getString("FILE");
-            imageManager.addImage(new FoodItem(filename));
+            imageManager.addFoodItem(new FoodItem(filename));
             Toast.makeText(this, filename, Toast.LENGTH_LONG).show();
         }
 
