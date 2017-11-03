@@ -23,7 +23,7 @@ import uk.ac.yorksj.spray.david.caloriesnap.R;
 import uk.ac.yorksj.spray.david.caloriesnap.activity.adapter.GalleryPagerAdapter;
 import uk.ac.yorksj.spray.david.caloriesnap.activity.fragments.GalleryFragment;
 
-public class Gallery extends AppCompatActivity {
+public class GalleryActivity extends AppCompatActivity {
 
     String ITEM_MANAGER_CREATED = "ITEM_MANAGER_CREATED";
     FoodItemManager imageManager;

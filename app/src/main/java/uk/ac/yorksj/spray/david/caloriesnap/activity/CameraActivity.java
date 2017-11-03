@@ -53,13 +53,10 @@ import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.view.MotionEventCompat;
-import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.util.Size;
 import android.util.SparseIntArray;
-import android.view.MotionEvent;
 import android.view.Surface;
 import android.view.TextureView;
 import android.view.View;
@@ -70,19 +67,17 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
-import java.util.List;
 import java.util.concurrent.Semaphore;
 import java.util.concurrent.TimeUnit;
 
-import uk.ac.yorksj.spray.david.caloriesnap.NavigationListener;
+import uk.ac.yorksj.spray.david.caloriesnap.activity.listener.NavigationListener;
 import uk.ac.yorksj.spray.david.caloriesnap.R;
 
-public class CameraScreen extends AppCompatActivity
+public class CameraActivity extends AppCompatActivity
         implements View.OnClickListener, ActivityCompat.OnRequestPermissionsResultCallback {
 
     /**
@@ -430,7 +425,7 @@ public class CameraScreen extends AppCompatActivity
         setContentView(R.layout.activity_camera_screen);
         this.findViewById(R.id.button_capture).setOnClickListener(this);
         mTextureView = (TextureView)this.findViewById(R.id.texture);
-        mTextureView.setOnTouchListener(new NavigationListener('u', this, Gallery.class));
+        mTextureView.setOnTouchListener(new NavigationListener('u', this, GalleryActivity.class));
         ConstraintLayout layout = (ConstraintLayout)findViewById(R.id.layout);
         int x = layout.getWidth();
         int y = layout.getHeight();
@@ -441,7 +436,7 @@ public class CameraScreen extends AppCompatActivity
     public void onResume() {
         super.onResume();
         startBackgroundThread();
-        mTextureView.setOnTouchListener(new NavigationListener('u', this, Gallery.class));
+        mTextureView.setOnTouchListener(new NavigationListener('u', this, GalleryActivity.class));
         // When the screen is turned off and turned back on, the SurfaceTexture is already
         // available, and "onSurfaceTextureAvailable" will not be called. In that case, we can open
         // a camera and start preview from here (otherwise, we wait until the surface is ready in
@@ -883,8 +878,8 @@ public class CameraScreen extends AppCompatActivity
             mCaptureSession.setRepeatingRequest(mPreviewRequest, mCaptureCallback,
                     mBackgroundHandler);
 
-            Intent mIntent = new Intent(CameraScreen.this,
-                    Gallery.class);
+            Intent mIntent = new Intent(CameraActivity.this,
+                    GalleryActivity.class);
             mIntent.putExtra("ADDING_ITEM", true); //Add a flag to tell the activity we're adding an item to the gallery
             mIntent.putExtra("FILE", mFile.toString());
             startActivity(mIntent);

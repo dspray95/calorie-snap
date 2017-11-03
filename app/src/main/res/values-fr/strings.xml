@@ -2,5 +2,5 @@
 <resources>
     <string name="request_permission">req perm camera</string>
     <string name="error_camera">Erreur au niveu de la camera, application se ferme</string>
-
+    <string name="txt_kcal">kCal</string>
 </resources>

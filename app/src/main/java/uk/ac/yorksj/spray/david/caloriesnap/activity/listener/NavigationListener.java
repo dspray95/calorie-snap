@@ -1,4 +1,4 @@
-package uk.ac.yorksj.spray.david.caloriesnap;
+package uk.ac.yorksj.spray.david.caloriesnap.activity.listener;
 
 import android.app.Activity;
 import android.content.Context;
@@ -6,6 +6,8 @@ import android.content.Intent;
 import android.support.v4.view.MotionEventCompat;
 import android.view.MotionEvent;
 import android.view.View;
+
+import uk.ac.yorksj.spray.david.caloriesnap.R;
 
 /**
  * Created by david on 01/11/17.
