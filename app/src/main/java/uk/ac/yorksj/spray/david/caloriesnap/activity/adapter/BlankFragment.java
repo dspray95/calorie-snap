@@ -1,41 +1,36 @@
-package uk.ac.yorksj.spray.david.caloriesnap.activity.fragments;
+package uk.ac.yorksj.spray.david.caloriesnap.activity.adapter;
 
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Parcel;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import org.junit.runner.Describable;
-
-import uk.ac.yorksj.spray.david.caloriesnap.FoodItem;
 import uk.ac.yorksj.spray.david.caloriesnap.R;
 
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link GalleryFragment.OnFragmentInteractionListener} interface
+ * {@link BlankFragment.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link GalleryFragment#newInstance} factory method to
+ * Use the {@link BlankFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class GalleryFragment extends Fragment {
+public class BlankFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String FOOD_ITEM = "food_item";
-    private static final String TAG = "GALLERY_FRAGMENT";
+    private static final String ARG_PARAM1 = "param1";
+    private static final String ARG_PARAM2 = "param2";
 
     // TODO: Rename and change types of parameters
-    private FoodItem foodItem;
+    private String mParam1;
     private String mParam2;
 
     private OnFragmentInteractionListener mListener;
 
-    public GalleryFragment() {
+    public BlankFragment() {
         // Required empty public constructor
     }
 
@@ -43,13 +38,13 @@ public class GalleryFragment extends Fragment {
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
      *
-     * @return A new instance of fragment GalleryFragment.
+     * @return A new instance of fragment BlankFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static GalleryFragment newInstance(FoodItem foodItem) {
-        GalleryFragment fragment = new GalleryFragment();
+    public static BlankFragment newInstance() {
+        BlankFragment fragment = new BlankFragment();
+
         Bundle args = new Bundle();
-        args.putParcelable(FOOD_ITEM, foodItem);
         fragment.setArguments(args);
         return fragment;
     }
@@ -57,18 +52,17 @@ public class GalleryFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            this.foodItem = getArguments().getParcelable(FOOD_ITEM);
-        }
-        Log.d(TAG, "oncreate fragment fired");
+//        if (getArguments() != null) {
+//            mParam1 = getArguments().getString(ARG_PARAM1);
+//            mParam2 = getArguments().getString(ARG_PARAM2);
+//        }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        Log.d(TAG, "oncreateView fired");
-        return inflater.inflate(R.layout.fragment_gallery, container, false);
+        return inflater.inflate(R.layout.fragment_blank, container, false);
     }
 
     // TODO: Rename method, update argument and hook method into UI event

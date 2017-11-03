@@ -3,9 +3,13 @@ package uk.ac.yorksj.spray.david.caloriesnap.activity.adapter;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
+import android.util.Log;
 import android.view.View;
 
 import java.util.ArrayList;
+
+import uk.ac.yorksj.spray.david.caloriesnap.FoodItem;
+import uk.ac.yorksj.spray.david.caloriesnap.activity.fragments.GalleryFragment;
 
 /**
  * Created by david on 02/11/17.
@@ -13,36 +17,20 @@ import java.util.ArrayList;
 
 public class GalleryPagerAdapter extends FragmentStatePagerAdapter {
 
-    public ArrayList<Fragment> fragments;
-    private static int pos = 0;
+    ArrayList<FoodItem> itemList;
 
-    public GalleryPagerAdapter(FragmentManager fm, ArrayList<Fragment> fragments) {
+    public GalleryPagerAdapter(FragmentManager fm, ArrayList<FoodItem> itemList) {
         super(fm);
-        this.fragments = fragments;
+        this.itemList = itemList;
     }
 
-    @Override
-    public int getItemPosition (Object object)
-    {
-        return fragments.indexOf(object);
-    }
-    
     @Override
     public int getCount() {
-        return fragments.size();
+        return itemList.size();
     }
 
     @Override
-    public Fragment getItem(int pos) {
-        return fragments.get(pos);
-    }
-
-    public void setFragments(ArrayList<Fragment> fragments){
-        this.fragments = fragments;
-    }
-
-    @Override
-    public boolean isViewFromObject(View view, Object object) {
-        return false;
+    public Fragment getItem(int position) {
+        return GalleryFragment.newInstance(itemList.get(position));
     }
 }

@@ -2,9 +2,8 @@ package uk.ac.yorksj.spray.david.caloriesnap.activity;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentManager;
+import android.net.Uri;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -20,15 +19,18 @@ import java.util.ArrayList;
 import uk.ac.yorksj.spray.david.caloriesnap.FoodItem;
 import uk.ac.yorksj.spray.david.caloriesnap.FoodItemManager;
 import uk.ac.yorksj.spray.david.caloriesnap.R;
+import uk.ac.yorksj.spray.david.caloriesnap.activity.adapter.BlankFragment;
 import uk.ac.yorksj.spray.david.caloriesnap.activity.adapter.GalleryPagerAdapter;
 import uk.ac.yorksj.spray.david.caloriesnap.activity.fragments.GalleryFragment;
 
-public class GalleryActivity extends AppCompatActivity {
+public class GalleryActivity extends AppCompatActivity implements GalleryFragment.OnFragmentInteractionListener,
+        BlankFragment.OnFragmentInteractionListener{
 
     String ITEM_MANAGER_CREATED = "ITEM_MANAGER_CREATED";
     FoodItemManager imageManager;
     String imageManagerFilename;
-    ArrayList<Fragment> fragmentArrayList;
+    ArrayList<FoodItem> foodItemList;
+    ViewPager viewPager;
     GalleryPagerAdapter galleryPagerAdapter;
 
     @Override
@@ -58,18 +60,17 @@ public class GalleryActivity extends AppCompatActivity {
             Toast.makeText(this, filename, Toast.LENGTH_LONG).show();
         }
         //Build the arraylist of fragments out of our items
-        this.fragmentArrayList = new ArrayList<>();
+        this.foodItemList = new ArrayList<>();
         for(FoodItem item  : imageManager.getFoodItems()){
-            Fragment fragment = GalleryFragment.newInstance(item);
+            if(item != null){
+                foodItemList.add(item);
+            }
         }
         //Send fragments to pager adapter
         this.galleryPagerAdapter = new GalleryPagerAdapter(getSupportFragmentManager(),
-                this.fragmentArrayList);
-    }
-
-    public boolean checkImageManagerCreated(){
-        SharedPreferences sharedPref = getSharedPreferences("ITEM_MANAGER", Context.MODE_PRIVATE);
-        return sharedPref.getBoolean(ITEM_MANAGER_CREATED, false);
+                foodItemList);
+        viewPager = (ViewPager)findViewById(R.id.gallery_view_pager);
+        viewPager.setAdapter(this.galleryPagerAdapter);
     }
 
     public void saveImageManager(FoodItemManager imageManager, String filename){
@@ -96,5 +97,10 @@ public class GalleryActivity extends AppCompatActivity {
             ex.printStackTrace();
         }
         return null;
+    }
+
+    @Override
+    public void onFragmentInteraction(Uri uri) {
+
     }
 }

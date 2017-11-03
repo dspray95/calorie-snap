@@ -45,12 +45,14 @@ public class FoodItemManager implements Serializable{
     }
 
     public int getFirstEmptyFoodItem(){
+        int firstEmptyItem = 0;
         for(int i = 0; i<=images.length; i++){
             if (images[i] == null){
-               return i;
+                firstEmptyItem = i;
+                return firstEmptyItem;
             }
         }
-        return images.length;
+        return firstEmptyItem;
     }
 
     public FoodItem[] getFoodItems(){
