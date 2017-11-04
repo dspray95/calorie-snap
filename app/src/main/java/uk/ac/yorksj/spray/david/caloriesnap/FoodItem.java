@@ -1,8 +1,10 @@
 package uk.ac.yorksj.spray.david.caloriesnap;
 
+import android.graphics.drawable.Drawable;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.io.File;
 import java.io.Serializable;
 import java.util.Random;
 
@@ -33,6 +35,17 @@ public class FoodItem implements Serializable, Parcelable{
 
     public String getImagePath(){
         return this.imagePath;
+    }
+
+    public Drawable getImageDrawable() throws Exception{
+        File f = new File(this.imagePath);
+        if(f.exists())
+        {
+            return Drawable.createFromPath(this.imagePath);
+        }
+        else{
+            throw new Exception("IMAGE NOT FOUND");
+        }
     }
 
     @Override

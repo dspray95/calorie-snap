@@ -1,6 +1,7 @@
 package uk.ac.yorksj.spray.david.caloriesnap.activity.fragments;
 
 import android.content.Context;
+import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Parcel;
@@ -9,6 +10,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import org.junit.runner.Describable;
@@ -79,7 +81,13 @@ public class GalleryFragment extends Fragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         TextView lblKcalCount = (TextView) getView().findViewById(R.id.txt_kcalcount);
+        ImageView backgroundImage = (ImageView) getView().findViewById(R.id.img_gallery_background);
         lblKcalCount.setText(Integer.toString(foodItem.getKcalCount()));
+        try {
+            backgroundImage.setImageDrawable(foodItem.getImageDrawable());
+        }catch(Exception e){
+            Log.d(TAG, e.getMessage());
+        }
     }
 
     // TODO: Rename method, update argument and hook method into UI event
