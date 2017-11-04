@@ -9,8 +9,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import org.junit.runner.Describable;
+import org.w3c.dom.Text;
 
 import uk.ac.yorksj.spray.david.caloriesnap.FoodItem;
 import uk.ac.yorksj.spray.david.caloriesnap.R;
@@ -31,7 +33,6 @@ public class GalleryFragment extends Fragment {
 
     // TODO: Rename and change types of parameters
     private FoodItem foodItem;
-    private String mParam2;
 
     private OnFragmentInteractionListener mListener;
 
@@ -61,14 +62,24 @@ public class GalleryFragment extends Fragment {
             this.foodItem = getArguments().getParcelable(FOOD_ITEM);
         }
         Log.d(TAG, "oncreate fragment fired");
+
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+//        TextView lblKcalCount = (TextView) getView().findViewById(R.id.txt_kcalcount);
+//        lblKcalCount.setText(foodItem.getKcalCount());
         Log.d(TAG, "oncreateView fired");
         return inflater.inflate(R.layout.fragment_gallery, container, false);
+    }
+
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        TextView lblKcalCount = (TextView) getView().findViewById(R.id.txt_kcalcount);
+        lblKcalCount.setText(Integer.toString(foodItem.getKcalCount()));
     }
 
     // TODO: Rename method, update argument and hook method into UI event

@@ -33,4 +33,9 @@ public class GalleryPagerAdapter extends FragmentStatePagerAdapter {
     public Fragment getItem(int position) {
         return GalleryFragment.newInstance(itemList.get(position));
     }
+
+    public void setItemList(ArrayList<FoodItem> itemList){
+        this.itemList = itemList;
+    }
+
 }
