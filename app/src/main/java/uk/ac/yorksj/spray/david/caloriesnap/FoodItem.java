@@ -53,23 +53,16 @@ public class FoodItem implements Serializable, Parcelable{
         File f = new File(this.imagePath);
         if(f.exists())
         {
-
-
-            final Bitmap bmp = Bitmap.createScaledBitmap(
-                    BitmapFactory.decodeFile(f.getAbsolutePath()),
-                    Resources.getSystem().getDisplayMetrics().heightPixels+10,
-                    Resources.getSystem().getDisplayMetrics().widthPixels+10,
-                    false);
-
-            final BitmapDrawable bitmapDrawable = new BitmapDrawable(res, bmp){
-                @Override
-                public void draw(final Canvas canvas) {
-                    canvas.save();
-                    canvas.rotate(90, bmp.getWidth() / 2, bmp.getHeight() / 2);
-                    super.draw(canvas);
-                    canvas.restore();
-                }
-        };
+            BitmapFactory.Options iniOptions = new BitmapFactory.Options();
+            iniOptions.inJustDecodeBounds = true;
+            BitmapFactory.decodeFile(f.getAbsolutePath(), iniOptions);
+            int iHeight = iniOptions.outHeight;
+            int iWidth = iniOptions.outHeight;
+            Matrix matrix = new Matrix();
+            matrix.postRotate(90);
+            Bitmap bmp = Bitmap.createBitmap(BitmapFactory.decodeFile(f.getAbsolutePath()),
+                    0, 0, iWidth, iHeight, matrix, true);
+            BitmapDrawable bitmapDrawable = new BitmapDrawable(bmp);
             return bitmapDrawable;
         }
         else{
