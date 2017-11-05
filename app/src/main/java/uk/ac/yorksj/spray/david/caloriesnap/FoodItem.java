@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.ColorFilter;
+import android.graphics.Matrix;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
@@ -52,7 +53,14 @@ public class FoodItem implements Serializable, Parcelable{
         File f = new File(this.imagePath);
         if(f.exists())
         {
-            final Bitmap bmp = BitmapFactory.decodeFile(f.getAbsolutePath());
+
+
+            final Bitmap bmp = Bitmap.createScaledBitmap(
+                    BitmapFactory.decodeFile(f.getAbsolutePath()),
+                    Resources.getSystem().getDisplayMetrics().heightPixels+10,
+                    Resources.getSystem().getDisplayMetrics().widthPixels+10,
+                    false);
+
             final BitmapDrawable bitmapDrawable = new BitmapDrawable(res, bmp){
                 @Override
                 public void draw(final Canvas canvas) {

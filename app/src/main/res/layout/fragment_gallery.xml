@@ -13,7 +13,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:adjustViewBounds="false"
-        android:scaleType="fitCenter"
+        android:cropToPadding="false"
+        android:scaleType="center"
         app:srcCompat="@android:color/holo_blue_bright"
         tools:layout_editor_absoluteX="8dp"
         tools:layout_editor_absoluteY="8dp" />
