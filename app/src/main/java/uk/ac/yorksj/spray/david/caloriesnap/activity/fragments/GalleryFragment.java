@@ -84,7 +84,7 @@ public class GalleryFragment extends Fragment {
         ImageView backgroundImage = (ImageView) getView().findViewById(R.id.img_gallery_background);
         lblKcalCount.setText(Integer.toString(foodItem.getKcalCount()));
         try {
-            backgroundImage.setImageDrawable(foodItem.getImageDrawable());
+            backgroundImage.setImageDrawable(foodItem.getImageDrawable(getResources()));
         }catch(Exception e){
             Log.d(TAG, e.getMessage());
         }

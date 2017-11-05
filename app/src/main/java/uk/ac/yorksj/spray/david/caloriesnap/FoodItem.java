@@ -1,8 +1,19 @@
 package uk.ac.yorksj.spray.david.caloriesnap;
 
+import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.ColorFilter;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.graphics.drawable.GradientDrawable;
+import android.graphics.drawable.RotateDrawable;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.support.annotation.IntRange;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import java.io.File;
 import java.io.Serializable;
@@ -37,11 +48,21 @@ public class FoodItem implements Serializable, Parcelable{
         return this.imagePath;
     }
 
-    public Drawable getImageDrawable() throws Exception{
+    public Drawable getImageDrawable(Resources res) throws Exception{
         File f = new File(this.imagePath);
         if(f.exists())
         {
-            return Drawable.createFromPath(this.imagePath);
+            final Bitmap bmp = BitmapFactory.decodeFile(f.getAbsolutePath());
+            final BitmapDrawable bitmapDrawable = new BitmapDrawable(res, bmp){
+                @Override
+                public void draw(final Canvas canvas) {
+                    canvas.save();
+                    canvas.rotate(90, bmp.getWidth() / 2, bmp.getHeight() / 2);
+                    super.draw(canvas);
+                    canvas.restore();
+                }
+        };
+            return bitmapDrawable;
         }
         else{
             throw new Exception("IMAGE NOT FOUND");

@@ -19,12 +19,11 @@ import java.util.ArrayList;
 import uk.ac.yorksj.spray.david.caloriesnap.FoodItem;
 import uk.ac.yorksj.spray.david.caloriesnap.FoodItemManager;
 import uk.ac.yorksj.spray.david.caloriesnap.R;
-import uk.ac.yorksj.spray.david.caloriesnap.activity.adapter.BlankFragment;
 import uk.ac.yorksj.spray.david.caloriesnap.activity.adapter.GalleryPagerAdapter;
 import uk.ac.yorksj.spray.david.caloriesnap.activity.fragments.GalleryFragment;
 
-public class GalleryActivity extends AppCompatActivity implements GalleryFragment.OnFragmentInteractionListener,
-        BlankFragment.OnFragmentInteractionListener{
+public class GalleryActivity extends AppCompatActivity implements
+        GalleryFragment.OnFragmentInteractionListener{
 
     String ITEM_MANAGER_CREATED = "ITEM_MANAGER_CREATED";
     FoodItemManager imageManager;
