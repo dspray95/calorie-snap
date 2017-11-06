@@ -52,7 +52,7 @@ public class FoodItem implements Serializable, Parcelable{
         return this.imagePath;
     }
 
-    public Drawable getImageDrawable(Resources res) throws Exception{
+    public Bitmap getImageDrawable(Resources res) throws Exception{ //TODO Background threading
         File f = new File(this.imagePath);
         if(f.exists())
         {
@@ -66,11 +66,10 @@ public class FoodItem implements Serializable, Parcelable{
             ByteArrayOutputStream out = new ByteArrayOutputStream();
             Bitmap bmp = Bitmap.createScaledBitmap(Bitmap.createBitmap(BitmapFactory.decodeFile(f.getAbsolutePath()),
                     0, 0, iWidth, iHeight, matrix, true), iWidth/2, iHeight/2, false);
-            bmp.compress(Bitmap.CompressFormat.JPEG, 75, out);
+            bmp.compress(Bitmap.CompressFormat.JPEG, 50, out);
             Bitmap compressed = BitmapFactory.decodeStream(new ByteArrayInputStream(out.toByteArray()));
-            Drawable bitmapDrawable = new BitmapDrawable(compressed);
             bmp.recycle();
-            return bitmapDrawable;
+            return compressed;
         }
         else{
             throw new Exception("IMAGE NOT FOUND");

@@ -68,7 +68,7 @@ public class GalleryActivity extends AppCompatActivity implements
         }
         //Send fragments to pager adapter
         this.galleryPagerAdapter = new GalleryPagerAdapter(getSupportFragmentManager(),
-                foodItemList);
+                foodItemList, getResources());
         viewPager = (ViewPager)findViewById(R.id.gallery_view_pager);
         viewPager.setAdapter(this.galleryPagerAdapter);
     }

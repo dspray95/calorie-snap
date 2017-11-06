@@ -1,6 +1,8 @@
 package uk.ac.yorksj.spray.david.caloriesnap.activity.fragments;
 
 import android.content.Context;
+import android.content.res.Resources;
+import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.media.Image;
 import android.net.Uri;
@@ -36,7 +38,7 @@ public class GalleryFragment extends Fragment {
 
     // TODO: Rename and change types of parameters
     private FoodItem foodItem;
-    private Drawable drawable;
+    private Bitmap bitmap;
 
     private OnFragmentInteractionListener mListener;
 
@@ -51,10 +53,16 @@ public class GalleryFragment extends Fragment {
      * @return A new instance of fragment GalleryFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static GalleryFragment newInstance(FoodItem foodItem) {
+    public static GalleryFragment newInstance(FoodItem foodItem, Resources res) {
         GalleryFragment fragment = new GalleryFragment();
         Bundle args = new Bundle();
         args.putParcelable(FOOD_ITEM, foodItem);
+        fragment.foodItem = foodItem;
+        try {
+            fragment.bitmap = foodItem.getImageDrawable(res);
+        }catch(Exception e){
+            Log.d(TAG, "Err img");
+        }
         fragment.setArguments(args);
         return fragment;
     }
@@ -62,14 +70,14 @@ public class GalleryFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            this.foodItem = getArguments().getParcelable(FOOD_ITEM);
-            try {
-                this.drawable = this.foodItem.getImageDrawable(this.getResources());
-            }catch(Exception e){
-                Log.d(TAG, "Err img");
-            }
-        }
+//        if (getArguments() != null) {
+//            this.foodItem = getArguments().getParcelable(FOOD_ITEM);
+//            try {
+//                this.bitmap = this.foodItem.getImageDrawable(this.getResources());
+//            }catch(Exception e){
+//                Log.d(TAG, "Err img");
+//            }
+//        }
         Log.d(TAG, "oncreate fragment fired");
 
     }
@@ -90,7 +98,7 @@ public class GalleryFragment extends Fragment {
         TextView lblKcalCount = (TextView) getView().findViewById(R.id.txt_kcalcount);
         ImageView backgroundImage = (ImageView) getView().findViewById(R.id.img_gallery_background);
         lblKcalCount.setText(Integer.toString(foodItem.getKcalCount()));
-        backgroundImage.setImageDrawable(this.drawable);
+        backgroundImage.setImageBitmap(bitmap);
     }
 
     // TODO: Rename method, update argument and hook method into UI event
