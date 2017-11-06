@@ -16,7 +16,10 @@ import android.support.annotation.IntRange;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.OutputStream;
 import java.io.Serializable;
 import java.util.Random;
 
@@ -60,9 +63,13 @@ public class FoodItem implements Serializable, Parcelable{
             int iWidth = iniOptions.outHeight;
             Matrix matrix = new Matrix();
             matrix.postRotate(90);
-            Bitmap bmp = Bitmap.createBitmap(BitmapFactory.decodeFile(f.getAbsolutePath()),
-                    0, 0, iWidth, iHeight, matrix, true);
-            BitmapDrawable bitmapDrawable = new BitmapDrawable(bmp);
+            ByteArrayOutputStream out = new ByteArrayOutputStream();
+            Bitmap bmp = Bitmap.createScaledBitmap(Bitmap.createBitmap(BitmapFactory.decodeFile(f.getAbsolutePath()),
+                    0, 0, iWidth, iHeight, matrix, true), iWidth/2, iHeight/2, false);
+            bmp.compress(Bitmap.CompressFormat.JPEG, 75, out);
+            Bitmap compressed = BitmapFactory.decodeStream(new ByteArrayInputStream(out.toByteArray()));
+            Drawable bitmapDrawable = new BitmapDrawable(compressed);
+            bmp.recycle();
             return bitmapDrawable;
         }
         else{

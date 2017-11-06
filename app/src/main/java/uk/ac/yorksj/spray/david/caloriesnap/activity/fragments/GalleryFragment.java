@@ -1,6 +1,7 @@
 package uk.ac.yorksj.spray.david.caloriesnap.activity.fragments;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
@@ -35,6 +36,7 @@ public class GalleryFragment extends Fragment {
 
     // TODO: Rename and change types of parameters
     private FoodItem foodItem;
+    private Drawable drawable;
 
     private OnFragmentInteractionListener mListener;
 
@@ -62,6 +64,11 @@ public class GalleryFragment extends Fragment {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             this.foodItem = getArguments().getParcelable(FOOD_ITEM);
+            try {
+                this.drawable = this.foodItem.getImageDrawable(this.getResources());
+            }catch(Exception e){
+                Log.d(TAG, "Err img");
+            }
         }
         Log.d(TAG, "oncreate fragment fired");
 
@@ -83,11 +90,7 @@ public class GalleryFragment extends Fragment {
         TextView lblKcalCount = (TextView) getView().findViewById(R.id.txt_kcalcount);
         ImageView backgroundImage = (ImageView) getView().findViewById(R.id.img_gallery_background);
         lblKcalCount.setText(Integer.toString(foodItem.getKcalCount()));
-        try {
-            backgroundImage.setImageDrawable(foodItem.getImageDrawable(getResources()));
-        }catch(Exception e){
-            Log.d(TAG, e.getMessage());
-        }
+        backgroundImage.setImageDrawable(this.drawable);
     }
 
     // TODO: Rename method, update argument and hook method into UI event

@@ -56,6 +56,7 @@ public class GalleryActivity extends AppCompatActivity implements
             Bundle extras = getIntent().getExtras();
             String filename = extras.getString("FILE");
             imageManager.addFoodItem(new FoodItem(filename));
+            saveImageManager(imageManager, imageManagerFilename); //Make sure to save the new FoodItemManager
             Toast.makeText(this, filename, Toast.LENGTH_LONG).show();
         }
         //Build the arraylist of fragments out of our items
