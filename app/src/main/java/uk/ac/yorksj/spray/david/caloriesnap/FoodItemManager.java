@@ -17,7 +17,7 @@ public class FoodItemManager implements Serializable{
     public void addFoodItem(FoodItem img){
         if(checkFoodItemsFull()){
             images = removeFoodItem(images);    //delete the oldest item
-            for(int i = 1; i<=images.length; i++){  //Bump newer items down one to add new to the end
+            for(int i = 1; i<images.length; i++){  //Bump newer items down one to add new to the end
                 images[i - 1] = images[i];          // TODO: Old image file cleanup
             }
             images[images.length -1] = img;            //Add the new image at the end

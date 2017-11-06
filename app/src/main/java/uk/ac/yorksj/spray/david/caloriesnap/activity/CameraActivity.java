@@ -14,22 +14,17 @@
  * limitations under the License.
  */
 
-//TODO - remove unneeded source code
-
 package uk.ac.yorksj.spray.david.caloriesnap.activity;
 
 import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.app.DialogFragment;
-import android.app.FragmentManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
-import android.content.res.Resources;
 import android.graphics.BitmapFactory;
 import android.graphics.ImageFormat;
 import android.graphics.Matrix;
@@ -53,8 +48,9 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.HandlerThread;
 import android.support.annotation.NonNull;
-import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.DialogFragment;
+import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -79,11 +75,9 @@ import java.util.List;
 import java.util.concurrent.Semaphore;
 import java.util.concurrent.TimeUnit;
 
-import uk.ac.yorksj.spray.david.caloriesnap.activity.listener.NavigationListener;
 import uk.ac.yorksj.spray.david.caloriesnap.R;
-
-import static android.R.attr.maxHeight;
-import static android.R.attr.maxWidth;
+import uk.ac.yorksj.spray.david.caloriesnap.activity.listener.NavigationListener;
+import uk.ac.yorksj.spray.david.caloriesnap.activity.view.AutoFitTextureView;
 
 public class CameraActivity extends AppCompatActivity
         implements View.OnClickListener, ActivityCompat.OnRequestPermissionsResultCallback {
@@ -176,9 +170,9 @@ public class CameraActivity extends AppCompatActivity
     private String mCameraId;
 
     /**
-     * An {@link TextureView} for camera preview.
+     * An {@link AutoFitTextureView} for camera preview.
      */
-    private TextureView mTextureView;
+    private AutoFitTextureView mTextureView;
 
     /**
      * A {@link CameraCaptureSession } for camera preview.
@@ -195,6 +189,7 @@ public class CameraActivity extends AppCompatActivity
      */
     private Size mPreviewSize;
 
+    private Activity mActivity = this;
     /**
      * {@link CameraDevice.StateCallback} is called when {@link CameraDevice} changes its state.
      */
@@ -220,9 +215,9 @@ public class CameraActivity extends AppCompatActivity
             mCameraOpenCloseLock.release();
             cameraDevice.close();
             mCameraDevice = null;
-
-            if (null != this) {
-                finish();
+            Activity activity = mActivity;
+            if (null != activity) {
+                activity.finish();
             }
         }
 
@@ -368,11 +363,12 @@ public class CameraActivity extends AppCompatActivity
      * @param text The message to show
      */
     private void showToast(final String text) {
-        if (this != null) {
-            this.runOnUiThread(new Runnable() {
+        final Activity activity = mActivity;
+        if (activity != null) {
+            activity.runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    Toast.makeText(getApplicationContext(), text, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(activity, text, Toast.LENGTH_SHORT).show();
                 }
             });
         }
@@ -385,13 +381,13 @@ public class CameraActivity extends AppCompatActivity
      * doesn't exist, choose the largest one that is at most as large as the respective max size,
      * and whose aspect ratio matches with the specified value.
      *
-//     * @param choices           The list of sizes that the camera supports for the intended output
-//     *                          class
-//     * @param textureViewWidth  The width of the texture view relative to sensor coordinate
-//     * @param textureViewHeight The height of the texture view relative to sensor coordinate
-//     * @param maxWidth          The maximum width that can be chosen
-//     * @param maxHeight         The maximum height that can be chosen
-//     * @param aspectRatio       The aspect ratio
+     * @param choices           The list of sizes that the camera supports for the intended output
+     *                          class
+     * @param textureViewWidth  The width of the texture view relative to sensor coordinate
+     * @param textureViewHeight The height of the texture view relative to sensor coordinate
+     * @param maxWidth          The maximum width that can be chosen
+     * @param maxHeight         The maximum height that can be chosen
+     * @param aspectRatio       The aspect ratio
      * @return The optimal {@code Size}, or an arbitrary one if none were big enough
      */
     private static Size chooseOptimalSize(Size[] choices, int textureViewWidth,
@@ -428,23 +424,18 @@ public class CameraActivity extends AppCompatActivity
     }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_camera_screen);
         this.findViewById(R.id.button_capture).setOnClickListener(this);
-        mTextureView = (TextureView)this.findViewById(R.id.texture);
+        mTextureView = (AutoFitTextureView) this.findViewById(R.id.texture);
         mTextureView.setOnTouchListener(new NavigationListener('u', this, GalleryActivity.class));
-        ConstraintLayout layout = (ConstraintLayout)findViewById(R.id.layout);
-        int x = Resources.getSystem().getDisplayMetrics().widthPixels; //TODO #1: Fix dodgy camera aspect ratio
-        int y = Resources.getSystem().getDisplayMetrics().heightPixels;
-        mPreviewSize = new Size(x, y);
     }
 
     @Override
     public void onResume() {
         super.onResume();
         startBackgroundThread();
-        mTextureView.setOnTouchListener(new NavigationListener('u', this, GalleryActivity.class));
         // When the screen is turned off and turned back on, the SurfaceTexture is already
         // available, and "onSurfaceTextureAvailable" will not be called. In that case, we can open
         // a camera and start preview from here (otherwise, we wait until the surface is ready in
@@ -464,14 +455,9 @@ public class CameraActivity extends AppCompatActivity
     }
 
     private void requestCameraPermission() {
-
-        FragmentManager manager = getFragmentManager();
-        android.app.Fragment frag = manager.findFragmentByTag(FRAGMENT_DIALOG);
-
-
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (shouldShowRequestPermissionRationale(Manifest.permission.CAMERA)) {
-                new ConfirmationDialog().show(getFragmentManager(), FRAGMENT_DIALOG);
+                new ConfirmationDialog().show(getSupportFragmentManager(), FRAGMENT_DIALOG);
             } else {
                 requestPermissions(new String[]{Manifest.permission.CAMERA}, REQUEST_CAMERA_PERMISSION);
             }
@@ -484,7 +470,7 @@ public class CameraActivity extends AppCompatActivity
         if (requestCode == REQUEST_CAMERA_PERMISSION) {
             if (grantResults.length != 1 || grantResults[0] != PackageManager.PERMISSION_GRANTED) {
                 ErrorDialog.newInstance(getString(R.string.request_permission))
-                        .show(getFragmentManager(), FRAGMENT_DIALOG);
+                        .show(getSupportFragmentManager(), FRAGMENT_DIALOG);
             }
         } else {
             super.onRequestPermissionsResult(requestCode, permissions, grantResults);
@@ -499,7 +485,8 @@ public class CameraActivity extends AppCompatActivity
      */
     @SuppressWarnings("SuspiciousNameCombination")
     private void setUpCameraOutputs(int width, int height) {
-        CameraManager manager = (CameraManager) getSystemService(Context.CAMERA_SERVICE);
+        Activity activity = mActivity;
+        CameraManager manager = (CameraManager) activity.getSystemService(Context.CAMERA_SERVICE);
         try {
             for (String cameraId : manager.getCameraIdList()) {
                 CameraCharacteristics characteristics
@@ -528,7 +515,7 @@ public class CameraActivity extends AppCompatActivity
 
                 // Find out if we need to swap dimension to get the preview size relative to sensor
                 // coordinate.
-                int displayRotation = getWindowManager().getDefaultDisplay().getRotation();
+                int displayRotation = activity.getWindowManager().getDefaultDisplay().getRotation();
                 //noinspection ConstantConditions
                 mSensorOrientation = characteristics.get(CameraCharacteristics.SENSOR_ORIENTATION);
                 boolean swappedDimensions = false;
@@ -550,7 +537,7 @@ public class CameraActivity extends AppCompatActivity
                 }
 
                 Point displaySize = new Point();
-                getWindowManager().getDefaultDisplay().getSize(displaySize);
+                activity.getWindowManager().getDefaultDisplay().getSize(displaySize);
                 int rotatedPreviewWidth = width;
                 int rotatedPreviewHeight = height;
                 int maxPreviewWidth = displaySize.x;
@@ -573,20 +560,20 @@ public class CameraActivity extends AppCompatActivity
 
                 // Danger, W.R.! Attempting to use too large a preview size could  exceed the camera
                 // bus' bandwidth limitation, resulting in gorgeous previews but the storage of
-//                // garbage capture data.
+                // garbage capture data.
                 mPreviewSize = chooseOptimalSize(map.getOutputSizes(SurfaceTexture.class),
                         rotatedPreviewWidth, rotatedPreviewHeight, maxPreviewWidth,
                         maxPreviewHeight, largest);
 
-//                // We fit the aspect ratio of TextureView to the size of preview we picked.
+                // We fit the aspect ratio of TextureView to the size of preview we picked.
                 int orientation = getResources().getConfiguration().orientation;
-//                if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
-//                    mTextureView.setAspectRatio(
-//                            mPreviewSize.getWidth(), mPreviewSize.getHeight());
-//                } else {
-//                    mTextureView.setAspectRatio(
-//                            mPreviewSize.getHeight(), mPreviewSize.getWidth());
-//                }
+                if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
+                    mTextureView.setAspectRatio(
+                            mPreviewSize.getWidth(), mPreviewSize.getHeight());
+                } else {
+                    mTextureView.setAspectRatio(
+                            mPreviewSize.getHeight(), mPreviewSize.getWidth());
+                }
 
                 // Check if the flash is supported.
                 Boolean available = characteristics.get(CameraCharacteristics.FLASH_INFO_AVAILABLE);
@@ -601,22 +588,23 @@ public class CameraActivity extends AppCompatActivity
             // Currently an NPE is thrown when the Camera2API is used but not supported on the
             // device this code runs.
             ErrorDialog.newInstance(getString(R.string.error_camera))
-                    .show(getFragmentManager(), FRAGMENT_DIALOG);
+                    .show(getSupportFragmentManager(), FRAGMENT_DIALOG);
         }
     }
 
     /**
-     * Opens the camera specified by cameraId}.
+     * Opens the camera specified by {@link CameraActivity#mCameraId}.
      */
     private void openCamera(int width, int height) {
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
+        if (ContextCompat.checkSelfPermission(mActivity, Manifest.permission.CAMERA)
                 != PackageManager.PERMISSION_GRANTED) {
             requestCameraPermission();
             return;
         }
         setUpCameraOutputs(width, height);
         configureTransform(width, height);
-        CameraManager manager = (CameraManager) getSystemService(Context.CAMERA_SERVICE);
+        Activity activity = mActivity;
+        CameraManager manager = (CameraManager) activity.getSystemService(Context.CAMERA_SERVICE);
         try {
             if (!mCameraOpenCloseLock.tryAcquire(2500, TimeUnit.MILLISECONDS)) {
                 throw new RuntimeException("Time out waiting to lock camera opening.");
@@ -732,7 +720,6 @@ public class CameraActivity extends AppCompatActivity
                         }
                     }, null
             );
-
         } catch (CameraAccessException e) {
             e.printStackTrace();
         }
@@ -747,11 +734,11 @@ public class CameraActivity extends AppCompatActivity
      * @param viewHeight The height of `mTextureView`
      */
     private void configureTransform(int viewWidth, int viewHeight) {
-
-        if (null == mTextureView || null == mPreviewSize || null == this) {
+        Activity activity = mActivity;
+        if (null == mTextureView || null == mPreviewSize || null == activity) {
             return;
         }
-        int rotation = getWindowManager().getDefaultDisplay().getRotation();
+        int rotation = activity.getWindowManager().getDefaultDisplay().getRotation();
         Matrix matrix = new Matrix();
         RectF viewRect = new RectF(0, 0, viewWidth, viewHeight);
         RectF bufferRect = new RectF(0, 0, mPreviewSize.getHeight(), mPreviewSize.getWidth());
@@ -769,49 +756,6 @@ public class CameraActivity extends AppCompatActivity
             matrix.postRotate(180, centerX, centerY);
         }
         mTextureView.setTransform(matrix);
-    }
-
-    /**
-     * Capture a still picture. This method should be called when we get a response in
-     * {@link #mCaptureCallback} from both {@link #lockFocus()}.
-     */
-    private void captureStillPicture() {
-        try {
-            if (null == this || null == mCameraDevice) {
-                return;
-            }
-            // This is the CaptureRequest.Builder that we use to take a picture.
-            final CaptureRequest.Builder captureBuilder =
-                    mCameraDevice.createCaptureRequest(CameraDevice.TEMPLATE_STILL_CAPTURE);
-            captureBuilder.addTarget(mImageReader.getSurface());
-
-            // Use the same AE and AF modes as the preview.
-            captureBuilder.set(CaptureRequest.CONTROL_AF_MODE,
-                    CaptureRequest.CONTROL_AF_MODE_CONTINUOUS_PICTURE);
-            setAutoFlash(captureBuilder);
-
-            // Orientation
-            int rotation = getWindowManager().getDefaultDisplay().getRotation();
-            captureBuilder.set(CaptureRequest.JPEG_ORIENTATION, getOrientation(rotation));
-
-            CameraCaptureSession.CaptureCallback CaptureCallback
-                    = new CameraCaptureSession.CaptureCallback() {
-
-                @Override
-                public void onCaptureCompleted(@NonNull CameraCaptureSession session,
-                                               @NonNull CaptureRequest request,
-                                               @NonNull TotalCaptureResult result) {
-                    Log.d(TAG, mFile.toString());
-                    unlockFocus();
-                }
-            };
-
-            mCaptureSession.stopRepeating();
-            mCaptureSession.abortCaptures();
-            mCaptureSession.capture(captureBuilder.build(), CaptureCallback, null);
-        } catch (CameraAccessException e) {
-            e.printStackTrace();
-        }
     }
 
     /**
@@ -850,7 +794,52 @@ public class CameraActivity extends AppCompatActivity
             // Tell #mCaptureCallback to wait for the precapture sequence to be set.
             mState = STATE_WAITING_PRECAPTURE;
             mCaptureSession.capture(mPreviewRequestBuilder.build(), mCaptureCallback,
-                    mBackgroundHandler);
+                    mBackgroundHandler);                    showToast("Saved: " + mFile);
+        } catch (CameraAccessException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Capture a still picture. This method should be called when we get a response in
+     * {@link #mCaptureCallback} from both {@link #lockFocus()}.
+     */
+    private void captureStillPicture() {
+        try {
+            final Activity activity = mActivity;
+            if (null == activity || null == mCameraDevice) {
+                return;
+            }
+            // This is the CaptureRequest.Builder that we use to take a picture.
+            final CaptureRequest.Builder captureBuilder =
+                    mCameraDevice.createCaptureRequest(CameraDevice.TEMPLATE_STILL_CAPTURE);
+            captureBuilder.addTarget(mImageReader.getSurface());
+
+            // Use the same AE and AF modes as the preview.
+            captureBuilder.set(CaptureRequest.CONTROL_AF_MODE,
+                    CaptureRequest.CONTROL_AF_MODE_CONTINUOUS_PICTURE);
+            setAutoFlash(captureBuilder);
+
+            // Orientation
+            int rotation = activity.getWindowManager().getDefaultDisplay().getRotation();
+            captureBuilder.set(CaptureRequest.JPEG_ORIENTATION, getOrientation(rotation));
+
+            CameraCaptureSession.CaptureCallback CaptureCallback
+                    = new CameraCaptureSession.CaptureCallback() {
+
+                @Override
+                public void onCaptureCompleted(@NonNull CameraCaptureSession session,
+                                               @NonNull CaptureRequest request,
+                                               @NonNull TotalCaptureResult result) {
+                    showToast("Saved: " + mFile);
+                    Log.d(TAG, mFile.toString());
+                    unlockFocus();
+                }
+            };
+
+            mCaptureSession.stopRepeating();
+            mCaptureSession.abortCaptures();
+            mCaptureSession.capture(captureBuilder.build(), CaptureCallback, null);
         } catch (CameraAccessException e) {
             e.printStackTrace();
         }
@@ -891,6 +880,7 @@ public class CameraActivity extends AppCompatActivity
                     GalleryActivity.class);
             mIntent.putExtra("ADDING_ITEM", true); //Add a flag to tell the activity we're adding an item to the gallery
             mIntent.putExtra("FILE", mFile.toString());
+            closeCamera();
             startActivity(mIntent);
 
         } catch (CameraAccessException e) {
@@ -961,9 +951,8 @@ public class CameraActivity extends AppCompatActivity
                     }
                 }
             }
-
-
         }
+
     }
 
     /**
@@ -1020,22 +1009,21 @@ public class CameraActivity extends AppCompatActivity
         @NonNull
         @Override
         public Dialog onCreateDialog(Bundle savedInstanceState) {
+            final Fragment parent = getParentFragment();
             return new AlertDialog.Builder(getActivity())
                     .setMessage(R.string.request_permission)
                     .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                                requestPermissions(new String[]{Manifest.permission.CAMERA},
-                                        REQUEST_CAMERA_PERMISSION);
-                            }
+                            parent.requestPermissions(new String[]{Manifest.permission.CAMERA},
+                                    REQUEST_CAMERA_PERMISSION);
                         }
                     })
                     .setNegativeButton(android.R.string.cancel,
                             new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-                                    Activity activity = getActivity();
+                                    Activity activity = parent.getActivity();
                                     if (activity != null) {
                                         activity.finish();
                                     }
@@ -1044,4 +1032,5 @@ public class CameraActivity extends AppCompatActivity
                     .create();
         }
     }
+
 }
