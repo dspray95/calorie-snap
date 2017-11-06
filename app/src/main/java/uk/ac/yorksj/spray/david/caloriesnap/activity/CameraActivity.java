@@ -28,6 +28,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.content.res.Resources;
 import android.graphics.ImageFormat;
 import android.graphics.Matrix;
 import android.graphics.Point;
@@ -427,8 +428,8 @@ public class CameraActivity extends AppCompatActivity
         mTextureView = (TextureView)this.findViewById(R.id.texture);
         mTextureView.setOnTouchListener(new NavigationListener('u', this, GalleryActivity.class));
         ConstraintLayout layout = (ConstraintLayout)findViewById(R.id.layout);
-        int x = layout.getWidth();
-        int y = layout.getHeight();
+        int x = Resources.getSystem().getDisplayMetrics().widthPixels; //TODO #1: Fix dodgy camera aspect ratio
+        int y = Resources.getSystem().getDisplayMetrics().heightPixels;
         mPreviewSize = new Size(x, y);
     }
 
@@ -720,10 +721,11 @@ public class CameraActivity extends AppCompatActivity
                         @Override
                         public void onConfigureFailed(
                                 @NonNull CameraCaptureSession cameraCaptureSession) {
-                            showToast(getString(R.string.error_camera));
+                            showToast("Failed");
                         }
                     }, null
             );
+
         } catch (CameraAccessException e) {
             e.printStackTrace();
         }
