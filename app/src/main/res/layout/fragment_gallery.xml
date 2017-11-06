@@ -14,7 +14,7 @@
         android:layout_height="match_parent"
         android:adjustViewBounds="false"
         android:cropToPadding="false"
-        android:scaleType="fitCenter"
+        android:scaleType="fitXY"
         app:srcCompat="@android:color/holo_blue_bright"
         tools:layout_editor_absoluteX="8dp"
         tools:layout_editor_absoluteY="8dp" />
