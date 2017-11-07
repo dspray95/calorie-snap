@@ -3,11 +3,8 @@ package uk.ac.yorksj.spray.david.caloriesnap.activity.fragments;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
-import android.graphics.drawable.Drawable;
-import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Parcel;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -15,9 +12,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-
-import org.junit.runner.Describable;
-import org.w3c.dom.Text;
 
 import uk.ac.yorksj.spray.david.caloriesnap.FoodItem;
 import uk.ac.yorksj.spray.david.caloriesnap.R;
@@ -53,13 +47,13 @@ public class GalleryFragment extends Fragment {
      * @return A new instance of fragment GalleryFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static GalleryFragment newInstance(FoodItem foodItem, Resources res) {
+    public static GalleryFragment newInstance(FoodItem foodItem, Resources res, boolean firstFragment) {
         GalleryFragment fragment = new GalleryFragment();
         Bundle args = new Bundle();
         args.putParcelable(FOOD_ITEM, foodItem);
         fragment.foodItem = foodItem;
         try {
-            fragment.bitmap = foodItem.getImageDrawable(res);
+            fragment.bitmap = foodItem.createImageBitmap(res, firstFragment);
         }catch(Exception e){
             Log.d(TAG, "Err img");
         }
@@ -73,7 +67,7 @@ public class GalleryFragment extends Fragment {
 //        if (getArguments() != null) {
 //            this.foodItem = getArguments().getParcelable(FOOD_ITEM);
 //            try {
-//                this.bitmap = this.foodItem.getImageDrawable(this.getResources());
+//                this.bitmap = this.foodItem.createImageBitmap(this.getResources());
 //            }catch(Exception e){
 //                Log.d(TAG, "Err img");
 //            }

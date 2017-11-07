@@ -1,15 +1,11 @@
 package uk.ac.yorksj.spray.david.caloriesnap.asynctask;
 
-import android.content.res.Resources;
-import android.support.v4.app.Fragment;
+import android.graphics.Bitmap;
 
 import android.os.AsyncTask;
+import android.util.Log;
 
-import java.lang.reflect.Array;
-import java.util.ArrayList;
-
-import uk.ac.yorksj.spray.david.caloriesnap.FoodItem;
-import uk.ac.yorksj.spray.david.caloriesnap.activity.fragments.GalleryFragment;
+import uk.ac.yorksj.spray.david.caloriesnap.BitmapHandler;
 
 /**
  * Created by david on 07/11/17.
@@ -18,53 +14,31 @@ import uk.ac.yorksj.spray.david.caloriesnap.activity.fragments.GalleryFragment;
 public class BackgroundBitmapAsyncTask extends AsyncTask<Void, Void, Void> {
 
     public interface AsyncResponse {
-        void processFinish(GalleryFragment fragment, boolean lastItem);
+        void processFinish(Bitmap bitmap);
     }
 
     public AsyncResponse delegate = null;
-    public ArrayList<Fragment> fragmentArrayList;
-    public ArrayList<FoodItem> foodItemArrayList;
-    GalleryFragment fragment;
-    public Resources res;
-    protected FoodItem foodItem;
-    protected boolean lastItem = false;
+    String path;
+    Bitmap bitmap;
 
-    public BackgroundBitmapAsyncTask(AsyncResponse delegate, Resources res, FoodItem item, boolean lastItem){
+    public BackgroundBitmapAsyncTask(AsyncResponse delegate, String path){
         super();
         this.delegate = delegate;;
-        this.lastItem = lastItem;
-        this.res = res;
-        this.foodItemArrayList = new ArrayList<>();
-        this.fragmentArrayList = new ArrayList();
-        this.foodItem = item;
-    }
-
-    public BackgroundBitmapAsyncTask(AsyncResponse delegate, Resources res, FoodItem item){
-        super();
-        this.delegate = delegate;;
-        this.res = res;
-        this.foodItemArrayList = new ArrayList<>();
-        this.fragmentArrayList = new ArrayList();
-        this.foodItem = item;
+        this.path = path;
     }
 
     @Override
     protected Void doInBackground(Void... params) {
-        this.fragment = GalleryFragment.newInstance(this.foodItem, res);
+        try {
+            this.bitmap = new BitmapHandler().getBitmapFromPath(this.path);
+        }catch(Exception e){
+            Log.d("BACKGROUND_THREAD", "ERR_BITMAP");
+        }
         return null;
     }
 
     @Override
     protected void onPostExecute(Void v) {
-        if(lastItem){
-            delegate.processFinish(this.fragment, true);
-        }
-        else{
-            delegate.processFinish(this.fragment, false);
-        }
-    }
-
-    public void addFoodItem(FoodItem item){
-        this.foodItemArrayList.add(item);
+        delegate.processFinish(this.bitmap);
     }
 }

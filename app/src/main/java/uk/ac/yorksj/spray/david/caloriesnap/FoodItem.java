@@ -2,28 +2,13 @@ package uk.ac.yorksj.spray.david.caloriesnap;
 
 import android.content.res.Resources;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
-import android.graphics.ColorFilter;
-import android.graphics.Matrix;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
-import android.graphics.drawable.GradientDrawable;
-import android.graphics.drawable.RotateDrawable;
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.support.annotation.IntRange;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.OutputStream;
 import java.io.Serializable;
 import java.util.Random;
 
-import static java.lang.System.out;
+import uk.ac.yorksj.spray.david.caloriesnap.asynctask.BackgroundBitmapAsyncTask;
 
 
 /**
@@ -34,6 +19,7 @@ public class FoodItem implements Serializable, Parcelable{
 
     private int kcalCount;
     private String imagePath;
+    private Bitmap bitmap;
 
     public FoodItem(String imagePath){
         this.imagePath = imagePath;
@@ -52,30 +38,28 @@ public class FoodItem implements Serializable, Parcelable{
         return this.imagePath;
     }
 
-    public Bitmap getImageDrawable(Resources res) throws Exception{ //TODO Background threading
-        File f = new File(this.imagePath);
-        if(f.exists())
-        {
-            BitmapFactory.Options iniOptions = new BitmapFactory.Options();
-            iniOptions.inJustDecodeBounds = true;
-            BitmapFactory.decodeFile(f.getAbsolutePath(), iniOptions);
-            int iHeight = iniOptions.outHeight;
-            int iWidth = iniOptions.outHeight;
-            Matrix matrix = new Matrix();
-            matrix.postRotate(90);
-            ByteArrayOutputStream out = new ByteArrayOutputStream();
-            Bitmap bmp = Bitmap.createScaledBitmap(Bitmap.createBitmap(BitmapFactory.decodeFile(f.getAbsolutePath()),
-                    0, 0, iWidth, iHeight, matrix, true), iWidth/2, iHeight/2, false);
-            bmp.compress(Bitmap.CompressFormat.JPEG, 50, out);
-            Bitmap compressed = BitmapFactory.decodeStream(new ByteArrayInputStream(out.toByteArray()));
-            bmp.recycle();
-            return compressed;
-        }
-        else{
-            throw new Exception("IMAGE NOT FOUND");
+    public void createImageBitmap(Resources res, boolean doInBackground){ //TODO Background threading
+
+        if(doInBackground){
+            new BackgroundBitmapAsyncTask(new BackgroundBitmapAsyncTask.AsyncResponse() {
+                @Override
+                public void processFinish(Bitmap bitmap) {
+                    bitmap = bitmap;
+                    bitmap.recycle();;
+
+                }
+            }, this.imagePath).execute();
         }
     }
 
+    public boolean hasBitmap(){
+        return this.bitmap != null ? true, false;
+    }
+
+    public Bitmap getBitmap(){
+        return this.bitmap;
+    }
+    
     @Override
     public int describeContents() {
         return 0;
