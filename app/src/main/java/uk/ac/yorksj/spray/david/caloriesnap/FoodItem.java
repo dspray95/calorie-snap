@@ -4,6 +4,7 @@ import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.util.Log;
 
 import java.io.Serializable;
 import java.util.Random;
@@ -19,7 +20,7 @@ public class FoodItem implements Serializable, Parcelable{
 
     private int kcalCount;
     private String imagePath;
-    private Bitmap bitmap;
+    private transient Bitmap bitmap;
 
     public FoodItem(String imagePath){
         this.imagePath = imagePath;
@@ -38,22 +39,26 @@ public class FoodItem implements Serializable, Parcelable{
         return this.imagePath;
     }
 
-    public void createImageBitmap(Resources res, boolean doInBackground){ //TODO Background threading
-
-        if(doInBackground){
+    public void createImageBitmap(boolean doInMainThread){
+        if(doInMainThread){
+            try {
+                bitmap = new BitmapHandler().getBitmapFromPath(this.imagePath);
+            }catch(Exception e){
+                Log.d("FOREGROUND_THREAD", "ERR_BITMAP");
+            }
+        }else{
             new BackgroundBitmapAsyncTask(new BackgroundBitmapAsyncTask.AsyncResponse() {
                 @Override
-                public void processFinish(Bitmap bitmap) {
-                    bitmap = bitmap;
+                public void processFinish(Bitmap bmp) {
+                    bitmap = bmp;
                     bitmap.recycle();;
-
                 }
             }, this.imagePath).execute();
         }
     }
 
     public boolean hasBitmap(){
-        return this.bitmap != null ? true, false;
+        return this.bitmap != null ? true : false;
     }
 
     public Bitmap getBitmap(){

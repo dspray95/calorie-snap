@@ -52,36 +52,33 @@ public class GalleryFragment extends Fragment {
         Bundle args = new Bundle();
         args.putParcelable(FOOD_ITEM, foodItem);
         fragment.foodItem = foodItem;
-        try {
-            fragment.bitmap = foodItem.createImageBitmap(res, firstFragment);
-        }catch(Exception e){
-            Log.d(TAG, "Err img");
-        }
+        foodItem.createImageBitmap(firstFragment);
         fragment.setArguments(args);
         return fragment;
     }
 
+    public boolean hasBitmap(){
+        return this.bitmap!=null ? true : false;
+    }
+
+    public boolean trySetBitmap(){
+        if(foodItem.hasBitmap()){
+            bitmap = foodItem.getBitmap();
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        if (getArguments() != null) {
-//            this.foodItem = getArguments().getParcelable(FOOD_ITEM);
-//            try {
-//                this.bitmap = this.foodItem.createImageBitmap(this.getResources());
-//            }catch(Exception e){
-//                Log.d(TAG, "Err img");
-//            }
-//        }
-        Log.d(TAG, "oncreate fragment fired");
-
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-//        TextView lblKcalCount = (TextView) getView().findViewById(R.id.txt_kcalcount);
-//        lblKcalCount.setText(foodItem.getKcalCount());
         Log.d(TAG, "oncreateView fired");
         return inflater.inflate(R.layout.fragment_gallery, container, false);
     }
