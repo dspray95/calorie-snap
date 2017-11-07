@@ -22,31 +22,38 @@ public class GalleryPagerAdapter extends FragmentStatePagerAdapter {
 
     ArrayList<FoodItem> itemList;
     ArrayList<Fragment> fragmentList;
+    ArrayList<Fragment> fragmentListHolder;
+    FragmentManager fm;
     BackgroundBitmapAsyncTask background;
 
     public GalleryPagerAdapter(FragmentManager fm, ArrayList<FoodItem> itemList, Resources res) {
         super(fm);
-
-        this.background = new BackgroundBitmapAsyncTask(new BackgroundBitmapAsyncTask.AsyncResponse() {
-            @Override
-            public void processFinish(ArrayList<Fragment> fragmentArrayList) {
-                fragmentList.addAll(fragmentArrayList);
-                Log.d("FRAGMENT_ADAPTER", "Async task finished, adding fragments");
-                notifyDataSetChanged();
-            }
-        }, res);
-
+        final FragmentManager fragmentManager = fm;
         this.itemList = itemList;
         this.fragmentList = new ArrayList<>();
+        this.fragmentList.add(GalleryFragment.newInstance(itemList.get(itemList.size() - 1), res)); //Add the latest item first on the ui thread
+        this.fragmentListHolder = new ArrayList<>();
+        this.fragmentListHolder.add(null);
+
         for(FoodItem item : itemList){
-            if(itemList.indexOf(item) == itemList.size() -1){ //check to see if the item is last in the list
-                this.fragmentList.add(GalleryFragment.newInstance(item, res)); //Create the fragment on the ui thread
-            }
-            else{
-                this.background.addFoodItem(item);
+            if(itemList.indexOf(item) != itemList.size() -1){ //check to see if the item is not the latest item
+                boolean isLastItemToAdd = itemList.indexOf(item) == itemList.size() - 2 ? true : false;
+                new BackgroundBitmapAsyncTask(new BackgroundBitmapAsyncTask.AsyncResponse() { //create a background task and run on that thread
+                    @Override
+                    public void processFinish(GalleryFragment fragment, boolean lastItem) {
+                        fragmentListHolder.add(fragment);
+                        if(lastItem){
+                            updateFragments();
+                        }
+                    }
+                }, res, item, isLastItemToAdd).execute();
             }
         }
-        background.execute();
+    }
+
+    public void updateFragments(){
+        this.fragmentList.addAll(fragmentListHolder);
+        notifyDataSetChanged();
     }
 
     @Override
@@ -57,17 +64,13 @@ public class GalleryPagerAdapter extends FragmentStatePagerAdapter {
     @Override
     public Fragment getItem(int position) {
         //Display the latest added fragment first
-        int zeroIndexedSize = fragmentList.size() - 1; //Get the 0 indexed size
-        if(zeroIndexedSize > 0){
-            return fragmentList.get(zeroIndexedSize - position); //goes through the list from highest to lowest
-        }
-        else{
-            return fragmentList.get(position);
-        }
+//        int zeroIndexedSize = fragmentList.size() - 1; //Get the 0 indexed size
+//        if(zeroIndexedSize > 0){
+//            return fragmentList.get(zeroIndexedSize - position); //goes through the list from highest to lowest
+//        }
+//        else{
+//            return fragmentList.get(position);
+//        }
+        return fragmentList.get(position);
     }
-
-    public void setItemList(ArrayList<FoodItem> itemList){
-        this.itemList = itemList;
-    }
-
 }
