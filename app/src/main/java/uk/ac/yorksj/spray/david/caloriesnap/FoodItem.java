@@ -1,6 +1,5 @@
 package uk.ac.yorksj.spray.david.caloriesnap;
 
-import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -9,6 +8,7 @@ import android.util.Log;
 import java.io.Serializable;
 import java.util.Random;
 
+import uk.ac.yorksj.spray.david.caloriesnap.activity.fragments.GalleryFragment;
 import uk.ac.yorksj.spray.david.caloriesnap.asynctask.BackgroundBitmapAsyncTask;
 
 
@@ -20,6 +20,7 @@ public class FoodItem implements Serializable, Parcelable{
 
     private int kcalCount;
     private String imagePath;
+    private transient GalleryFragment parentFragment;
     private transient Bitmap bitmap;
 
     public FoodItem(String imagePath){
@@ -51,7 +52,8 @@ public class FoodItem implements Serializable, Parcelable{
                 @Override
                 public void processFinish(Bitmap bmp) {
                     bitmap = bmp;
-                    bitmap.recycle();;
+                    parentFragment.trySetBitmap();
+                    parentFragment.setBackgroundImage();
                 }
             }, this.imagePath).execute();
         }
@@ -64,7 +66,11 @@ public class FoodItem implements Serializable, Parcelable{
     public Bitmap getBitmap(){
         return this.bitmap;
     }
-    
+
+    public void setParentFragment(GalleryFragment fragment){
+        this.parentFragment = fragment;
+    }
+
     @Override
     public int describeContents() {
         return 0;

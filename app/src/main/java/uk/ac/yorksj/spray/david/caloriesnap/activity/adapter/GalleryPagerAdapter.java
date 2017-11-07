@@ -26,8 +26,6 @@ public class GalleryPagerAdapter extends FragmentStatePagerAdapter {
     ArrayList<GalleryFragment> fragmentList;
     ArrayList<Fragment> fragmentListHolder;
     DetailOnPageChangeListener listener;
-    FragmentManager fm;
-    BackgroundBitmapAsyncTask background;
 
     public GalleryPagerAdapter(FragmentManager fm, ArrayList<FoodItem> itemList, Resources res) {
         super(fm);
@@ -40,7 +38,8 @@ public class GalleryPagerAdapter extends FragmentStatePagerAdapter {
 
         for(FoodItem item : itemList){
             if(itemList.indexOf(item) != itemList.size() -1) { //check to see if the item is not the latest item
-                GalleryFragment.newInstance(item, res, false);
+                fragmentList.add(GalleryFragment.newInstance(item, res, false));
+                fragmentList.get(itemList.indexOf(item));
             }
         }
     }
@@ -55,16 +54,7 @@ public class GalleryPagerAdapter extends FragmentStatePagerAdapter {
 
         GalleryFragment fragment = fragmentList.get(position);
 
-        if(fragment.hasBitmap()){
-            return fragment;
-        }
-        else if(fragment.trySetBitmap()){
-            return fragment;
-        }
-        else{
-            position = this.listener.getCurrentPage();
-            return fragmentList.get(position);
-        }
+        return fragmentList.get(position);
     }
 
     public class DetailOnPageChangeListener extends ViewPager.SimpleOnPageChangeListener {

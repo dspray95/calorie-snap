@@ -70,10 +70,16 @@ public class GalleryFragment extends Fragment {
         }
     }
 
+    public void setBackgroundImage(){
+        ImageView backgroundImage = (ImageView) getView().findViewById(R.id.img_gallery_background);
+        backgroundImage.setImageBitmap(bitmap);
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        foodItem.setParentFragment(this);
+        trySetBitmap();
     }
 
     @Override
@@ -87,9 +93,8 @@ public class GalleryFragment extends Fragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         TextView lblKcalCount = (TextView) getView().findViewById(R.id.txt_kcalcount);
-        ImageView backgroundImage = (ImageView) getView().findViewById(R.id.img_gallery_background);
         lblKcalCount.setText(Integer.toString(foodItem.getKcalCount()));
-        backgroundImage.setImageBitmap(bitmap);
+        setBackgroundImage();
     }
 
     // TODO: Rename method, update argument and hook method into UI event
