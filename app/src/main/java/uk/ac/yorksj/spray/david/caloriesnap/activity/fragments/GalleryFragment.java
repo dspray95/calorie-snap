@@ -39,7 +39,7 @@ public class GalleryFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private FoodItem foodItem;
     private Bitmap bitmap;
-
+    private Boolean firstfragment;
     private OnFragmentInteractionListener mListener;
 
     public GalleryFragment() {
