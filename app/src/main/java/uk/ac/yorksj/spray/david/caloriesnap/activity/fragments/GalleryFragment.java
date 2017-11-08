@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import uk.ac.yorksj.spray.david.caloriesnap.FoodItem;
 import uk.ac.yorksj.spray.david.caloriesnap.R;
+import uk.ac.yorksj.spray.david.caloriesnap.activity.listener.BitmapListener;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -35,6 +36,7 @@ public class GalleryFragment extends Fragment {
     private Bitmap bitmap;
     private Boolean firstfragment;
     private OnFragmentInteractionListener mListener;
+    private BitmapListener bitmapListener;
 
     public GalleryFragment() {
         // Required empty public constructor
@@ -52,7 +54,7 @@ public class GalleryFragment extends Fragment {
         Bundle args = new Bundle();
         args.putParcelable(FOOD_ITEM, foodItem);
         fragment.foodItem = foodItem;
-        foodItem.createImageBitmap(firstFragment);
+//        foodItem.createImageBitmap(firstFragment);
         fragment.setArguments(args);
         return fragment;
     }
@@ -71,6 +73,9 @@ public class GalleryFragment extends Fragment {
     }
 
     public void setBackgroundImage(){
+        if(!hasBitmap()){
+            trySetBitmap();
+        }
         ImageView backgroundImage = (ImageView) getView().findViewById(R.id.img_gallery_background);
         backgroundImage.setImageBitmap(bitmap);
     }
@@ -78,7 +83,6 @@ public class GalleryFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        foodItem.setParentFragment(this);
         trySetBitmap();
     }
 
@@ -86,6 +90,7 @@ public class GalleryFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         Log.d(TAG, "oncreateView fired");
+        trySetBitmap();
         return inflater.inflate(R.layout.fragment_gallery, container, false);
     }
 

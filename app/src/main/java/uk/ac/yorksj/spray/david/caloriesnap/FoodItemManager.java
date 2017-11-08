@@ -1,6 +1,8 @@
 package uk.ac.yorksj.spray.david.caloriesnap;
 
 import java.io.Serializable;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 
 /**
  * Created by david on 31/10/17.
@@ -11,7 +13,7 @@ public class FoodItemManager implements Serializable{
     protected FoodItem[] images;
 
     public FoodItemManager(){
-        images = new FoodItem[5];
+        this.images = new FoodItem[5];
     }
 
     public void addFoodItem(FoodItem img){

@@ -41,6 +41,10 @@ public class GalleryActivity extends AppCompatActivity implements
         //We need an image manager if we dont have one.
         if(imageManagerFile.exists()) {
                 imageManager = loadImageManager(imageManagerFilename);
+                if(null == imageManager){ //if loading fails, make a new manager
+                    imageManager = new FoodItemManager();
+                    saveImageManager(imageManager, imageManagerFilename);
+                }
         }
         else{
             imageManager = new FoodItemManager();

@@ -4,11 +4,13 @@ import android.graphics.Bitmap;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.util.Log;
+import android.widget.Gallery;
 
 import java.io.Serializable;
 import java.util.Random;
 
 import uk.ac.yorksj.spray.david.caloriesnap.activity.fragments.GalleryFragment;
+import uk.ac.yorksj.spray.david.caloriesnap.activity.listener.BitmapListener;
 import uk.ac.yorksj.spray.david.caloriesnap.asynctask.BackgroundBitmapAsyncTask;
 
 
@@ -20,7 +22,6 @@ public class FoodItem implements Serializable, Parcelable{
 
     private int kcalCount;
     private String imagePath;
-    private transient GalleryFragment parentFragment;
     private transient Bitmap bitmap;
 
     public FoodItem(String imagePath){
@@ -40,24 +41,13 @@ public class FoodItem implements Serializable, Parcelable{
         return this.imagePath;
     }
 
-    public void createImageBitmap(boolean doInMainThread){
-        if(doInMainThread){
-            try {
-                bitmap = new BitmapHandler().getBitmapFromPath(this.imagePath);
-            }catch(Exception e){
-                Log.d("FOREGROUND_THREAD", "ERR_BITMAP");
-            }
-        }else{
-            new BackgroundBitmapAsyncTask(new BackgroundBitmapAsyncTask.AsyncResponse() {
-                @Override
-                public void processFinish(Bitmap bmp) {
-                    bitmap = bmp;
-                    parentFragment.trySetBitmap();
-                    parentFragment.setBackgroundImage();
-                }
-            }, this.imagePath).execute();
+    public void createImageBitmap(){
+        try {
+            bitmap = new BitmapHandler().getBitmapFromPath(this.imagePath);
+        }catch(Exception e){
+            Log.d("FOREGROUND_THREAD", "ERR_BITMAP");
         }
-    }
+   }
 
     public boolean hasBitmap(){
         return this.bitmap != null ? true : false;
@@ -65,10 +55,6 @@ public class FoodItem implements Serializable, Parcelable{
 
     public Bitmap getBitmap(){
         return this.bitmap;
-    }
-
-    public void setParentFragment(GalleryFragment fragment){
-        this.parentFragment = fragment;
     }
 
     @Override

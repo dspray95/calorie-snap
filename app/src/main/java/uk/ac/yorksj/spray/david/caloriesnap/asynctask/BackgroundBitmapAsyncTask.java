@@ -6,6 +6,7 @@ import android.os.AsyncTask;
 import android.util.Log;
 
 import uk.ac.yorksj.spray.david.caloriesnap.BitmapHandler;
+import uk.ac.yorksj.spray.david.caloriesnap.FoodItem;
 
 /**
  * Created by david on 07/11/17.
@@ -20,17 +21,20 @@ public class BackgroundBitmapAsyncTask extends AsyncTask<Void, Void, Void> {
     public AsyncResponse delegate = null;
     String path;
     Bitmap bitmap;
+    FoodItem foodItem;
 
-    public BackgroundBitmapAsyncTask(AsyncResponse delegate, String path){
+    public BackgroundBitmapAsyncTask(AsyncResponse delegate, FoodItem foodItem){
         super();
         this.delegate = delegate;;
-        this.path = path;
+//        this.path = path;
+        this.foodItem = foodItem;
     }
 
     @Override
     protected Void doInBackground(Void... params) {
         try {
-            this.bitmap = new BitmapHandler().getBitmapFromPath(this.path);
+            foodItem.createImageBitmap();
+            this.bitmap = foodItem.getBitmap();
         }catch(Exception e){
             Log.d("BACKGROUND_THREAD", "ERR_BITMAP");
         }
