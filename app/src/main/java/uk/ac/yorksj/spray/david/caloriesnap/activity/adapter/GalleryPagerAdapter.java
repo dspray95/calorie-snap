@@ -6,11 +6,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
-import android.view.View;
-import android.widget.Gallery;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 import uk.ac.yorksj.spray.david.caloriesnap.FoodItem;
@@ -79,5 +75,7 @@ public class GalleryPagerAdapter extends FragmentStatePagerAdapter {
         public final int getCurrentPage() {
             return currentPage;
         }
+
+
     }
 }
