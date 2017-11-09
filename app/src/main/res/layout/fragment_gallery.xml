@@ -8,6 +8,17 @@
 
     <!-- TODO: Update blank fragment layout -->
 
+    <android.support.v4.view.ViewPager
+        android:id="@+id/further_info_view_pager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorPrimary"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"></android.support.v4.view.ViewPager>
+
     <ImageView
         android:id="@+id/img_gallery_background"
         android:layout_width="match_parent"
@@ -18,6 +29,13 @@
         app:srcCompat="@android:color/holo_blue_bright"
         tools:layout_editor_absoluteX="8dp"
         tools:layout_editor_absoluteY="8dp" />
+
+    <View
+        android:id="@+id/further_info_view"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        tools:layout_editor_absoluteX="8dp"
+        tools:layout_editor_absoluteY="0dp" />
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
@@ -59,6 +77,20 @@
             app:layout_constraintLeft_toRightOf="@+id/txt_kcalcount"
             app:layout_constraintTop_toTopOf="@+id/txt_kcalcount"
             android:layout_marginTop="32dp" />
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="50dp"
+            android:layout_height="30dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@android:drawable/arrow_down_float"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp" />
 
     </android.support.constraint.ConstraintLayout>
 

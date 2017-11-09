@@ -12,7 +12,7 @@ import uk.ac.yorksj.spray.david.caloriesnap.FoodItem;
  * Created by david on 07/11/17.
  */
 
-public class BackgroundBitmapAsyncTask extends AsyncTask<Void, Void, Void> {
+public class BitmapAsyncTask extends AsyncTask<Void, Void, Void> {
 
     public interface AsyncResponse {
         void processFinish(Bitmap bitmap);
@@ -23,7 +23,7 @@ public class BackgroundBitmapAsyncTask extends AsyncTask<Void, Void, Void> {
     Bitmap bitmap;
     FoodItem foodItem;
 
-    public BackgroundBitmapAsyncTask(AsyncResponse delegate, FoodItem foodItem){
+    public BitmapAsyncTask(AsyncResponse delegate, FoodItem foodItem){
         super();
         this.delegate = delegate;;
 //        this.path = path;

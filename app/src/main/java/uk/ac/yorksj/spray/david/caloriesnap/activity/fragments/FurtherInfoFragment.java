@@ -1,43 +1,36 @@
 package uk.ac.yorksj.spray.david.caloriesnap.activity.fragments;
 
 import android.content.Context;
-import android.content.res.Resources;
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.widget.ViewDragHelper;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
 
-import uk.ac.yorksj.spray.david.caloriesnap.FoodItem;
 import uk.ac.yorksj.spray.david.caloriesnap.R;
-import uk.ac.yorksj.spray.david.caloriesnap.activity.listener.NavigationListener;
 
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link GalleryFragment.OnFragmentInteractionListener} interface
+ * {@link FurtherInfoFragment.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link GalleryFragment#newInstance} factory method to
+ * Use the {@link FurtherInfoFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class GalleryFragment extends Fragment {
+public class FurtherInfoFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String FOOD_ITEM = "food_item";
-    private static final String TAG = "GALLERY_FRAGMENT";
+    private static final String ARG_PARAM1 = "param1";
+    private static final String ARG_PARAM2 = "param2";
 
     // TODO: Rename and change types of parameters
-    private FoodItem foodItem;
-    private Bitmap bitmap;
+    private String mParam1;
+    private String mParam2;
+
     private OnFragmentInteractionListener mListener;
 
-    public GalleryFragment() {
+    public FurtherInfoFragment() {
         // Required empty public constructor
     }
 
@@ -45,60 +38,30 @@ public class GalleryFragment extends Fragment {
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
      *
-     * @return A new instance of fragment GalleryFragment.
+     * @return A new instance of fragment FurtherInfoFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static GalleryFragment newInstance(FoodItem foodItem, Resources res, boolean firstFragment) {
-        GalleryFragment fragment = new GalleryFragment();
+    public static FurtherInfoFragment newInstance() {
+        FurtherInfoFragment fragment = new FurtherInfoFragment();
         Bundle args = new Bundle();
-        args.putParcelable(FOOD_ITEM, foodItem);
-        fragment.foodItem = foodItem;
         fragment.setArguments(args);
         return fragment;
-    }
-
-    public boolean hasBitmap(){
-        return this.bitmap!=null ? true : false;
-    }
-
-    public boolean trySetBitmap(){
-        if(foodItem.hasBitmap()){
-            bitmap = foodItem.getBitmap();
-            return true;
-        }else{
-            return false;
-        }
-    }
-
-    public void setBackgroundImage(){
-        if(!hasBitmap()){
-            trySetBitmap();
-        }
-        ImageView backgroundImage = (ImageView) getView().findViewById(R.id.img_gallery_background);
-        backgroundImage.setImageBitmap(bitmap);
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        trySetBitmap();
+        if (getArguments() != null) {
+            mParam1 = getArguments().getString(ARG_PARAM1);
+            mParam2 = getArguments().getString(ARG_PARAM2);
+        }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        Log.d(TAG, "oncreateView fired");
-        trySetBitmap();
-        return inflater.inflate(R.layout.fragment_gallery, container, false);
-    }
-
-    @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        TextView lblKcalCount = (TextView) getView().findViewById(R.id.txt_kcalcount);
-        lblKcalCount.setText(Integer.toString(foodItem.getKcalCount()));
-        view.setOnTouchListener(new NavigationListener('u', this, FurtherInfoFragment.newInstance(), getFragmentManager()));
-        setBackgroundImage();
+        // Inflate the layout for this fragment
+        return inflater.inflate(R.layout.fragment_further_info, container, false);
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -125,6 +88,16 @@ public class GalleryFragment extends Fragment {
         mListener = null;
     }
 
+    /**
+     * This interface must be implemented by activities that contain this
+     * fragment to allow an interaction in this fragment to be communicated
+     * to the activity and potentially other fragments contained in that
+     * activity.
+     * <p>
+     * See the Android Training lesson <a href=
+     * "http://developer.android.com/training/basics/fragments/communicating.html"
+     * >Communicating with Other Fragments</a> for more information.
+     */
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);

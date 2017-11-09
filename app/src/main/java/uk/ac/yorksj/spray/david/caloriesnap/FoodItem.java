@@ -4,14 +4,9 @@ import android.graphics.Bitmap;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.util.Log;
-import android.widget.Gallery;
 
 import java.io.Serializable;
 import java.util.Random;
-
-import uk.ac.yorksj.spray.david.caloriesnap.activity.fragments.GalleryFragment;
-import uk.ac.yorksj.spray.david.caloriesnap.activity.listener.BitmapListener;
-import uk.ac.yorksj.spray.david.caloriesnap.asynctask.BackgroundBitmapAsyncTask;
 
 
 /**
