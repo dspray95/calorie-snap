@@ -22,7 +22,7 @@ public class BitmapHandler {
             iniOptions.inJustDecodeBounds = true;
             BitmapFactory.decodeFile(f.getAbsolutePath(), iniOptions);
             int iHeight = iniOptions.outHeight;
-            int iWidth = iniOptions.outHeight;
+            int iWidth = iniOptions.outWidth;
             Matrix matrix = new Matrix();
             matrix.postRotate(90);
             ByteArrayOutputStream out = new ByteArrayOutputStream();
