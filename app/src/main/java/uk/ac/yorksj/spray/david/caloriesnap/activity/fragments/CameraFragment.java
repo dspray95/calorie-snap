@@ -932,17 +932,18 @@ public class CameraFragment extends Fragment
             byte[] bytes = new byte[buffer.remaining()];
             buffer.get(bytes);
 
+
             BitmapFactory.Options iniOptions = new BitmapFactory.Options();
             iniOptions.inJustDecodeBounds = true;
             BitmapFactory.decodeByteArray(bytes, 0, bytes.length, iniOptions);
             int iHeight = iniOptions.outHeight;
-            int iWidth = iniOptions.outWidth;
+            int iWidth = iniOptions.outHeight;
             Matrix matrix = new Matrix();
             matrix.postRotate(90);
             ByteArrayOutputStream out = new ByteArrayOutputStream();
             Bitmap bmp = Bitmap.createScaledBitmap(Bitmap.createBitmap(BitmapFactory.decodeByteArray(bytes, 0, bytes.length),
                     0, 0, iWidth, iHeight, matrix, true), iWidth/2, iHeight/2, false);
-            bmp.compress(Bitmap.CompressFormat.JPEG, 50, out);
+            bmp.compress(Bitmap.CompressFormat.JPEG, 75, out);
             byte[] compresedBytes = out.toByteArray();
 
             FileOutputStream output = null;
