@@ -24,7 +24,6 @@ public class BitmapHandler {
             int iHeight = iniOptions.outHeight;
             int iWidth = iniOptions.outWidth;
             Matrix matrix = new Matrix();
-            matrix.postRotate(90);
             ByteArrayOutputStream out = new ByteArrayOutputStream();
             Bitmap bmp = Bitmap.createScaledBitmap(Bitmap.createBitmap(BitmapFactory.decodeFile(f.getAbsolutePath()),
                     0, 0, iWidth, iHeight, matrix, true), iWidth/2, iHeight/2, false);

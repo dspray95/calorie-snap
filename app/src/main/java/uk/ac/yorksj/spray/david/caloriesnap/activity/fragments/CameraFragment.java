@@ -22,6 +22,7 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
@@ -68,15 +69,18 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.ByteBuffer;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
 import java.util.concurrent.Semaphore;
 import java.util.concurrent.TimeUnit;
 
 import uk.ac.yorksj.spray.david.caloriesnap.R;
+import uk.ac.yorksj.spray.david.caloriesnap.activity.GalleryActivity;
 import uk.ac.yorksj.spray.david.caloriesnap.activity.view.AutoFitTextureView;
 
 import static android.content.Context.MODE_PRIVATE;
@@ -90,6 +94,9 @@ public class CameraFragment extends Fragment
     private static final SparseIntArray ORIENTATIONS = new SparseIntArray();
     private static final int REQUEST_CAMERA_PERMISSION = 1;
     private static final String FRAGMENT_DIALOG = "dialog";
+
+    private String mFilePath;
+    private String mFileName;
 
     static {
         ORIENTATIONS.append(Surface.ROTATION_0, 90);
@@ -253,6 +260,12 @@ public class CameraFragment extends Fragment
 
         @Override
         public void onImageAvailable(ImageReader reader) {
+
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy-hh-mm-ss");
+            String fileName = simpleDateFormat.format(new Date()) + ".jpg";
+            String filePath = getActivity().getFilesDir() + "/";
+            mFile = new File(filePath, fileName);
+
             mBackgroundHandler.post(new ImageSaver(reader.acquireNextImage(), mFile));
         }
 
@@ -441,7 +454,7 @@ public class CameraFragment extends Fragment
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        mFile = new File(getActivity().getExternalFilesDir(null), "pic.jpg");
+//        mFile = new File(getActivity().getExternalFilesDir(null), "pic.jpg");
     }
 
     @Override
@@ -844,6 +857,10 @@ public class CameraFragment extends Fragment
                     showToast("Saved: " + mFile);
                     Log.d(TAG, mFile.toString());
                     unlockFocus();
+                    Intent intent = new Intent(getActivity(), GalleryActivity.class);
+                    intent.putExtra("ADDING_ITEM", true);
+                    intent.putExtra("FILE", mFile.getAbsolutePath());
+                    startActivity(intent);
                 }
             };
 
@@ -943,7 +960,7 @@ public class CameraFragment extends Fragment
             ByteArrayOutputStream out = new ByteArrayOutputStream();
             Bitmap bmp = Bitmap.createScaledBitmap(Bitmap.createBitmap(BitmapFactory.decodeByteArray(bytes, 0, bytes.length),
                     0, 0, iWidth, iHeight, matrix, true), iWidth/2, iHeight/2, false);
-            bmp.compress(Bitmap.CompressFormat.JPEG, 75, out);
+            bmp.compress(Bitmap.CompressFormat.JPEG, 80, out); //TODO Dynamic quality calculation based on available memory
             byte[] compresedBytes = out.toByteArray();
 
             FileOutputStream output = null;
