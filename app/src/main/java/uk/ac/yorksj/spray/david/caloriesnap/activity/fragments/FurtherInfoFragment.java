@@ -7,6 +7,17 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
+import android.widget.LinearLayout;
+
+import com.github.mikephil.charting.charts.PieChart;
+import com.github.mikephil.charting.data.DataSet;
+import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.data.PieData;
+import com.github.mikephil.charting.data.PieDataSet;
+import com.github.mikephil.charting.formatter.PercentFormatter;
+
+import java.util.ArrayList;
 
 import uk.ac.yorksj.spray.david.caloriesnap.R;
 
@@ -21,14 +32,15 @@ import uk.ac.yorksj.spray.david.caloriesnap.R;
 public class FurtherInfoFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    private static final String ARG_PARAM1 = "CALORIE_VALUE";
+    private static final int RDA_MALE = 2500;
+    private static final int RDA_FEMALE = 2000;
 
     private OnFragmentInteractionListener mListener;
+    // TODO: Rename and change types of parameters
+    private PieChart mPieChart;
+    private int calorieValue;
 
     public FurtherInfoFragment() {
         // Required empty public constructor
@@ -41,9 +53,10 @@ public class FurtherInfoFragment extends Fragment {
      * @return A new instance of fragment FurtherInfoFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static FurtherInfoFragment newInstance() {
+    public static FurtherInfoFragment newInstance(int calorieValue) {
         FurtherInfoFragment fragment = new FurtherInfoFragment();
         Bundle args = new Bundle();
+        args.putInt("CALORIE_VALUE", calorieValue);
         fragment.setArguments(args);
         return fragment;
     }
@@ -52,8 +65,7 @@ public class FurtherInfoFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+            calorieValue = getArguments().getInt(ARG_PARAM1);
         }
     }
 
@@ -61,7 +73,33 @@ public class FurtherInfoFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_further_info, container, false);
+        FrameLayout layout = (FrameLayout) inflater.inflate(R.layout.fragment_further_info, container, false);
+
+        mPieChart = (PieChart) layout.findViewById(R.id.pie_chart);
+        mPieChart.setUsePercentValues(true);
+
+        float percentageOfRdaMale = calorieValue/RDA_MALE;
+        float percentageOfRdaFemale = calorieValue/RDA_FEMALE;
+        float restOfRda = 1 - (percentageOfRdaFemale + percentageOfRdaMale);
+
+        ArrayList<Entry> pieChartYvalues = new ArrayList<>();
+            pieChartYvalues.add(new Entry(percentageOfRdaFemale, 0));
+            pieChartYvalues.add(new Entry(percentageOfRdaMale, 1));
+            pieChartYvalues.add(new Entry(restOfRda, 2));
+
+        PieDataSet pieChartDataSet = new PieDataSet(pieChartYvalues, "RDA percentage"); //TODO @+String resource
+
+        ArrayList<String> pieChartKey = new ArrayList<>();
+            pieChartKey.add("MALE"); //TODO @+String resource
+            pieChartKey.add("FEMALE"); //TODO @+String resource
+            pieChartKey.add("% RDA"); //TODO @+String resource
+        PieData pieData = new PieData(pieChartKey, pieChartDataSet);
+
+        pieData.setValueFormatter(new PercentFormatter());
+        mPieChart.setRotationEnabled(false);
+        mPieChart.setData(pieData);
+
+        return layout;
     }
 
     // TODO: Rename method, update argument and hook method into UI event

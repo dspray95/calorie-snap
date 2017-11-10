@@ -3,10 +3,12 @@ package uk.ac.yorksj.spray.david.caloriesnap.activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.net.Uri;
+import android.os.Handler;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.Toast;
 
 import java.io.File;
@@ -33,6 +35,7 @@ public class GalleryActivity extends AppCompatActivity implements
     ArrayList<FoodItem> foodItemList;
     ViewPager viewPager;
     GalleryPagerAdapter galleryPagerAdapter;
+    private Handler mHandler = new Handler();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,8 +78,13 @@ public class GalleryActivity extends AppCompatActivity implements
         //Send fragments to pager adapter
         this.galleryPagerAdapter = new GalleryPagerAdapter(getSupportFragmentManager(),
                 foodItemList, getResources());
-        viewPager = (ViewPager)findViewById(R.id.gallery_view_pager);
-        viewPager.setAdapter(this.galleryPagerAdapter);
+        //Give the application a chance to load in the bitmaps before setting the fragments
+        mHandler.postDelayed(new Runnable() {
+            public void run() {
+                viewPager = (ViewPager)findViewById(R.id.gallery_view_pager);
+                viewPager.setAdapter(galleryPagerAdapter);
+            }
+        }, 7000);
     }
 
     public void saveImageManager(FoodItemManager imageManager, String filename){
@@ -108,5 +116,19 @@ public class GalleryActivity extends AppCompatActivity implements
     @Override
     public void onFragmentInteraction(Uri uri) {
 
+    }
+
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        super.onWindowFocusChanged(hasFocus);
+        if (hasFocus) {
+            getWindow().getDecorView().setSystemUiVisibility(
+                    View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                            | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                            | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                            | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                            | View.SYSTEM_UI_FLAG_FULLSCREEN
+                            | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
+        }
     }
 }
