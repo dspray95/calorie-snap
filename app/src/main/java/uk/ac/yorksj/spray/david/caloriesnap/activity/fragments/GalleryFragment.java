@@ -14,6 +14,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import org.w3c.dom.Text;
+
 import uk.ac.yorksj.spray.david.caloriesnap.FoodItem;
 import uk.ac.yorksj.spray.david.caloriesnap.R;
 import uk.ac.yorksj.spray.david.caloriesnap.activity.listener.NavigationListener;
@@ -36,6 +38,7 @@ public class GalleryFragment extends Fragment {
     private FoodItem foodItem;
     private Bitmap bitmap;
     private OnFragmentInteractionListener mListener;
+    private boolean detailsEnabled = true;
 
     public GalleryFragment() {
         // Required empty public constructor
@@ -97,7 +100,7 @@ public class GalleryFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         TextView lblKcalCount = (TextView) getView().findViewById(R.id.txt_kcalcount);
         lblKcalCount.setText(Integer.toString(foodItem.getKcalCount()));
-        view.setOnTouchListener(new NavigationListener('u', this, FurtherInfoFragment.newInstance(), getFragmentManager()));
+        view.setOnTouchListener(new NavigationListener('d', this, FurtherInfoFragment.newInstance(), getFragmentManager()));
         setBackgroundImage();
     }
 
@@ -128,5 +131,19 @@ public class GalleryFragment extends Fragment {
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
+    }
+
+    public void toggleDetails(){
+        TextView lblCount = (TextView) getView().findViewById(R.id.txt_kcalcount);
+        TextView lblText = (TextView) getView().findViewById(R.id.txt_kcal);
+
+        if(detailsEnabled){
+            lblCount.setVisibility(View.INVISIBLE);
+            lblText.setVisibility(View.INVISIBLE);
+        }
+        else{
+            lblCount.setVisibility(View.VISIBLE);
+            lblText.setVisibility(View.VISIBLE);
+        }
     }
 }
