@@ -84,7 +84,7 @@ public class GalleryActivity extends AppCompatActivity implements
                 viewPager = (ViewPager)findViewById(R.id.gallery_view_pager);
                 viewPager.setAdapter(galleryPagerAdapter);
             }
-        }, 7000);
+        }, 3000);
     }
 
     public void saveImageManager(FoodItemManager imageManager, String filename){
