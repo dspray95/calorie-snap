@@ -16,7 +16,9 @@
 
 package uk.ac.yorksj.spray.david.caloriesnap.activity;
 
+import android.graphics.Color;
 import android.os.Bundle;
+import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
@@ -31,10 +33,14 @@ public class CameraActivity extends AppCompatActivity {
         setContentView(R.layout.activity_camera_screen);
         if (null == savedInstanceState) {
             getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.container, CameraFragment.newInstance())
+                    .replace(R.id.camera_container, CameraFragment.newInstance())
                     .commit();
         }
+        ConstraintLayout cameraContainer = (ConstraintLayout)findViewById(R.id.camera_container);
+//        cameraContainer.setBackground(null);
+        //cameraContainer.setBackgroundColor(Color.BLACK);
     }
+
 
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
