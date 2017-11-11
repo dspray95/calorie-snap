@@ -26,8 +26,8 @@ public class BitmapHandler {
             Matrix matrix = new Matrix();
             ByteArrayOutputStream out = new ByteArrayOutputStream();
             Bitmap bmp = Bitmap.createScaledBitmap(Bitmap.createBitmap(BitmapFactory.decodeFile(f.getAbsolutePath()),
-                    0, 0, iWidth, iHeight, matrix, true), iWidth/2, iHeight/2, false);
-            bmp.compress(Bitmap.CompressFormat.JPEG, 50, out);
+                    0, 0, iWidth, iHeight, matrix, true), iWidth, iHeight, false);
+            bmp.compress(Bitmap.CompressFormat.JPEG, 100, out);
             Bitmap compressed = BitmapFactory.decodeStream(new ByteArrayInputStream(out.toByteArray()));
             bmp.recycle();
             return compressed;
