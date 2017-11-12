@@ -2,7 +2,6 @@ package uk.ac.yorksj.spray.david.caloriesnap.activity.listener;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.MotionEventCompat;
@@ -24,6 +23,7 @@ public class NavigationListener implements View.OnTouchListener {
     private boolean swappingFragments;
     private float yEventStart = 0;
     private int threshhold = 5;
+    private int state = 0;
     private Class nextActivity;
     private Activity currentActivity;
 
@@ -61,7 +61,7 @@ public class NavigationListener implements View.OnTouchListener {
                         if(event.getY() > yEventStart + threshhold && newScreenDirection == 'd'){
                             changingScreen = true;
                             if(swappingFragments){
-                                changeFragments('d');
+                                toggleFragments('d');
                             }
                             else{
                                 changeScreen('d');
@@ -71,7 +71,7 @@ public class NavigationListener implements View.OnTouchListener {
                         else if(event.getY() < yEventStart - threshhold && newScreenDirection == 'u'){
                             changingScreen = true;
                             if(swappingFragments){
-                                changeFragments('u');
+                                toggleFragments('u');
                             }
                             else{
                                 changeScreen('u');
@@ -86,7 +86,39 @@ public class NavigationListener implements View.OnTouchListener {
             return true;
     }
 
-    public void changeFragments(char newScreenDirection){
+    public void toggleFragments(char newScreenDirection){
+
+        FragmentTransaction ft = fm.beginTransaction();
+
+        switch(newScreenDirection){
+            case('d'):
+                ft.setCustomAnimations(R.anim.slide_from_bottom, R.anim.slide_to_top);
+                this.newScreenDirection = 'u';
+            case('u'):
+                ft.setCustomAnimations(R.anim.slide_from_top, R.anim.slide_to_bottom);
+                this.newScreenDirection = 'd';
+        }
+
+        galleryFragment.toggleDetails();
+        furtherInfoFragment.setParentFragment(galleryFragment);
+
+        switch(state){
+            case(0):
+                ft.add(R.id.gallery_layout, furtherInfoFragment);
+                ft.remove(furtherInfoFragment);
+                state = 1;
+                break;
+            case(1):
+                ft.add(R.id.gallery_layout, galleryFragment);
+                ft.remove(furtherInfoFragment);
+                state = 0;
+                break;
+        }
+        ft.commit();
+
+    }
+
+    public void cycleFragment(char newScreenDirection){
 
         FragmentTransaction ft = fm.beginTransaction();
 
@@ -101,10 +133,16 @@ public class NavigationListener implements View.OnTouchListener {
             galleryFragment.toggleDetails();
         }
 
-        ft.add(R.id.gallery_layout, furtherInfoFragment);
+        switch(state){
+            case(1):
+                ft.add(R.id.gallery_layout, furtherInfoFragment);
+            case(2):
+                ft.remove(furtherInfoFragment);
+        }
         ft.commit();
 
     }
+
 
     public void changeScreen(char newScreenDirection){
         new Intent();

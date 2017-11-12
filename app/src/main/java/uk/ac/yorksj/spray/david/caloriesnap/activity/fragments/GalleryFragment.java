@@ -39,6 +39,7 @@ public class GalleryFragment extends Fragment {
     private Bitmap bitmap;
     private OnFragmentInteractionListener mListener;
     private boolean detailsEnabled = true;
+    private NavigationListener navigationListener;
 
     public GalleryFragment() {
         // Required empty public constructor
@@ -100,7 +101,8 @@ public class GalleryFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         TextView lblKcalCount = (TextView) getView().findViewById(R.id.txt_kcalcount);
         lblKcalCount.setText(Integer.toString(foodItem.getKcalCount()));
-        view.setOnTouchListener(new NavigationListener('d', this, FurtherInfoFragment.newInstance(foodItem.getKcalCount()), getFragmentManager()));
+        this.navigationListener = new NavigationListener('d', this, FurtherInfoFragment.newInstance(foodItem.getKcalCount()), getFragmentManager());
+        view.setOnTouchListener(this.navigationListener);
         setBackgroundImage();
     }
 
@@ -145,5 +147,9 @@ public class GalleryFragment extends Fragment {
             lblCount.setVisibility(View.VISIBLE);
             lblText.setVisibility(View.VISIBLE);
         }
+    }
+
+    public NavigationListener getNavigationListener(){
+        return this.navigationListener;
     }
 }

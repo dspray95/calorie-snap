@@ -3,11 +3,13 @@ package uk.ac.yorksj.spray.david.caloriesnap.activity.fragments;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.github.mikephil.charting.charts.PieChart;
@@ -20,6 +22,7 @@ import com.github.mikephil.charting.formatter.PercentFormatter;
 import java.util.ArrayList;
 
 import uk.ac.yorksj.spray.david.caloriesnap.R;
+import uk.ac.yorksj.spray.david.caloriesnap.activity.listener.NavigationListener;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -41,6 +44,7 @@ public class FurtherInfoFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private PieChart mPieChart;
     private int calorieValue;
+    private GalleryFragment parent;
 
     public FurtherInfoFragment() {
         // Required empty public constructor
@@ -73,7 +77,7 @@ public class FurtherInfoFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        FrameLayout layout = (FrameLayout) inflater.inflate(R.layout.fragment_further_info, container, false);
+        ConstraintLayout layout = (ConstraintLayout) inflater.inflate(R.layout.fragment_further_info, container, false);
 
         mPieChart = (PieChart) layout.findViewById(R.id.pie_chart);
         mPieChart.setUsePercentValues(true);
@@ -99,9 +103,15 @@ public class FurtherInfoFragment extends Fragment {
         mPieChart.setRotationEnabled(false);
         mPieChart.setData(pieData);
 
+        ImageView swipeHolder = (ImageView) layout.findViewById(R.id.swipe_holder);
+        swipeHolder.setOnTouchListener(parent.getNavigationListener());
+
         return layout;
     }
 
+    public void setParentFragment(GalleryFragment parent){
+        this.parent = parent;
+    }
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
