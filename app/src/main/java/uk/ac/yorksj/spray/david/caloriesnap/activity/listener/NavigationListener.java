@@ -20,34 +20,18 @@ public class NavigationListener implements View.OnTouchListener {
 
     private char newScreenDirection;
     private boolean changingScreen = false;
-    private boolean swappingFragments;
     private float yEventStart = 0;
     private int threshhold = 5;
-    private int state = 0;
     private Class nextActivity;
     private Activity currentActivity;
 
-    private FurtherInfoFragment furtherInfoFragment;
-    private GalleryFragment galleryFragment;
-    private FragmentManager fm;
-
-
-    public NavigationListener(char newScreenDirection, GalleryFragment startFragment, FurtherInfoFragment endFragment, FragmentManager fm){
-        this.newScreenDirection = newScreenDirection;
-        this.galleryFragment = startFragment;
-        this.fm = fm;
-        this.furtherInfoFragment = endFragment;
-        this.swappingFragments = true;
-    }
+    public NavigationListener(){}
 
     public NavigationListener(char newScreenDirection, Activity context, Class nextActivity){
         this.newScreenDirection = newScreenDirection;
         this.currentActivity = context;
         this.nextActivity = nextActivity;
-        this.swappingFragments = false;
     }
-
-
 
     @Override
     public boolean onTouch(View v, MotionEvent event) {
@@ -59,24 +43,10 @@ public class NavigationListener implements View.OnTouchListener {
                 case (MotionEvent.ACTION_MOVE):
                     if(!changingScreen){
                         if(event.getY() > yEventStart + threshhold && newScreenDirection == 'd'){
-                            changingScreen = true;
-                            if(swappingFragments){
-                                toggleFragments('d');
-                            }
-                            else{
-                                changeScreen('d');
-                            }
-                            return true;
+                            changeScreen('d');
                         }
                         else if(event.getY() < yEventStart - threshhold && newScreenDirection == 'u'){
-                            changingScreen = true;
-                            if(swappingFragments){
-                                toggleFragments('u');
-                            }
-                            else{
-                                changeScreen('u');
-                            }
-                            return true;
+                            changeScreen('u');
                         }
                     }
                     return true;
@@ -85,64 +55,6 @@ public class NavigationListener implements View.OnTouchListener {
             }
             return true;
     }
-
-    public void toggleFragments(char newScreenDirection){
-
-        FragmentTransaction ft = fm.beginTransaction();
-
-        switch(newScreenDirection){
-            case('d'):
-                ft.setCustomAnimations(R.anim.slide_from_bottom, R.anim.slide_to_top);
-                this.newScreenDirection = 'u';
-            case('u'):
-                ft.setCustomAnimations(R.anim.slide_from_top, R.anim.slide_to_bottom);
-                this.newScreenDirection = 'd';
-        }
-
-        galleryFragment.toggleDetails();
-        furtherInfoFragment.setParentFragment(galleryFragment);
-
-        switch(state){
-            case(0):
-                ft.add(R.id.gallery_layout, furtherInfoFragment);
-                ft.remove(furtherInfoFragment);
-                state = 1;
-                break;
-            case(1):
-                ft.add(R.id.gallery_layout, galleryFragment);
-                ft.remove(furtherInfoFragment);
-                state = 0;
-                break;
-        }
-        ft.commit();
-
-    }
-
-    public void cycleFragment(char newScreenDirection){
-
-        FragmentTransaction ft = fm.beginTransaction();
-
-        switch(newScreenDirection){
-            case('d'):
-                ft.setCustomAnimations(R.anim.slide_from_bottom, R.anim.slide_to_top);
-            case('u'):
-                ft.setCustomAnimations(R.anim.slide_from_top, R.anim.slide_to_bottom);
-        }
-
-        if(furtherInfoFragment.getClass() == FurtherInfoFragment.class){
-            galleryFragment.toggleDetails();
-        }
-
-        switch(state){
-            case(1):
-                ft.add(R.id.gallery_layout, furtherInfoFragment);
-            case(2):
-                ft.remove(furtherInfoFragment);
-        }
-        ft.commit();
-
-    }
-
 
     public void changeScreen(char newScreenDirection){
         new Intent();

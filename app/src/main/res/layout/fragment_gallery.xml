@@ -8,17 +8,6 @@
 
     <!-- TODO: Update blank fragment layout -->
 
-    <android.support.v4.view.ViewPager
-        android:id="@+id/further_info_view_pager"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/colorPrimary"
-        android:visibility="visible"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"></android.support.v4.view.ViewPager>
-
     <ImageView
         android:id="@+id/img_gallery_background"
         android:layout_width="match_parent"
@@ -93,5 +82,15 @@
             android:layout_marginEnd="8dp" />
 
     </android.support.constraint.ConstraintLayout>
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/further_info_view_pager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"></android.support.v4.view.ViewPager>
 
 </FrameLayout>

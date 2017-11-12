@@ -18,6 +18,7 @@ import org.w3c.dom.Text;
 
 import uk.ac.yorksj.spray.david.caloriesnap.FoodItem;
 import uk.ac.yorksj.spray.david.caloriesnap.R;
+import uk.ac.yorksj.spray.david.caloriesnap.activity.listener.GalleryFragmentListener;
 import uk.ac.yorksj.spray.david.caloriesnap.activity.listener.NavigationListener;
 
 /**
@@ -39,7 +40,7 @@ public class GalleryFragment extends Fragment {
     private Bitmap bitmap;
     private OnFragmentInteractionListener mListener;
     private boolean detailsEnabled = true;
-    private NavigationListener navigationListener;
+    private GalleryFragmentListener swipeListener;
 
     public GalleryFragment() {
         // Required empty public constructor
@@ -101,8 +102,8 @@ public class GalleryFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         TextView lblKcalCount = (TextView) getView().findViewById(R.id.txt_kcalcount);
         lblKcalCount.setText(Integer.toString(foodItem.getKcalCount()));
-        this.navigationListener = new NavigationListener('d', this, FurtherInfoFragment.newInstance(foodItem.getKcalCount()), getFragmentManager());
-        view.setOnTouchListener(this.navigationListener);
+        this.swipeListener = new GalleryFragmentListener(getFragmentManager(), this, foodItem.getKcalCount(), 'd');
+        view.setOnTouchListener(this.swipeListener);
         setBackgroundImage();
     }
 
@@ -149,7 +150,7 @@ public class GalleryFragment extends Fragment {
         }
     }
 
-    public NavigationListener getNavigationListener(){
-        return this.navigationListener;
+    public GalleryFragmentListener getNavigationListener(){
+        return this.swipeListener;
     }
 }

@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.data.DataSet;
@@ -79,7 +80,14 @@ public class FurtherInfoFragment extends Fragment {
         // Inflate the layout for this fragment
         ConstraintLayout layout = (ConstraintLayout) inflater.inflate(R.layout.fragment_further_info, container, false);
 
-        mPieChart = (PieChart) layout.findViewById(R.id.pie_chart);
+        return layout;
+    }
+
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        mPieChart = (PieChart) view.findViewById(R.id.pie_chart);
         mPieChart.setUsePercentValues(true);
 
         float percentageOfRdaMale = calorieValue/RDA_MALE;
@@ -87,26 +95,21 @@ public class FurtherInfoFragment extends Fragment {
         float restOfRda = 1 - (percentageOfRdaFemale + percentageOfRdaMale);
 
         ArrayList<Entry> pieChartYvalues = new ArrayList<>();
-            pieChartYvalues.add(new Entry(percentageOfRdaFemale, 0));
-            pieChartYvalues.add(new Entry(percentageOfRdaMale, 1));
-            pieChartYvalues.add(new Entry(restOfRda, 2));
+        pieChartYvalues.add(new Entry(percentageOfRdaFemale, 0));
+        pieChartYvalues.add(new Entry(percentageOfRdaMale, 1));
+        pieChartYvalues.add(new Entry(restOfRda, 2));
 
         PieDataSet pieChartDataSet = new PieDataSet(pieChartYvalues, "RDA percentage"); //TODO @+String resource
 
         ArrayList<String> pieChartKey = new ArrayList<>();
-            pieChartKey.add("MALE"); //TODO @+String resource
-            pieChartKey.add("FEMALE"); //TODO @+String resource
-            pieChartKey.add("% RDA"); //TODO @+String resource
+        pieChartKey.add("MALE"); //TODO @+String resource
+        pieChartKey.add("FEMALE"); //TODO @+String resource
+        pieChartKey.add("% RDA"); //TODO @+String resource
         PieData pieData = new PieData(pieChartKey, pieChartDataSet);
 
         pieData.setValueFormatter(new PercentFormatter());
         mPieChart.setRotationEnabled(false);
         mPieChart.setData(pieData);
-
-        ImageView swipeHolder = (ImageView) layout.findViewById(R.id.swipe_holder);
-        swipeHolder.setOnTouchListener(parent.getNavigationListener());
-
-        return layout;
     }
 
     public void setParentFragment(GalleryFragment parent){
