@@ -23,7 +23,6 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
@@ -33,7 +32,6 @@ import android.graphics.Matrix;
 import android.graphics.Point;
 import android.graphics.RectF;
 import android.graphics.SurfaceTexture;
-import android.hardware.Camera;
 import android.hardware.camera2.CameraAccessException;
 import android.hardware.camera2.CameraCaptureSession;
 import android.hardware.camera2.CameraCharacteristics;
@@ -70,7 +68,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
@@ -81,9 +78,8 @@ import java.util.concurrent.TimeUnit;
 
 import uk.ac.yorksj.spray.david.caloriesnap.R;
 import uk.ac.yorksj.spray.david.caloriesnap.activity.GalleryActivity;
+import uk.ac.yorksj.spray.david.caloriesnap.activity.listener.NavigationListener;
 import uk.ac.yorksj.spray.david.caloriesnap.activity.view.AutoFitTextureView;
-
-import static android.content.Context.MODE_PRIVATE;
 
 public class CameraFragment extends Fragment
         implements View.OnClickListener, ActivityCompat.OnRequestPermissionsResultCallback {
@@ -448,7 +444,8 @@ public class CameraFragment extends Fragment
     @Override
     public void onViewCreated(final View view, Bundle savedInstanceState) {
         view.findViewById(R.id.button_capture).setOnClickListener(this);
-        mTextureView = (AutoFitTextureView) view.findViewById(R.id.texture);
+        view.findViewById(R.id.texture_view).setOnTouchListener(new NavigationListener('d', this.getActivity(), GalleryActivity.class));
+        mTextureView = (AutoFitTextureView) view.findViewById(R.id.texture_view);
     }
 
     @Override

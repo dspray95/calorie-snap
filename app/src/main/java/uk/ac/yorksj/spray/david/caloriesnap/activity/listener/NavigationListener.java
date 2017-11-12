@@ -23,7 +23,7 @@ public class NavigationListener implements View.OnTouchListener {
     private boolean changingScreen = false;
     private boolean swappingFragments;
     private float yEventStart = 0;
-    private int threshhold = 2;
+    private int threshhold = 5;
     private Class nextActivity;
     private Activity currentActivity;
 
@@ -58,23 +58,23 @@ public class NavigationListener implements View.OnTouchListener {
                     break;
                 case (MotionEvent.ACTION_MOVE):
                     if(!changingScreen){
-                        if(event.getY() > yEventStart + threshhold && newScreenDirection == 'u'){
-                            changingScreen = true;
-                            if(swappingFragments){
-                                changeFragments('u');
-                            }
-                            else{
-                                changeScreen('u');
-                            }
-                            return true;
-                        }
-                        else if(event.getY() < yEventStart - threshhold && newScreenDirection == 'd'){
+                        if(event.getY() > yEventStart + threshhold && newScreenDirection == 'd'){
                             changingScreen = true;
                             if(swappingFragments){
                                 changeFragments('d');
                             }
                             else{
                                 changeScreen('d');
+                            }
+                            return true;
+                        }
+                        else if(event.getY() < yEventStart - threshhold && newScreenDirection == 'u'){
+                            changingScreen = true;
+                            if(swappingFragments){
+                                changeFragments('u');
+                            }
+                            else{
+                                changeScreen('u');
                             }
                             return true;
                         }
@@ -91,10 +91,10 @@ public class NavigationListener implements View.OnTouchListener {
         FragmentTransaction ft = fm.beginTransaction();
 
         switch(newScreenDirection){
-            case('u'):
-                ft.setCustomAnimations(R.anim.slide_from_top, R.anim.slide_to_bottom);
             case('d'):
                 ft.setCustomAnimations(R.anim.slide_from_bottom, R.anim.slide_to_top);
+            case('u'):
+                ft.setCustomAnimations(R.anim.slide_from_top, R.anim.slide_to_bottom);
         }
 
         if(furtherInfoFragment.getClass() == FurtherInfoFragment.class){
@@ -112,10 +112,10 @@ public class NavigationListener implements View.OnTouchListener {
         currentActivity.startActivity(mIntent);
 
         switch(newScreenDirection){
-            case('u'):
+            case('d'):
                 currentActivity.overridePendingTransition(R.anim.slide_from_top, R.anim.slide_to_bottom);
                 break;
-            case('d'):
+            case('u'):
                 currentActivity.overridePendingTransition(R.anim.slide_from_bottom, R.anim.slide_to_top);
                 break;
         }
