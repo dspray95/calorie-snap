@@ -102,7 +102,8 @@ public class GalleryFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         TextView lblKcalCount = (TextView) getView().findViewById(R.id.txt_kcalcount);
         lblKcalCount.setText(Integer.toString(foodItem.getKcalCount()));
-        this.swipeListener = new GalleryFragmentListener(getFragmentManager(), this, foodItem.getKcalCount(), 'd');
+        this.swipeListener = new GalleryFragmentListener(getChildFragmentManager(), this, foodItem.getKcalCount(),
+                'd', foodItem.getImagePath());
         view.setOnTouchListener(this.swipeListener);
         setBackgroundImage();
     }
