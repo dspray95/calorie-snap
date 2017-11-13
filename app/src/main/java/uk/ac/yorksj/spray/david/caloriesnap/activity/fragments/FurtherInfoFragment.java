@@ -14,11 +14,13 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.PieChart;
+import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.data.DataSet;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.formatter.PercentFormatter;
+import com.github.mikephil.charting.utils.ColorTemplate;
 
 import java.util.ArrayList;
 
@@ -99,17 +101,24 @@ public class FurtherInfoFragment extends Fragment {
         pieChartYvalues.add(new Entry(percentageOfRdaMale, 1));
         pieChartYvalues.add(new Entry(restOfRda, 2));
 
-        PieDataSet pieChartDataSet = new PieDataSet(pieChartYvalues, "RDA percentage"); //TODO @+String resource
+        PieDataSet pieChartDataSet = new PieDataSet(pieChartYvalues, "");
+        pieChartDataSet.setColors(ColorTemplate.JOYFUL_COLORS);
 
         ArrayList<String> pieChartKey = new ArrayList<>();
-        pieChartKey.add("MALE"); //TODO @+String resource
-        pieChartKey.add("FEMALE"); //TODO @+String resource
-        pieChartKey.add("% RDA"); //TODO @+String resource
+        pieChartKey.add(getResources().getString(R.string.male));
+        pieChartKey.add(getResources().getString(R.string.female));
+        pieChartKey.add(getResources().getString(R.string.rda_percentage));
         PieData pieData = new PieData(pieChartKey, pieChartDataSet);
 
         pieData.setValueFormatter(new PercentFormatter());
         mPieChart.setRotationEnabled(false);
+        mPieChart.setDrawHoleEnabled(true);
+        mPieChart.setTransparentCircleRadius(60f);
+        mPieChart.setHoleRadius(20f);
         mPieChart.setData(pieData);
+        mPieChart.getLegend().setPosition(Legend.LegendPosition.ABOVE_CHART_RIGHT);
+        mPieChart.setDescription("");
+        mPieChart.setCenterText(getResources().getString(R.string.rda_percentage));
     }
 
     public void setParentFragment(GalleryFragment parent){
