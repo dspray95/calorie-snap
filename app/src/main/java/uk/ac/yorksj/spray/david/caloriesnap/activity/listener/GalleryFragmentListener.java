@@ -68,6 +68,7 @@ public class GalleryFragmentListener implements View.OnTouchListener{
                 Log.d(TAG, "Removing further info fragment");
                 break;
         }
+        parentGalleryFragment.toggleDetails();
         ft.commit();
         fm.executePendingTransactions();
 

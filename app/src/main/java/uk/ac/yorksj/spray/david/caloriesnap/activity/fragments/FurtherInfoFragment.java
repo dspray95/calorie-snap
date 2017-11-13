@@ -1,6 +1,7 @@
 package uk.ac.yorksj.spray.david.caloriesnap.activity.fragments;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
@@ -102,8 +103,9 @@ public class FurtherInfoFragment extends Fragment {
         pieChartYvalues.add(new Entry(restOfRda, 2));
 
         PieDataSet pieChartDataSet = new PieDataSet(pieChartYvalues, "");
-        pieChartDataSet.setColors(ColorTemplate.JOYFUL_COLORS);
-
+        pieChartDataSet.setColors(ColorTemplate.COLORFUL_COLORS); //TODO Custom colours
+        pieChartDataSet.setValueTextColor(getResources().getColor(R.color.activeTextColor));
+        pieChartDataSet.setValueTextSize(14f);
         ArrayList<String> pieChartKey = new ArrayList<>();
         pieChartKey.add(getResources().getString(R.string.male));
         pieChartKey.add(getResources().getString(R.string.female));
@@ -111,14 +113,23 @@ public class FurtherInfoFragment extends Fragment {
         PieData pieData = new PieData(pieChartKey, pieChartDataSet);
 
         pieData.setValueFormatter(new PercentFormatter());
+        mPieChart.setData(pieData);
+        //Customise chart
         mPieChart.setRotationEnabled(false);
         mPieChart.setDrawHoleEnabled(true);
         mPieChart.setTransparentCircleRadius(60f);
-        mPieChart.setHoleRadius(20f);
-        mPieChart.setData(pieData);
-        mPieChart.getLegend().setPosition(Legend.LegendPosition.ABOVE_CHART_RIGHT);
+        mPieChart.setHoleRadius(55f);
+        mPieChart.setHoleColor(Color.TRANSPARENT);
         mPieChart.setDescription("");
         mPieChart.setCenterText(getResources().getString(R.string.rda_percentage));
+        mPieChart.setCenterTextSize(16f);
+        mPieChart.setCenterTextColor(getResources().getColor(R.color.activeTextColor));
+
+        //Make legend adjustments
+        Legend pieChartLegend = mPieChart.getLegend();
+        pieChartLegend.setPosition(Legend.LegendPosition.BELOW_CHART_RIGHT);
+        pieChartLegend.setTextColor(getResources().getColor(R.color.activeTextColor));
+        pieChartLegend.setTextSize(16f);
     }
 
     public void setParentFragment(GalleryFragment parent){
