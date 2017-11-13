@@ -38,8 +38,8 @@ public class FurtherInfoFragment extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
 
     private static final String ARG_PARAM1 = "CALORIE_VALUE";
-    private static final int RDA_MALE = 2500;
-    private static final int RDA_FEMALE = 2000;
+    private float RDA_MALE = 2500.0f;
+    private float RDA_FEMALE = 2000.0f; //Needs to be float for coversion to percentage on pie chart
 
     private OnFragmentInteractionListener mListener;
     // TODO: Rename and change types of parameters
