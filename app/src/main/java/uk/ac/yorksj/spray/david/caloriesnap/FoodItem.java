@@ -1,5 +1,7 @@
 package uk.ac.yorksj.spray.david.caloriesnap;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -30,6 +32,15 @@ public class FoodItem implements Serializable, Parcelable{
 
     public int getKcalCount(){
         return this.kcalCount;
+    }
+
+    public void writeKCalTotal(SharedPreferences prefs){
+        String TOTAL_KCAL = "TOTAL_KCAL";
+        int val = prefs.getInt(TOTAL_KCAL, Context.MODE_PRIVATE);
+        val += this.kcalCount;
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putInt(TOTAL_KCAL, val);
+        editor.commit();
     }
 
     public String getImagePath(){

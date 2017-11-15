@@ -19,14 +19,8 @@
         tools:layout_editor_absoluteX="8dp"
         tools:layout_editor_absoluteY="8dp" />
 
-    <View
-        android:id="@+id/further_info_view"
-        android:layout_width="match_parent"
-        android:layout_height="100dp"
-        tools:layout_editor_absoluteX="8dp"
-        tools:layout_editor_absoluteY="0dp" />
-
     <android.support.constraint.ConstraintLayout
+        android:id="@+id/details"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginBottom="8dp"
@@ -44,6 +38,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_column="1"
+            android:layout_marginTop="200dp"
             android:layout_row="4"
             android:layout_weight="0.11"
             android:text="785"
@@ -52,8 +47,7 @@
             app:layout_constraintHorizontal_bias="0.449"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:layout_marginTop="200dp" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/txt_kcal"
@@ -61,25 +55,25 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="4dp"
             android:layout_marginStart="4dp"
+            android:layout_marginTop="32dp"
             android:text="@string/txt_kcal"
             android:textSize="24sp"
             app:layout_constraintLeft_toRightOf="@+id/txt_kcalcount"
-            app:layout_constraintTop_toTopOf="@+id/txt_kcalcount"
-            android:layout_marginTop="32dp" />
+            app:layout_constraintTop_toTopOf="@+id/txt_kcalcount" />
 
         <ImageView
             android:id="@+id/imageView"
             android:layout_width="50dp"
             android:layout_height="30dp"
+            android:layout_marginEnd="8dp"
             android:layout_marginLeft="8dp"
             android:layout_marginRight="8dp"
+            android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@android:drawable/arrow_down_float"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp" />
+            app:srcCompat="@android:drawable/arrow_down_float" />
 
     </android.support.constraint.ConstraintLayout>
 

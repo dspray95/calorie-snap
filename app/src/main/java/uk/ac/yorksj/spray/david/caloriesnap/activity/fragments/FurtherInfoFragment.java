@@ -1,6 +1,7 @@
 package uk.ac.yorksj.spray.david.caloriesnap.activity.fragments;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
@@ -22,6 +23,8 @@ import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.formatter.PercentFormatter;
 import com.github.mikephil.charting.utils.ColorTemplate;
+
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 
@@ -109,7 +112,7 @@ public class FurtherInfoFragment extends Fragment {
         ArrayList<String> pieChartKey = new ArrayList<>();
         pieChartKey.add(getResources().getString(R.string.male));
         pieChartKey.add(getResources().getString(R.string.female));
-        pieChartKey.add(getResources().getString(R.string.rda_percentage));
+        pieChartKey.add("");
         PieData pieData = new PieData(pieChartKey, pieChartDataSet);
 
         pieData.setValueFormatter(new PercentFormatter());
@@ -130,6 +133,10 @@ public class FurtherInfoFragment extends Fragment {
         pieChartLegend.setPosition(Legend.LegendPosition.BELOW_CHART_RIGHT);
         pieChartLegend.setTextColor(getResources().getColor(R.color.activeTextColor));
         pieChartLegend.setTextSize(16f);
+
+        TextView totalKcalCount = (TextView) getView().findViewById(R.id.fi_kcal_count);
+        SharedPreferences prefs = getActivity().getSharedPreferences("TOTAL_KCAL", Context.MODE_PRIVATE);
+        totalKcalCount.setText(prefs.getInt("TOTAL_KCAL", Context.MODE_APPEND));
     }
 
     public void setParentFragment(GalleryFragment parent){

@@ -5,6 +5,7 @@ import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.ViewDragHelper;
 import android.util.Log;
@@ -141,13 +142,18 @@ public class GalleryFragment extends Fragment {
         TextView lblCount = (TextView) getView().findViewById(R.id.txt_kcalcount);
         TextView lblText = (TextView) getView().findViewById(R.id.txt_kcal);
 
+        ConstraintLayout detailsLayout = (ConstraintLayout) getView().findViewById(R.id.details);
         if(detailsEnabled){
-            lblCount.setVisibility(View.INVISIBLE);
-            lblText.setVisibility(View.INVISIBLE);
+            detailsLayout.setVisibility(View.INVISIBLE);
+//            lblCount.setVisibility(View.INVISIBLE);
+//            lblText.setVisibility(View.INVISIBLE);
+            detailsEnabled = false;
         }
         else{
-            lblCount.setVisibility(View.VISIBLE);
-            lblText.setVisibility(View.VISIBLE);
+            detailsLayout.setVisibility(View.VISIBLE);
+//            lblCount.setVisibility(View.VISIBLE);
+//            lblText.setVisibility(View.VISIBLE);
+            detailsEnabled = true;
         }
     }
 

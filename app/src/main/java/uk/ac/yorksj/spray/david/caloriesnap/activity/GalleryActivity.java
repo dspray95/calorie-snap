@@ -47,12 +47,12 @@ public class GalleryActivity extends AppCompatActivity implements
         if(imageManagerFile.exists()) {
                 imageManager = loadImageManager(imageManagerFilename);
                 if(null == imageManager){ //if loading fails, make a new manager
-                    imageManager = new FoodItemManager();
+                    imageManager = new FoodItemManager(getSharedPreferences("TOTAL_KCAL", Context.MODE_PRIVATE));
                     saveImageManager(imageManager, imageManagerFilename);
                 }
         }
         else{
-            imageManager = new FoodItemManager();
+            imageManager = new FoodItemManager(getSharedPreferences("TOTAL_KCAL", Context.MODE_PRIVATE));
             saveImageManager(imageManager, imageManagerFilename);
             SharedPreferences sharedPref = getSharedPreferences("ITEM_MANAGER", Context.MODE_PRIVATE);
             SharedPreferences.Editor editor = sharedPref.edit();
