@@ -14,14 +14,16 @@ public class FoodItemManager implements Serializable{
 
     protected FoodItem[] images;
     private SharedPreferences prefs;
+    private String totalKcalTag;
 
-    public FoodItemManager(SharedPreferences prefs){
+    public FoodItemManager(SharedPreferences prefs, String totalKcalTag){
         this.prefs = prefs;
+        this.totalKcalTag = totalKcalTag;
         this.images = new FoodItem[5];
     }
 
     public void addFoodItem(FoodItem img){
-        img.writeKCalTotal(prefs);
+        img.writeKCalTotal(prefs, totalKcalTag);
         if(checkFoodItemsFull()){
             images = removeFoodItem(images);    //delete the oldest item
             for(int i = 1; i<images.length; i++){  //Bump newer items down one to add new to the end

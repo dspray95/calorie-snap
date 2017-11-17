@@ -44,15 +44,16 @@ public class GalleryActivity extends AppCompatActivity implements
         imageManagerFilename = getExternalFilesDir(null) + "/item.manager";
         File imageManagerFile = new File(imageManagerFilename);
         //We need an image manager if we dont have one.
+        String TAG = getResources().getString(R.string.tag_total_kcal);
         if(imageManagerFile.exists()) {
                 imageManager = loadImageManager(imageManagerFilename);
                 if(null == imageManager){ //if loading fails, make a new manager
-                    imageManager = new FoodItemManager(getSharedPreferences("TOTAL_KCAL", Context.MODE_PRIVATE));
+                    imageManager = new FoodItemManager(getSharedPreferences(TAG, Context.MODE_PRIVATE), TAG);
                     saveImageManager(imageManager, imageManagerFilename);
                 }
         }
         else{
-            imageManager = new FoodItemManager(getSharedPreferences("TOTAL_KCAL", Context.MODE_PRIVATE));
+            imageManager = new FoodItemManager(getSharedPreferences(TAG, Context.MODE_PRIVATE), TAG);
             saveImageManager(imageManager, imageManagerFilename);
             SharedPreferences sharedPref = getSharedPreferences("ITEM_MANAGER", Context.MODE_PRIVATE);
             SharedPreferences.Editor editor = sharedPref.edit();

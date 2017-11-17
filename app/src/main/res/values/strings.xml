@@ -17,4 +17,7 @@
         <string name="female">female</string>
 
         <string name="total_kcal">Total kCal Counted</string>
+
+    <!-- Shared prefs -->
+    <string name="tag_total_kcal">TOTAL_KCAL</string>
 </resources>

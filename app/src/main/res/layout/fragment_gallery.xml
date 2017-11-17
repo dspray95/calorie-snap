@@ -43,6 +43,7 @@
             android:layout_weight="0.11"
             android:text="785"
             android:textAlignment="center"
+            android:textColor="@color/activeTextColor"
             android:textSize="60sp"
             app:layout_constraintHorizontal_bias="0.449"
             app:layout_constraintLeft_toLeftOf="parent"
@@ -57,6 +58,7 @@
             android:layout_marginStart="4dp"
             android:layout_marginTop="32dp"
             android:text="@string/txt_kcal"
+            android:textColor="@color/activeTextColor"
             android:textSize="24sp"
             app:layout_constraintLeft_toRightOf="@+id/txt_kcalcount"
             app:layout_constraintTop_toTopOf="@+id/txt_kcalcount" />

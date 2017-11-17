@@ -135,8 +135,8 @@ public class FurtherInfoFragment extends Fragment {
         pieChartLegend.setTextSize(16f);
 
         TextView totalKcalCount = (TextView) getView().findViewById(R.id.fi_kcal_count);
-        SharedPreferences prefs = getActivity().getSharedPreferences("TOTAL_KCAL", Context.MODE_PRIVATE);
-        totalKcalCount.setText(prefs.getInt("TOTAL_KCAL", Context.MODE_APPEND));
+        SharedPreferences prefs = getActivity().getSharedPreferences(getResources().getString(R.string.tag_total_kcal), Context.MODE_PRIVATE);
+        totalKcalCount.setText(Integer.toString(prefs.getInt(getResources().getString(R.string.tag_total_kcal), Context.MODE_PRIVATE)));
     }
 
     public void setParentFragment(GalleryFragment parent){
