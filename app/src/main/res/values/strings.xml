@@ -9,15 +9,24 @@
 
     <string name="txt_kcal">kCal</string>
     <!-- further info screen-->
-        <!-- pie chart labels-->
-        <string name="lbl_pie_chart">Pie Chart</string>
-        <string name="rda_percentage">%RDA</string>
-        <string name="remaining">remaining</string>
-        <string name="male">male</string>
-        <string name="female">female</string>
+    <!-- pie chart labels-->
+    <string name="lbl_pie_chart">Pie Chart</string>
+    <string name="rda_percentage">%RDA</string>
+    <string name="remaining">remaining</string>
+    <string name="male">male</string>
+    <string name="female">female</string>
 
-        <string name="total_kcal">Total kCal Counted</string>
+    <string name="total_kcal">Total kCal Counted</string>
 
     <!-- Shared prefs -->
     <string name="tag_total_kcal">TOTAL_KCAL</string>
+
+    <!-- Preferences -->
+    <string name="prefs_title">Preferences</string>
+    <string name="prefs_high_constrast">High Contrast</string>
+    <string name="prefs_auto_text_to_speech">Auto Text-To-Speech</string>
+    <string name="prefs_language">Language</string>
+        <string name="lang_eng">English</string>
+        <string name="lang_fra">French</string>
+        <string name="lang_ger">German</string>
 </resources>
