@@ -3,8 +3,6 @@ package uk.ac.yorksj.spray.david.caloriesnap;
 import android.content.SharedPreferences;
 
 import java.io.Serializable;
-import java.lang.reflect.Array;
-import java.util.ArrayList;
 
 /**
  * Created by david on 31/10/17.
@@ -13,17 +11,16 @@ import java.util.ArrayList;
 public class FoodItemManager implements Serializable{
 
     protected FoodItem[] images;
-    private SharedPreferences prefs;
-    private String totalKcalTag;
+//    private SharedPreferences prefs;
+    private String TAG_TOTAL_KCAL;
 
-    public FoodItemManager(SharedPreferences prefs, String totalKcalTag){
-        this.prefs = prefs;
-        this.totalKcalTag = totalKcalTag;
+    public FoodItemManager(String totalKcalTag){
+        this.TAG_TOTAL_KCAL = totalKcalTag;
         this.images = new FoodItem[5];
     }
 
-    public void addFoodItem(FoodItem img){
-        img.writeKCalTotal(prefs, totalKcalTag);
+    public void addFoodItem(FoodItem img, SharedPreferences prefs){
+        img.writeKCalTotal(prefs, TAG_TOTAL_KCAL);
         if(checkFoodItemsFull()){
             images = removeFoodItem(images);    //delete the oldest item
             for(int i = 1; i<images.length; i++){  //Bump newer items down one to add new to the end

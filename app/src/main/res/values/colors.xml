@@ -10,4 +10,8 @@
     <color name="text_title">#3f51b5</color>
 
     <color name="furtherInfoBackground">#33000000</color>
+
+    <color name="pie_chart_male">#51c64f</color>
+    <color name="pie_chart_female">#5356b9</color>
+    <color name="pie_chart_remainder">#ffffff</color>
 </resources>

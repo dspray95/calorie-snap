@@ -44,16 +44,16 @@ public class GalleryActivity extends AppCompatActivity implements
         imageManagerFilename = getExternalFilesDir(null) + "/item.manager";
         File imageManagerFile = new File(imageManagerFilename);
         //We need an image manager if we dont have one.
-        String TAG = getResources().getString(R.string.tag_total_kcal);
+        String TAG_TOTAL_KCAL = getResources().getString(R.string.tag_total_kcal);
         if(imageManagerFile.exists()) {
                 imageManager = loadImageManager(imageManagerFilename);
                 if(null == imageManager){ //if loading fails, make a new manager
-                    imageManager = new FoodItemManager(getSharedPreferences(TAG, Context.MODE_PRIVATE), TAG);
+                    imageManager = new FoodItemManager(TAG_TOTAL_KCAL);
                     saveImageManager(imageManager, imageManagerFilename);
                 }
         }
         else{
-            imageManager = new FoodItemManager(getSharedPreferences(TAG, Context.MODE_PRIVATE), TAG);
+            imageManager = new FoodItemManager(TAG_TOTAL_KCAL);
             saveImageManager(imageManager, imageManagerFilename);
             SharedPreferences sharedPref = getSharedPreferences("ITEM_MANAGER", Context.MODE_PRIVATE);
             SharedPreferences.Editor editor = sharedPref.edit();
@@ -65,7 +65,7 @@ public class GalleryActivity extends AppCompatActivity implements
         if(getIntent().hasExtra("ADDING_ITEM")){
             Bundle extras = getIntent().getExtras();
             String filename = extras.getString("FILE");
-            imageManager.addFoodItem(new FoodItem(filename));
+            imageManager.addFoodItem(new FoodItem(filename), getSharedPreferences(TAG_TOTAL_KCAL, Context.MODE_PRIVATE));
             saveImageManager(imageManager, imageManagerFilename); //Make sure to save the new FoodItemManager
             Toast.makeText(this, filename, Toast.LENGTH_LONG).show();
         }

@@ -106,7 +106,12 @@ public class FurtherInfoFragment extends Fragment {
         pieChartYvalues.add(new Entry(restOfRda, 2));
 
         PieDataSet pieChartDataSet = new PieDataSet(pieChartYvalues, "");
-        pieChartDataSet.setColors(ColorTemplate.COLORFUL_COLORS); //TODO Custom colours
+
+        int [] colorsArray = new int[]{R.color.pie_chart_female,    //custom colour values
+                R.color.pie_chart_male,
+                R.color.pie_chart_remainder};
+        pieChartDataSet.setColors(ColorTemplate.createColors(getResources(), colorsArray));
+
         pieChartDataSet.setValueTextColor(getResources().getColor(R.color.activeTextColor));
         pieChartDataSet.setValueTextSize(14f);
         ArrayList<String> pieChartKey = new ArrayList<>();
@@ -129,10 +134,19 @@ public class FurtherInfoFragment extends Fragment {
         mPieChart.setCenterTextColor(getResources().getColor(R.color.activeTextColor));
 
         //Make legend adjustments
+        ArrayList<Integer> legendColors = new ArrayList<>();
+            legendColors.add(R.color.pie_chart_female);
+            legendColors.add(R.color.pie_chart_male);
+        ArrayList<String> legendStrings = new ArrayList<>();
+            legendStrings.add(getResources().getString(R.string.female));
+            legendStrings.add(getResources().getString(R.string.male));
+
         Legend pieChartLegend = mPieChart.getLegend();
         pieChartLegend.setPosition(Legend.LegendPosition.BELOW_CHART_RIGHT);
         pieChartLegend.setTextColor(getResources().getColor(R.color.activeTextColor));
         pieChartLegend.setTextSize(16f);
+        pieChartLegend.setCustom(legendColors, legendStrings);
+        mPieChart.notifyDataSetChanged();
 
         TextView totalKcalCount = (TextView) getView().findViewById(R.id.fi_kcal_count);
         SharedPreferences prefs = getActivity().getSharedPreferences(getResources().getString(R.string.tag_total_kcal), Context.MODE_PRIVATE);
