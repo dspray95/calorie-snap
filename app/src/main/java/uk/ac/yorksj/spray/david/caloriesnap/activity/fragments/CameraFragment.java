@@ -60,6 +60,7 @@ import android.view.Surface;
 import android.view.TextureView;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import java.io.ByteArrayOutputStream;
@@ -178,6 +179,11 @@ public class CameraFragment extends Fragment
      * An {@link AutoFitTextureView} for camera preview.
      */
     private AutoFitTextureView mTextureView;
+
+    /**
+     * An {@link ImageView} for feedback
+     */
+    private ImageView mFeedbackFlash;
 
     /**
      * A {@link CameraCaptureSession } for camera preview.
@@ -446,6 +452,7 @@ public class CameraFragment extends Fragment
         view.findViewById(R.id.button_capture).setOnClickListener(this);
         view.findViewById(R.id.texture_view).setOnTouchListener(new NavigationListener('d', this.getActivity(), GalleryActivity.class));
         mTextureView = (AutoFitTextureView) view.findViewById(R.id.texture_view);
+        mFeedbackFlash= (ImageView) view.findViewById(R.id.camera_screen_flash);
     }
 
     @Override
@@ -844,6 +851,7 @@ public class CameraFragment extends Fragment
             int rotation = activity.getWindowManager().getDefaultDisplay().getRotation();
             captureBuilder.set(CaptureRequest.JPEG_ORIENTATION, getOrientation(rotation));
 
+
             CameraCaptureSession.CaptureCallback CaptureCallback
                     = new CameraCaptureSession.CaptureCallback() {
 
@@ -908,7 +916,11 @@ public class CameraFragment extends Fragment
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.button_capture: {
+                mFeedbackFlash.setVisibility(View.VISIBLE);
+                mFeedbackFlash.setAlpha(1.0f); //Instantly set the alpha to 100%
                 takePicture();
+                mFeedbackFlash.animate().alpha(0.0f).setDuration(1500);   //Fade feedback back down to 0% (invisible)
+//                mFeedbackFlash.setVisibility(View.INVISIBLE);
                 break;
             }
         }
