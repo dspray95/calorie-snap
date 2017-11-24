@@ -5,7 +5,25 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/background"
-    tools:context="uk.ac.yorksj.spray.david.caloriesnap.activity.Settings">
+    tools:context="uk.ac.yorksj.spray.david.caloriesnap.activity.SettingsActivity">
+
+
+    <TextView
+        android:id="@+id/txt_title"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@color/textBright"
+        android:paddingBottom="5dp"
+        android:paddingLeft="25dp"
+        android:paddingTop="5dp"
+        android:text="@string/prefs_title"
+        android:textAlignment="textStart"
+        android:textColor="@color/text_title"
+        android:textSize="30sp"
+        app:layout_constraintHorizontal_bias="0.4"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <LinearLayout
         android:layout_width="0dp"
@@ -19,7 +37,8 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         android:layout_marginTop="16dp"
-        app:layout_constraintTop_toBottomOf="@+id/txt_title">
+        app:layout_constraintTop_toBottomOf="@+id/txt_title"
+        android:id="@+id/linearLayout2">
 
         <Switch
             android:id="@+id/switch_high_contrast"
@@ -50,21 +69,18 @@
             tools:layout_editor_absoluteY="138dp" />
     </LinearLayout>
 
-    <TextView
-        android:id="@+id/txt_title"
+    <ExpandableListView
+        android:id="@+id/list_languages"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:background="@color/textBright"
-        android:paddingBottom="5dp"
-        android:paddingLeft="25dp"
-        android:paddingTop="5dp"
-        android:text="@string/prefs_title"
-        android:textAlignment="textStart"
-        android:textColor="@color/text_title"
-        android:textSize="30sp"
-        app:layout_constraintHorizontal_bias="0.4"
+        android:layout_marginTop="24dp"
+        android:background="@color/activeTextColor"
+        android:divider="@android:color/darker_gray"
+        android:dividerHeight="0.5dp"
+        android:indicatorLeft="?android:attr/expandableListPreferredItemIndicatorLeft"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout2" />
+
 
 </android.support.constraint.ConstraintLayout>

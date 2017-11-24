@@ -1,6 +1,7 @@
 package uk.ac.yorksj.spray.david.caloriesnap.activity.fragments;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -19,6 +20,7 @@ import org.w3c.dom.Text;
 
 import uk.ac.yorksj.spray.david.caloriesnap.FoodItem;
 import uk.ac.yorksj.spray.david.caloriesnap.R;
+import uk.ac.yorksj.spray.david.caloriesnap.activity.SettingsActivity;
 import uk.ac.yorksj.spray.david.caloriesnap.activity.listener.GalleryFragmentListener;
 import uk.ac.yorksj.spray.david.caloriesnap.activity.listener.NavigationListener;
 
@@ -30,7 +32,7 @@ import uk.ac.yorksj.spray.david.caloriesnap.activity.listener.NavigationListener
  * Use the {@link GalleryFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class GalleryFragment extends Fragment {
+public class GalleryFragment extends Fragment implements View.OnClickListener {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String FOOD_ITEM = "food_item";
@@ -106,6 +108,7 @@ public class GalleryFragment extends Fragment {
         this.swipeListener = new GalleryFragmentListener(getChildFragmentManager(), this, foodItem.getKcalCount(),
                 'd', foodItem.getImagePath());
         view.setOnTouchListener(this.swipeListener);
+        view.findViewById(R.id.btn_settings).setOnClickListener(this);
         setBackgroundImage();
     }
 
@@ -157,7 +160,12 @@ public class GalleryFragment extends Fragment {
         }
     }
 
-    public GalleryFragmentListener getNavigationListener(){
-        return this.swipeListener;
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.btn_settings:
+                Intent intent = new Intent(getActivity(), SettingsActivity.class);
+                startActivity(intent);
+                break;
+        }
     }
 }
