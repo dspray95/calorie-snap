@@ -38,6 +38,8 @@ import uk.ac.yorksj.spray.david.caloriesnap.activity.listener.NavigationListener
  * to handle interaction events.
  * Use the {@link FurtherInfoFragment#newInstance} factory method to
  * create an instance of this fragment.
+ *
+ * Uses MPAndroidChart package source: https://github.com/PhilJay/MPAndroidChart
  */
 public class FurtherInfoFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match

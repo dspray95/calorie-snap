@@ -15,6 +15,9 @@ import java.util.List;
 import uk.ac.yorksj.spray.david.caloriesnap.R;
 import uk.ac.yorksj.spray.david.caloriesnap.activity.adapter.LanguageListAdapter;
 
+/**
+ * Uses Android-Languages package. Source: https://github.com/delight-im/Android-Languages
+ */
 public class SettingsActivity extends AppCompatActivity implements ExpandableListView.OnChildClickListener {
 
     private String languagesHeader;
