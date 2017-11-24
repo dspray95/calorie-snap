@@ -4,10 +4,10 @@ import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.widget.ExpandableListAdapter;
+import android.view.View;
 import android.widget.ExpandableListView;
+import android.widget.TextView;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -15,11 +15,15 @@ import java.util.List;
 import uk.ac.yorksj.spray.david.caloriesnap.R;
 import uk.ac.yorksj.spray.david.caloriesnap.activity.adapter.LanguageListAdapter;
 
-public class SettingsActivity extends AppCompatActivity {
+public class SettingsActivity extends AppCompatActivity implements ExpandableListView.OnChildClickListener {
 
     private String languagesHeader;
     private ExpandableListView languagesListView;
     private LanguageListAdapter languagesListAdapter;
+
+    ArrayList<String> languageHeaders = new ArrayList<>();
+    HashMap<String, List<String>> subHeadersMap;
+    HashMap<String, List<Drawable>> iconsMap = new HashMap<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,17 +33,17 @@ public class SettingsActivity extends AppCompatActivity {
         Resources res = getResources();
         languagesListView = (ExpandableListView) findViewById(R.id.list_languages);
 
-        HashMap<String, List<String>> listChildren = new HashMap<>();
-        HashMap<String, List<Drawable>> listFlagDrawables = new HashMap<>();
+        //Setup languages list content
+        languageHeaders = new ArrayList<>();
+            languageHeaders.add(res.getString(R.string.prefs_language));
+        subHeadersMap = createLanguagesSubHeaders(res, languageHeaders);
+        iconsMap = createLanguagesIcons(res, languageHeaders);
 
-        ArrayList<String> headers = new ArrayList<>();
-            headers.add(res.getString(R.string.prefs_language));
-
-        languagesListAdapter = new LanguageListAdapter(this, headers,
-                createLanguagesSubHeaders(res, headers), createLanguagesIcons(res, headers));
-
-        // setting list adapter
+        //Create and set languages list adapter
+        languagesListAdapter = new LanguageListAdapter(this, languageHeaders, subHeadersMap, iconsMap);
         languagesListView.setAdapter(languagesListAdapter);
+
+        languagesListView.setOnChildClickListener(this);
     }
 
     public HashMap<String, List<String>> createLanguagesSubHeaders(Resources res, List<String> headers){
@@ -65,4 +69,31 @@ public class SettingsActivity extends AppCompatActivity {
         return iconsMap;
     }
 
+    public boolean onChildClick(ExpandableListView parent, View v,
+                                int groupPosition, int childPosition, long id) {
+                switch (childPosition){ //TODO make more exlicit
+                    case 0:
+                        //Set language to english
+                        break;
+                    case 1:
+                        //set language to french
+                        break;
+                }
+        return false;
+    }
 }
+//
+//    public boolean onChildClick(ExpandableListView parent, View v,
+//                                int groupPosition, int childPosition, long id) {
+//
+//        Toast.makeText(
+//                getApplicationContext(),
+//                listDataHeader.get(groupPosition)
+//                        + " : "
+//                        + listDataChild.get(
+//                        listDataHeader.get(groupPosition)).get(
+//                        childPosition), Toast.LENGTH_SHORT)
+//                .show();
+//        return false;
+//    }
+//}
