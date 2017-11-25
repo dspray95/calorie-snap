@@ -22,13 +22,15 @@ import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
+import com.akexorcist.localizationactivity.ui.LocalizationActivity;
+
 import uk.ac.yorksj.spray.david.caloriesnap.R;
 import uk.ac.yorksj.spray.david.caloriesnap.activity.fragments.CameraFragment;
 
-public class CameraActivity extends AppCompatActivity {
+public class CameraActivity extends LocalizationActivity {
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_camera_screen);
         if (null == savedInstanceState) {

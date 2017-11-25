@@ -11,6 +11,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
+import com.akexorcist.localizationactivity.ui.LocalizationActivity;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -25,7 +27,7 @@ import uk.ac.yorksj.spray.david.caloriesnap.activity.adapter.GalleryPagerAdapter
 import uk.ac.yorksj.spray.david.caloriesnap.activity.fragments.FurtherInfoFragment;
 import uk.ac.yorksj.spray.david.caloriesnap.activity.fragments.GalleryFragment;
 
-public class GalleryActivity extends AppCompatActivity implements
+public class GalleryActivity extends LocalizationActivity implements
         GalleryFragment.OnFragmentInteractionListener,
         FurtherInfoFragment.OnFragmentInteractionListener{
 
@@ -38,7 +40,7 @@ public class GalleryActivity extends AppCompatActivity implements
     private Handler mHandler = new Handler();
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_gallery);
         imageManagerFilename = getExternalFilesDir(null) + "/item.manager";

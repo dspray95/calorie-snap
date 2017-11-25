@@ -1,16 +1,12 @@
 package uk.ac.yorksj.spray.david.caloriesnap;
 
-/**
- * Created by david on 24/11/17.
- */
-
 import android.app.Application;
 import android.content.Context;
 import android.content.res.Configuration;
 
 import com.akexorcist.localizationactivity.core.LocalizationApplicationDelegate;
 
-public class MainApplication extends Application {
+public class CustomApplication extends Application {
     LocalizationApplicationDelegate localizationDelegate = new LocalizationApplicationDelegate(this);
 
     @Override
