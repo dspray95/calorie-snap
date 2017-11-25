@@ -86,6 +86,7 @@ public class GalleryActivity extends LocalizationActivity implements
             public void run() {
                 viewPager = (ViewPager)findViewById(R.id.gallery_view_pager);
                 viewPager.setAdapter(galleryPagerAdapter);
+                viewPager.setOffscreenPageLimit(4); //fixes further info fragment getting stuck
             }
         }, 3000);
     }

@@ -62,15 +62,4 @@ public class GalleryPagerAdapter extends FragmentStatePagerAdapter {
         fragment.trySetBitmap();
         return fragmentList.get(position);
     }
-
-//    public class DetailOnPageChangeListener extends ViewPager.SimpleOnPageChangeListener {
-//
-//        private int currentPage;
-//
-//        @Override
-//        public void onPageSelected(int position) {
-//            currentPage = position;
-//        }
-//
-//    }
 }

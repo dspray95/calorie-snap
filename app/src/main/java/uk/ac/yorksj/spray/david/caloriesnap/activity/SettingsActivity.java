@@ -1,5 +1,6 @@
 package uk.ac.yorksj.spray.david.caloriesnap.activity;
 
+import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.support.v7.app.AppCompatActivity;
@@ -87,19 +88,10 @@ public class SettingsActivity extends LocalizationActivity implements Expandable
                 }
         return false;
     }
+
+    @Override
+    public void onBackPressed(){
+        Intent intent = new Intent(this, GalleryActivity.class);
+        startActivity(intent);
+    }
 }
-//
-//    public boolean onChildClick(ExpandableListView parent, View v,
-//                                int groupPosition, int childPosition, long id) {
-//
-//        Toast.makeText(
-//                getApplicationContext(),
-//                listDataHeader.get(groupPosition)
-//                        + " : "
-//                        + listDataChild.get(
-//                        listDataHeader.get(groupPosition)).get(
-//                        childPosition), Toast.LENGTH_SHORT)
-//                .show();
-//        return false;
-//    }
-//}

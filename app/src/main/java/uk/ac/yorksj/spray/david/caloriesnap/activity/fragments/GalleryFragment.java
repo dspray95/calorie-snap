@@ -165,6 +165,7 @@ public class GalleryFragment extends Fragment implements View.OnClickListener {
             case R.id.btn_settings:
                 Intent intent = new Intent(getActivity(), SettingsActivity.class);
                 startActivity(intent);
+                getActivity().finish();
                 break;
         }
     }
