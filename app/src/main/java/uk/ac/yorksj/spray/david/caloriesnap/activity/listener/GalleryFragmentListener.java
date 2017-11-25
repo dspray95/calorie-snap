@@ -74,6 +74,10 @@ public class GalleryFragmentListener implements View.OnTouchListener{
 
     }
 
+    public FurtherInfoFragment getFurtherInfoFragment(){
+        return this.furtherInfoFragment;
+    }
+
     public boolean onTouch(View v, MotionEvent event) {
         int action = MotionEventCompat.getActionMasked(event);
         switch (action) {

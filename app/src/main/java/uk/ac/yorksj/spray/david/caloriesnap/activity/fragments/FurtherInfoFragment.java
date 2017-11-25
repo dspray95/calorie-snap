@@ -2,6 +2,7 @@ package uk.ac.yorksj.spray.david.caloriesnap.activity.fragments;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.res.Resources;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
@@ -10,26 +11,20 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.components.Legend;
-import com.github.mikephil.charting.data.DataSet;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.formatter.PercentFormatter;
 import com.github.mikephil.charting.utils.ColorTemplate;
 
-import org.w3c.dom.Text;
-
 import java.util.ArrayList;
 
 import uk.ac.yorksj.spray.david.caloriesnap.R;
-import uk.ac.yorksj.spray.david.caloriesnap.activity.listener.NavigationListener;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -48,6 +43,9 @@ public class FurtherInfoFragment extends Fragment {
     private static final String ARG_PARAM1 = "CALORIE_VALUE";
     private float RDA_MALE = 2500.0f;
     private float RDA_FEMALE = 2000.0f; //Needs to be float for coversion to percentage on pie chart
+
+    private Resources res;
+    private int invertState = 0;
 
     private OnFragmentInteractionListener mListener;
     // TODO: Rename and change types of parameters
@@ -95,7 +93,9 @@ public class FurtherInfoFragment extends Fragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        mPieChart = (PieChart) view.findViewById(R.id.pie_chart);
+        int primaryColor = getPrimaryColor();
+        setColors(primaryColor);
+        mPieChart = (PieChart) view.findViewById(R.id.fi_pie_chart);
         mPieChart.setUsePercentValues(true);
 
         float percentageOfRdaMale = calorieValue/RDA_MALE;
@@ -114,7 +114,7 @@ public class FurtherInfoFragment extends Fragment {
                 R.color.pie_chart_remainder};
         pieChartDataSet.setColors(ColorTemplate.createColors(getResources(), colorsArray));
 
-        pieChartDataSet.setValueTextColor(getResources().getColor(R.color.activeTextColor));
+        pieChartDataSet.setValueTextColor(primaryColor);
         pieChartDataSet.setValueTextSize(14f);
         ArrayList<String> pieChartKey = new ArrayList<>();
         pieChartKey.add(getResources().getString(R.string.female));
@@ -133,7 +133,7 @@ public class FurtherInfoFragment extends Fragment {
         mPieChart.setDescription("");
         mPieChart.setCenterText(getResources().getString(R.string.rda_percentage));
         mPieChart.setCenterTextSize(16f);
-        mPieChart.setCenterTextColor(getResources().getColor(R.color.activeTextColor));
+        mPieChart.setCenterTextColor(primaryColor);
 
         //Make legend adjustments
         int[] legendColorsArray = new int[]{
@@ -147,7 +147,7 @@ public class FurtherInfoFragment extends Fragment {
 
         Legend pieChartLegend = mPieChart.getLegend();
         pieChartLegend.setPosition(Legend.LegendPosition.BELOW_CHART_RIGHT);
-        pieChartLegend.setTextColor(getResources().getColor(R.color.activeTextColor));
+        pieChartLegend.setTextColor(primaryColor);
         pieChartLegend.setTextSize(16f);
         pieChartLegend.setCustom(ColorTemplate.createColors(getResources(), legendColorsArray), legendStrings);
 
@@ -196,5 +196,43 @@ public class FurtherInfoFragment extends Fragment {
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
+    }
+
+    public int getPrimaryColor(){
+        int primaryColor;
+
+        switch(invertState){
+            case 0:
+                primaryColor = getResources().getColor(R.color.textBright);
+                break;
+            case 1:
+                primaryColor = getResources().getColor(R.color.textDark);
+                break;
+            default:
+                primaryColor = getResources().getColor(R.color.textBright);
+        }
+
+        return primaryColor;
+    }
+
+    public void setInvertState(int invertState){
+        this.invertState = invertState;
+    }
+
+    public void setColors(int primaryColor){
+        //Get views
+        TextView lblPieChart = (TextView) getView().findViewById(R.id.fi_lbl_pie);
+        TextView lblTotalKcal = (TextView) getView().findViewById(R.id.fi_lbl_total_kcal);
+        TextView lblKcal = (TextView) getView().findViewById(R.id.fi_lbl_kcal);
+        TextView kcalCount = (TextView) getView().findViewById(R.id.fi_kcal_count);
+        ImageView divider1 = (ImageView) getView().findViewById(R.id.fi_divider1);
+        ImageView divider2 = (ImageView) getView().findViewById(R.id.fi_divider2);
+        //set colors
+        lblPieChart.setTextColor(primaryColor);
+        lblTotalKcal.setTextColor(primaryColor);
+        lblKcal.setTextColor(primaryColor);
+        kcalCount.setTextColor(primaryColor);
+        divider1.setBackgroundColor(primaryColor);
+        divider2.setBackgroundColor(primaryColor);
     }
 }

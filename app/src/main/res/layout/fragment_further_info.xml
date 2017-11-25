@@ -8,6 +8,18 @@
 
     <!-- TODO: Update blank fragment layout -->
 
+    <com.github.mikephil.charting.charts.PieChart
+        android:id="@+id/fi_pie_chart"
+        android:layout_width="300dp"
+        android:layout_height="300dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="45dp"
+        android:visibility="visible"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <TextView
         android:id="@+id/fi_kcal_count"
         android:layout_width="wrap_content"
@@ -23,57 +35,41 @@
         app:layout_constraintHorizontal_bias="0.449"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView3" />
+        app:layout_constraintTop_toBottomOf="@+id/fi_divider2" />
 
     <TextView
-        android:id="@+id/textView4"
+        android:id="@+id/fi_lbl_kcal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="7dp"
+        android:layout_marginTop="32dp"
         android:text="@string/txt_kcal"
         android:textColor="@color/activeTextColor"
         android:textSize="24sp"
         app:layout_constraintLeft_toRightOf="@+id/fi_kcal_count"
-        app:layout_constraintTop_toTopOf="@+id/fi_kcal_count"
-        android:layout_marginTop="32dp" />
+        app:layout_constraintTop_toTopOf="@+id/fi_kcal_count" />
 
     <ImageView
-        android:id="@+id/img_divider"
+        android:id="@+id/fi_divider1"
         android:layout_width="200dp"
         android:layout_height="1dp"
         android:layout_marginBottom="8dp"
-        android:layout_marginLeft="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/pie_chart"
-        app:layout_constraintLeft_toLeftOf="@+id/pie_chart"
-        app:srcCompat="@color/textBright" />
+        app:layout_constraintBottom_toTopOf="@+id/fi_pie_chart"
+        app:layout_constraintLeft_toLeftOf="@+id/fi_pie_chart" />
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/fi_lbl_pie"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="2dp"
-        android:layout_marginLeft="2dp"
+        android:layout_marginBottom="4dp"
         android:text="@string/lbl_pie_chart"
         android:textColor="@color/activeTextColor"
         android:textSize="12sp"
-        app:layout_constraintBottom_toTopOf="@+id/img_divider"
-        app:layout_constraintLeft_toLeftOf="@+id/img_divider" />
-
-    <com.github.mikephil.charting.charts.PieChart
-        android:id="@+id/pie_chart"
-        android:layout_width="300dp"
-        android:layout_height="300dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="45dp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintBottom_toTopOf="@+id/fi_divider1"
+        app:layout_constraintLeft_toLeftOf="@+id/fi_divider1" />
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/fi_lbl_total_kcal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="2dp"
@@ -81,17 +77,16 @@
         android:text="@string/total_kcal"
         android:textColor="@color/activeTextColor"
         android:textSize="12sp"
-        app:layout_constraintBottom_toBottomOf="@+id/imageView3"
-        app:layout_constraintLeft_toLeftOf="@+id/imageView3" />
+        app:layout_constraintBottom_toBottomOf="@+id/fi_divider2"
+        app:layout_constraintLeft_toLeftOf="@+id/fi_divider2" />
 
     <ImageView
-        android:id="@+id/imageView3"
+        android:id="@+id/fi_divider2"
         android:layout_width="200dp"
         android:layout_height="1dp"
-        app:srcCompat="@color/textBright"
         android:layout_marginTop="24dp"
-        app:layout_constraintTop_toBottomOf="@+id/pie_chart"
+        app:layout_constraintTop_toBottomOf="@+id/fi_pie_chart"
         android:layout_marginLeft="0dp"
-        app:layout_constraintLeft_toLeftOf="@+id/img_divider" />
+        app:layout_constraintLeft_toLeftOf="@+id/fi_divider1" />
 
 </android.support.constraint.ConstraintLayout>

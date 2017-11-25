@@ -89,6 +89,16 @@ public class SettingsActivity extends LocalizationActivity implements Expandable
         return false;
     }
 
+    /**
+     * Workaround for going back to the gallery activity.
+     * Issue due to the way the gallery fragments are instantiated,
+     * when reloading savedinstancestate objects were returning null.
+     * This resolves the issue by recreating the activity.
+     * finish() is called on GalleryActivity when SettingsActivity is accessed via the
+     * GalleryFragment.
+     *
+     *
+     */
     @Override
     public void onBackPressed(){
         Intent intent = new Intent(this, GalleryActivity.class);

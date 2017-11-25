@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
@@ -44,6 +45,7 @@ public class GalleryFragment extends Fragment implements View.OnClickListener {
     private OnFragmentInteractionListener mListener;
     private boolean detailsEnabled = true;
     private GalleryFragmentListener swipeListener;
+    private int invertState = 0;
 
     public GalleryFragment() {
         // Required empty public constructor
@@ -109,6 +111,8 @@ public class GalleryFragment extends Fragment implements View.OnClickListener {
                 'd', foodItem.getImagePath());
         view.setOnTouchListener(this.swipeListener);
         view.findViewById(R.id.btn_settings).setOnClickListener(this);
+        view.findViewById(R.id.btn_invert).setOnClickListener(this);
+        view.findViewById(R.id.btn_help).setOnClickListener(this);
         setBackgroundImage();
     }
 
@@ -160,12 +164,40 @@ public class GalleryFragment extends Fragment implements View.OnClickListener {
         }
     }
 
+    public void invert(){
+        Resources res = getResources();
+        TextView lblKcal = (TextView) getView().findViewById(R.id.txt_kcal);
+        TextView lblKcalCount = (TextView) getView().findViewById(R.id.txt_kcalcount);
+
+        //TODO invert button colors;//
+
+        switch(invertState){
+            case 0:
+                lblKcal.setTextColor(res.getColor(R.color.textDark));
+                lblKcalCount.setTextColor(res.getColor(R.color.textDark));
+                swipeListener.getFurtherInfoFragment().setInvertState(1);
+                invertState = 1;
+                break;
+            case 1:
+                lblKcal.setTextColor(res.getColor(R.color.textBright));
+                lblKcalCount.setTextColor(res.getColor(R.color.textBright));
+                swipeListener.getFurtherInfoFragment().setInvertState(0);
+                invertState = 0;
+                break;
+        }
+    }
+
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btn_settings:
                 Intent intent = new Intent(getActivity(), SettingsActivity.class);
                 startActivity(intent);
                 getActivity().finish();
+                break;
+            case R.id.btn_invert:
+                invert();
+                break;
+            case R.id.btn_help:
                 break;
         }
     }
