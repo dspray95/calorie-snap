@@ -2,6 +2,7 @@ package uk.ac.yorksj.spray.david.caloriesnap.activity.listener;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.os.Handler;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.MotionEventCompat;
@@ -13,6 +14,7 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 
 import uk.ac.yorksj.spray.david.caloriesnap.R;
+import uk.ac.yorksj.spray.david.caloriesnap.activity.CameraActivity;
 import uk.ac.yorksj.spray.david.caloriesnap.activity.fragments.FurtherInfoFragment;
 import uk.ac.yorksj.spray.david.caloriesnap.activity.fragments.GalleryFragment;
 
@@ -34,7 +36,7 @@ public class GalleryFragmentListener implements View.OnTouchListener{
     private FurtherInfoFragment furtherInfoFragment;
     private String identifier;
     private int state = 0;
-
+    private Handler mHandler;
     int kcalCount;
 
     public GalleryFragmentListener(FragmentManager fm, GalleryFragment parentGalleryFragment, int kcalCount,
@@ -71,7 +73,12 @@ public class GalleryFragmentListener implements View.OnTouchListener{
         parentGalleryFragment.toggleDetails();
         ft.commit();
         fm.executePendingTransactions();
-
+        mHandler = new Handler();
+        mHandler.postDelayed(new Runnable() {
+            public void run() {
+                changingScreen = false;
+            }
+        }, 500);
     }
 
     public FurtherInfoFragment getFurtherInfoFragment(){
@@ -86,13 +93,23 @@ public class GalleryFragmentListener implements View.OnTouchListener{
                 break;
             case (MotionEvent.ACTION_MOVE):
                 if(!changingScreen){
-                    if(event.getY() > yEventStart + threshhold && newScreenDirection == 'd'){
+                    if(event.getY() > yEventStart + threshhold && newScreenDirection == 'd'){ //Swipe Down
+                        changingScreen = true;
+                        changeScreen();
                         Log.d(TAG, "Changing screen d");
-                        changeScreen();
                     }
-                    else if(event.getY() < yEventStart - threshhold && newScreenDirection == 'u'){
+                    else if(event.getY() < yEventStart - (threshhold + 10)){ //Swipe up
+                        changingScreen = true;
                         Log.d(TAG, "Changing screen u");
-                        changeScreen();
+                        if(state == 0){
+                            Activity activity = parentGalleryFragment.getActivity();
+                            Intent intent = new Intent(activity, CameraActivity.class);
+                            activity.startActivity(intent);
+                            activity.finish();
+                        }
+                        else{
+                            changeScreen();
+                        }
                     }
                 }
                 return true;
