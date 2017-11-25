@@ -2,15 +2,15 @@ package uk.ac.yorksj.spray.david.caloriesnap;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.content.res.Resources;
 import android.graphics.Bitmap;
-import android.hardware.camera2.params.RggbChannelVector;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.util.Log;
 
 import java.io.Serializable;
 import java.util.Random;
+
+import uk.ac.yorksj.spray.david.caloriesnap.tools.BitmapHandler;
 
 
 /**
@@ -38,13 +38,8 @@ public class FoodItem implements Serializable, Parcelable{
 
     public void writeKCalTotal(SharedPreferences prefs, String TAG){
         int val = prefs.getInt(TAG, Context.MODE_PRIVATE);
-//        if(val != null){
-            val += this.kcalCount;
-//        }
-//        else{
-//            val = this.kcalCount;
-//        }
-//        val += this.kcalCount;
+        val += this.kcalCount;
+
         SharedPreferences.Editor editor = prefs.edit();
         editor.putInt(TAG, val);
         editor.commit();

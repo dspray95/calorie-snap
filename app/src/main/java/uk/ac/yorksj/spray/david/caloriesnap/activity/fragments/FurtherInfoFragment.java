@@ -111,10 +111,10 @@ public class FurtherInfoFragment extends Fragment {
 
         int [] colorsArray = new int[]{R.color.pie_chart_female,    //custom colour values
                 R.color.pie_chart_male,
-                R.color.pie_chart_remainder};
-        pieChartDataSet.setColors(ColorTemplate.createColors(getResources(), colorsArray));
+                R.color.textBright};
+        pieChartDataSet.setColors(ColorTemplate.createColors(getResources(), colorsArray)); //Always should be bright
 
-        pieChartDataSet.setValueTextColor(primaryColor);
+        pieChartDataSet.setValueTextColor(getResources().getColor(R.color.textBright));
         pieChartDataSet.setValueTextSize(14f);
         ArrayList<String> pieChartKey = new ArrayList<>();
         pieChartKey.add(getResources().getString(R.string.female));
@@ -200,7 +200,6 @@ public class FurtherInfoFragment extends Fragment {
 
     public int getPrimaryColor(){
         int primaryColor;
-
         switch(invertState){
             case 0:
                 primaryColor = getResources().getColor(R.color.textBright);
@@ -210,6 +209,22 @@ public class FurtherInfoFragment extends Fragment {
                 break;
             default:
                 primaryColor = getResources().getColor(R.color.textBright);
+        }
+
+        return primaryColor;
+    }
+
+    public int getPrimaryColorResource(){
+        int primaryColor;
+        switch(invertState){
+            case 0:
+                primaryColor = R.color.textBright;
+                break;
+            case 1:
+                primaryColor = R.color.textDark;
+                break;
+            default:
+                primaryColor = R.color.textBright;
         }
 
         return primaryColor;

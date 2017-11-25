@@ -2,6 +2,7 @@ package uk.ac.yorksj.spray.david.caloriesnap.activity.fragments;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Color;
@@ -105,6 +106,20 @@ public class GalleryFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+
+        //High contrast mode (set in SettingsActivity) will ensure that there is always a large amount
+        //of contrast between the foreground text and the background image by applying a brightness screen
+        SharedPreferences prefs = getActivity().getSharedPreferences(getResources().getString(R.string.app_name), Context.MODE_PRIVATE);
+        boolean highContrast = prefs.getBoolean("HIGH_CONTRAST", false);
+
+        if(highContrast){
+            view.findViewById(R.id.img_high_contrast_background).setVisibility(View.VISIBLE);
+        }
+        else{
+            view.findViewById(R.id.img_high_contrast_background).setVisibility(View.INVISIBLE);
+        }
+
         TextView lblKcalCount = (TextView) getView().findViewById(R.id.txt_kcalcount);
         lblKcalCount.setText(Integer.toString(foodItem.getKcalCount()));
         this.swipeListener = new GalleryFragmentListener(getChildFragmentManager(), this, foodItem.getKcalCount(),

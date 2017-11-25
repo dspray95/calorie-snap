@@ -57,7 +57,7 @@ public class GalleryActivity extends LocalizationActivity implements
         else{
             imageManager = new FoodItemManager(TAG_TOTAL_KCAL);
             saveImageManager(imageManager, imageManagerFilename);
-            SharedPreferences sharedPref = getSharedPreferences("ITEM_MANAGER", Context.MODE_PRIVATE);
+            SharedPreferences sharedPref = getSharedPreferences(getResources().getString(R.string.app_name), Context.MODE_PRIVATE);
             SharedPreferences.Editor editor = sharedPref.edit();
             editor.putBoolean(ITEM_MANAGER_CREATED, true);
             editor.commit();

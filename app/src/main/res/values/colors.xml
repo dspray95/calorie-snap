@@ -14,4 +14,5 @@
     <color name="pie_chart_male">#51c64f</color>
     <color name="pie_chart_female">#5356b9</color>
     <color name="pie_chart_remainder">#ffffff</color>
+    <color name="highContrastBackground">#b5000000</color>
 </resources>

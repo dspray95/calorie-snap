@@ -5,7 +5,6 @@ import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.util.Log;
 
-import uk.ac.yorksj.spray.david.caloriesnap.BitmapHandler;
 import uk.ac.yorksj.spray.david.caloriesnap.FoodItem;
 
 /**

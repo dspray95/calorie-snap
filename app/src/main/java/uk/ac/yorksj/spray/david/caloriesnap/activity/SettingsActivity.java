@@ -1,12 +1,15 @@
 package uk.ac.yorksj.spray.david.caloriesnap.activity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.CompoundButton;
 import android.widget.ExpandableListView;
+import android.widget.Switch;
 import android.widget.TextView;
 
 import com.akexorcist.localizationactivity.ui.LocalizationActivity;
@@ -22,7 +25,10 @@ import uk.ac.yorksj.spray.david.caloriesnap.activity.adapter.LanguageListAdapter
 /**
  * Uses Android-LocalizationActivity package. Source: https://github.com/akexorcist/Android-LocalizationActivity
  */
-public class SettingsActivity extends LocalizationActivity implements ExpandableListView.OnChildClickListener {
+public class SettingsActivity extends LocalizationActivity
+        implements ExpandableListView.OnChildClickListener, Switch.OnCheckedChangeListener{
+
+    private String HIGH_CONTRAST_TAG = "HIGH_CONTRAST";
 
     private String languagesHeader;
     private ExpandableListView languagesListView;
@@ -51,6 +57,17 @@ public class SettingsActivity extends LocalizationActivity implements Expandable
         languagesListView.setAdapter(languagesListAdapter);
 
         languagesListView.setOnChildClickListener(this);
+        //Setup switches for text-to-speech and high contrast
+        SharedPreferences prefs = getSharedPreferences(getResources().getString(R.string.app_name), MODE_PRIVATE);
+        boolean highContrast = prefs.getBoolean(HIGH_CONTRAST_TAG, false);
+        Switch highContrastSwitch = (Switch) findViewById(R.id.switch_high_contrast);
+        if(highContrast){
+            highContrastSwitch.setChecked(true);
+        }
+        else{
+            highContrastSwitch.setChecked(false);
+        }
+        highContrastSwitch.setOnCheckedChangeListener(this);
     }
 
     public HashMap<String, List<String>> createLanguagesSubHeaders(Resources res, List<String> headers){
@@ -76,6 +93,21 @@ public class SettingsActivity extends LocalizationActivity implements Expandable
         return iconsMap;
     }
 
+    @Override
+    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+
+        SharedPreferences prefs = getSharedPreferences(getResources().getString(R.string.app_name), MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+
+        if(isChecked){
+            editor.putBoolean(HIGH_CONTRAST_TAG, true);
+        }
+        else{
+            editor.putBoolean(HIGH_CONTRAST_TAG, false);
+        }
+        editor.commit();
+    }
+
     public boolean onChildClick(ExpandableListView parent, View v,
                                 int groupPosition, int childPosition, long id) {
                 switch (childPosition){ //TODO make more explicit
@@ -96,8 +128,6 @@ public class SettingsActivity extends LocalizationActivity implements Expandable
      * This resolves the issue by recreating the activity.
      * finish() is called on GalleryActivity when SettingsActivity is accessed via the
      * GalleryFragment.
-     *
-     *
      */
     @Override
     public void onBackPressed(){

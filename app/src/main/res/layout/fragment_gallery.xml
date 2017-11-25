@@ -19,6 +19,18 @@
         tools:layout_editor_absoluteX="8dp"
         tools:layout_editor_absoluteY="8dp" />
 
+    <ImageView
+        android:id="@+id/img_high_contrast_background"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:adjustViewBounds="false"
+        android:cropToPadding="false"
+        android:scaleType="centerCrop"
+        android:visibility="invisible"
+        app:srcCompat="@color/highContrastBackground"
+        tools:layout_editor_absoluteX="8dp"
+        tools:layout_editor_absoluteY="8dp" />
+
     <android.support.constraint.ConstraintLayout
         android:id="@+id/details"
         android:layout_width="match_parent"
@@ -109,6 +121,7 @@
 
     </android.support.constraint.ConstraintLayout>
 
+
     <android.support.v4.view.ViewPager
         android:id="@+id/further_info_view_pager"
         android:layout_width="match_parent"
@@ -117,7 +130,9 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"></android.support.v4.view.ViewPager>
+        app:layout_constraintTop_toTopOf="parent">
+
+    </android.support.v4.view.ViewPager>
 
     <FrameLayout
         android:id="@+id/further_info_layout"
@@ -125,7 +140,8 @@
         android:layout_height="match_parent"
         tools:layout_editor_absoluteX="8dp"
         tools:layout_editor_absoluteY="8dp">
-
     </FrameLayout>
+
+
 
 </FrameLayout>

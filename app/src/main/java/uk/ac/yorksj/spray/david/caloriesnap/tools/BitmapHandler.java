@@ -1,4 +1,4 @@
-package uk.ac.yorksj.spray.david.caloriesnap;
+package uk.ac.yorksj.spray.david.caloriesnap.tools;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
