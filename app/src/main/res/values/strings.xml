@@ -1,11 +1,8 @@
 <resources>
-    <string name="app_name">CalorieSnap</string>
+    <string name="app_name" translatable="false">CalorieSnap</string>
 
     <string name="error_camera">Camera Setup Error, Quitting</string>
-    <string name="request_permission">req perm camera</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="request_permission">Request camera permssions</string>
 
     <string name="txt_kcal">kCal</string>
     <!-- further info screen-->
@@ -19,7 +16,7 @@
     <string name="total_kcal">Total kCal Counted</string>
 
     <!-- Shared prefs -->
-    <string name="tag_total_kcal">TOTAL_KCAL</string>
+    <string name="tag_total_kcal" translatable="false">TOTAL_KCAL</string>
 
     <!-- Preferences -->
     <string name="prefs_title">Preferences</string>

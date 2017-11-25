@@ -8,17 +8,20 @@ import android.view.View;
 import android.widget.ExpandableListView;
 import android.widget.TextView;
 
+import com.akexorcist.localizationactivity.ui.LocalizationActivity;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 
 import uk.ac.yorksj.spray.david.caloriesnap.R;
 import uk.ac.yorksj.spray.david.caloriesnap.activity.adapter.LanguageListAdapter;
 
 /**
- * Uses Android-Languages package. Source: https://github.com/delight-im/Android-Languages
+ * Uses Android-LocalizationActivity package. Source: https://github.com/akexorcist/Android-LocalizationActivity
  */
-public class SettingsActivity extends AppCompatActivity implements ExpandableListView.OnChildClickListener {
+public class SettingsActivity extends LocalizationActivity implements ExpandableListView.OnChildClickListener {
 
     private String languagesHeader;
     private ExpandableListView languagesListView;
@@ -29,7 +32,7 @@ public class SettingsActivity extends AppCompatActivity implements ExpandableLis
     HashMap<String, List<Drawable>> iconsMap = new HashMap<>();
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
 
@@ -74,12 +77,12 @@ public class SettingsActivity extends AppCompatActivity implements ExpandableLis
 
     public boolean onChildClick(ExpandableListView parent, View v,
                                 int groupPosition, int childPosition, long id) {
-                switch (childPosition){ //TODO make more exlicit
+                switch (childPosition){ //TODO make more explicit
                     case 0:
-                        //Set language to english
+                        setLanguage(Locale.UK);
                         break;
                     case 1:
-                        //set language to french
+                        setLanguage(Locale.FRANCE);
                         break;
                 }
         return false;

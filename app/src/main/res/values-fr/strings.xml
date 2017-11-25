@@ -1,6 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="request_permission">req perm camera</string>
+    <string name="request_permission">Demande des permissions de la caméra</string>
     <string name="error_camera">Erreur au niveu de la camera, application se ferme</string>
     <string name="txt_kcal">kCal</string>
+    <string name="female">femelle</string>
+    <string name="male">mâle</string>
+    <string name="lang_eng">Anglais</string>
+    <string name="lang_fra">Français</string>
+    <string name="lang_ger">Allemand</string>
+    <string name="prefs_title">Préférences</string>
+    <string name="prefs_language">Langue</string>
+    <string name="rda_percentage">%AJR</string>
+    <string name="lbl_pie_chart">Diagramme Circulare</string>
+    <string name="prefs_auto_text_to_speech">Lecteur D\'ecran Automatique</string>
+    <string name="remaining">restant</string>
+    <string name="total_kcal">kCale Totale Compté</string>
+    <string name="prefs_high_constrast">Contraste Élevé</string>
 </resources>

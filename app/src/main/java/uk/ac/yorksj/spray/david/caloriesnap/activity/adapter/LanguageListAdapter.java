@@ -54,7 +54,7 @@ public class LanguageListAdapter extends BaseExpandableListAdapter {
             convertView = layoutInflater.inflate(R.layout.languages_entry, null);
         }
         TextView expandedListTextView = (TextView) convertView
-                .findViewById(R.id.languages_entry);
+                .findViewById(R.id.lbl_languages_entry);
         expandedListTextView.setText(expandedListText);
         return convertView;
     }
@@ -90,7 +90,7 @@ public class LanguageListAdapter extends BaseExpandableListAdapter {
             convertView = layoutInflater.inflate(R.layout.languages_header, null);
         }
         TextView listTitleTextView = (TextView) convertView
-                .findViewById(R.id.languages_title);
+                .findViewById(R.id.lbl_languages_header);
         listTitleTextView.setTypeface(null, Typeface.BOLD);
         listTitleTextView.setText(listTitle);
         return convertView;

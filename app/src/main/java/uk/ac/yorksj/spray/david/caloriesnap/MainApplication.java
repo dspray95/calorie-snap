@@ -10,7 +10,7 @@ import android.content.res.Configuration;
 
 import com.akexorcist.localizationactivity.core.LocalizationApplicationDelegate;
 
-public class MainActivity extends Application {
+public class MainApplication extends Application {
     LocalizationApplicationDelegate localizationDelegate = new LocalizationApplicationDelegate(this);
 
     @Override
