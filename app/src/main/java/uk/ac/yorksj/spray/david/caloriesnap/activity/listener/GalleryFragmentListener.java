@@ -73,6 +73,11 @@ public class GalleryFragmentListener implements View.OnTouchListener{
         parentGalleryFragment.toggleDetails();
         ft.commit();
         fm.executePendingTransactions();
+
+        //Use a background thread to give the animation a chance to complete before stating to the app
+        //that we're done changing screens.
+        //This prevents an issue where swiping down from the FI fragment took the user all the way to
+        //the camera screen
         mHandler = new Handler();
         mHandler.postDelayed(new Runnable() {
             public void run() {
@@ -105,6 +110,7 @@ public class GalleryFragmentListener implements View.OnTouchListener{
                             Activity activity = parentGalleryFragment.getActivity();
                             Intent intent = new Intent(activity, CameraActivity.class);
                             activity.startActivity(intent);
+                            activity.overridePendingTransition(R.anim.slide_from_bottom, R.anim.slide_to_top);
                             activity.finish();
                         }
                         else{
