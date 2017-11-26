@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -251,6 +252,7 @@ public class FurtherInfoFragment extends Fragment implements View.OnClickListene
         TextView kcalCount = (TextView) getView().findViewById(R.id.fi_kcal_count);
         ImageView divider1 = (ImageView) getView().findViewById(R.id.fi_divider1);
         ImageView divider2 = (ImageView) getView().findViewById(R.id.fi_divider2);
+        ImageButton btnTTS = (ImageButton) getView().findViewById(R.id.btn_fi_tts);
         //set colors
         lblPieChart.setTextColor(primaryColor);
         lblTotalKcal.setTextColor(primaryColor);
@@ -258,6 +260,7 @@ public class FurtherInfoFragment extends Fragment implements View.OnClickListene
         kcalCount.setTextColor(primaryColor);
         divider1.setBackgroundColor(primaryColor);
         divider2.setBackgroundColor(primaryColor);
+        btnTTS.setColorFilter(primaryColor);
     }
 
     public void textToSpeech(){

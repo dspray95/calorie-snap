@@ -49,13 +49,13 @@
             android:id="@+id/btn_invert"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
             android:background="@android:color/transparent"
             android:src="@drawable/ic_invert_colors_black_24dp"
             android:tint="@color/textBright"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/btn_settings" />
 
         <ImageButton
             android:id="@+id/btn_help"
@@ -123,7 +123,7 @@
             app:layout_constraintTop_toTopOf="@+id/txt_kcalcount" />
 
         <ImageView
-            android:id="@+id/imageView"
+            android:id="@+id/img_arrow"
             android:layout_width="50dp"
             android:layout_height="30dp"
             android:layout_marginLeft="8dp"
@@ -153,7 +153,7 @@
     <FrameLayout
         android:id="@+id/further_info_layout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         tools:layout_editor_absoluteX="8dp"
         tools:layout_editor_absoluteY="8dp">
 

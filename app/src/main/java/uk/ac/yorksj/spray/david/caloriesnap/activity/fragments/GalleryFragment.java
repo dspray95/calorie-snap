@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
 import android.speech.tts.TextToSpeech;
@@ -16,6 +17,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -194,19 +196,33 @@ public class GalleryFragment extends Fragment implements View.OnClickListener, T
         Resources res = getResources();
         TextView lblKcal = (TextView) getView().findViewById(R.id.txt_kcal);
         TextView lblKcalCount = (TextView) getView().findViewById(R.id.txt_kcalcount);
-
+        ImageButton btnSettings = (ImageButton) getView().findViewById(R.id.btn_settings);
+        ImageButton btnInvert = (ImageButton) getView().findViewById(R.id.btn_invert);
+        ImageButton btnHelp = (ImageButton) getView().findViewById(R.id.btn_help);
+        ImageButton btnTTS = (ImageButton) getView().findViewById(R.id.btn_text_to_speech_gallery);
+        ImageView imgArrow = (ImageView) getView().findViewById(R.id.img_arrow);
         //TODO invert button colors;//
 
         switch(invertState){
             case 0:
                 lblKcal.setTextColor(res.getColor(R.color.textDark));
                 lblKcalCount.setTextColor(res.getColor(R.color.textDark));
+                btnSettings.setColorFilter(res.getColor(R.color.textDark));
+                btnInvert.setColorFilter(res.getColor(R.color.textDark));
+                btnHelp.setColorFilter(res.getColor(R.color.textDark));
+                btnTTS.setColorFilter(res.getColor(R.color.textDark));
+                imgArrow.setColorFilter(res.getColor(R.color.textDark));
                 swipeListener.getFurtherInfoFragment().setInvertState(1);
                 invertState = 1;
                 break;
             case 1:
                 lblKcal.setTextColor(res.getColor(R.color.textBright));
                 lblKcalCount.setTextColor(res.getColor(R.color.textBright));
+                btnSettings.setColorFilter(res.getColor(R.color.textBright));
+                btnInvert.setColorFilter(res.getColor(R.color.textBright));
+                btnHelp.setColorFilter(res.getColor(R.color.textBright));
+                btnTTS.setColorFilter(res.getColor(R.color.textBright));
+                imgArrow.setColorFilter(res.getColor(R.color.textBright));
                 swipeListener.getFurtherInfoFragment().setInvertState(0);
                 invertState = 0;
                 break;
