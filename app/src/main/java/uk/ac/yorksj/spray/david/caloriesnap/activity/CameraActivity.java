@@ -29,19 +29,30 @@ import uk.ac.yorksj.spray.david.caloriesnap.activity.fragments.CameraFragment;
 
 public class CameraActivity extends LocalizationActivity {
 
+    CameraFragment fragment;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_camera_screen);
+        fragment = CameraFragment.newInstance();
         if (null == savedInstanceState) {
             getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.camera_container, CameraFragment.newInstance())
+                    .replace(R.id.camera_container, fragment)
                     .commit();
         }
         ConstraintLayout cameraContainer = (ConstraintLayout)findViewById(R.id.camera_container);
 //        cameraContainer.setBackground(null);
         //cameraContainer.setBackgroundColor(Color.BLACK);
     }
+
+    public void onPause(){
+        super.onPause();
+        getSupportFragmentManager().beginTransaction()
+                .remove(fragment)
+                .commit();
+    }
+
 
 
     @Override

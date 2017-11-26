@@ -97,6 +97,12 @@ public class GalleryFragment extends Fragment implements View.OnClickListener, T
         backgroundImage.setImageBitmap(bitmap);
     }
 
+    public void recycleBitmap(){
+        if(bitmap != null){
+            bitmap.recycle();
+        }
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -174,20 +180,13 @@ public class GalleryFragment extends Fragment implements View.OnClickListener, T
     }
 
     public void toggleDetails(){
-        TextView lblCount = (TextView) getView().findViewById(R.id.txt_kcalcount);
-        TextView lblText = (TextView) getView().findViewById(R.id.txt_kcal);
-
         ConstraintLayout detailsLayout = (ConstraintLayout) getView().findViewById(R.id.details);
         if(detailsEnabled){
-            detailsLayout.setVisibility(View.INVISIBLE);
-//            lblCount.setVisibility(View.INVISIBLE);
-//            lblText.setVisibility(View.INVISIBLE);
+            detailsLayout.animate().translationY(detailsLayout.getHeight()); //Move details out of the way
             detailsEnabled = false;
         }
         else{
-            detailsLayout.setVisibility(View.VISIBLE);
-//            lblCount.setVisibility(View.VISIBLE);
-//            lblText.setVisibility(View.VISIBLE);
+            detailsLayout.animate().translationY(0); //brings them back
             detailsEnabled = true;
         }
     }

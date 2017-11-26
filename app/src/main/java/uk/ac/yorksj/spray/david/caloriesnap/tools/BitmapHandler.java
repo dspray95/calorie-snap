@@ -21,16 +21,20 @@ public class BitmapHandler {
             BitmapFactory.Options iniOptions = new BitmapFactory.Options();
             iniOptions.inJustDecodeBounds = true;
             BitmapFactory.decodeFile(f.getAbsolutePath(), iniOptions);
-            int iHeight = iniOptions.outHeight;
-            int iWidth = iniOptions.outWidth;
+//            int inHeight = iniOptions.outHeight;
+//            int inWidth = iniOptions.outWidth;
+            iniOptions.inJustDecodeBounds = false;
+            iniOptions.inSampleSize = 2;
+//            iniOptions.inDensity = in
             Matrix matrix = new Matrix();
             ByteArrayOutputStream out = new ByteArrayOutputStream();
-            Bitmap bmp = Bitmap.createScaledBitmap(Bitmap.createBitmap(BitmapFactory.decodeFile(f.getAbsolutePath()),
-                    0, 0, iWidth, iHeight, matrix, true), iWidth, iHeight, false);
-            bmp.compress(Bitmap.CompressFormat.JPEG, 100, out);
-            Bitmap compressed = BitmapFactory.decodeStream(new ByteArrayInputStream(out.toByteArray()));
-            bmp.recycle();
-            return compressed;
+            Bitmap bmp = Bitmap.createBitmap(BitmapFactory.decodeFile(f.getAbsolutePath(), iniOptions));
+//            Bitmap bmp = Bitmap.createScaledBitmap(Bitmap.createBitmap(BitmapFactory.decodeFile(f.getAbsolutePath(), iniOptions),
+//                    0, 0, iWidth, iHeight, matrix, true), iWidth, iHeight, false);
+//            bmp.compress(Bitmap.CompressFormat.JPEG, 100, out);
+//            Bitmap compressed = BitmapFactory.decodeStream(new ByteArrayInputStream(out.toByteArray()));
+//            bmp.recycle();
+            return bmp;
         }
         else{
             throw new Exception("IMAGE NOT FOUND");

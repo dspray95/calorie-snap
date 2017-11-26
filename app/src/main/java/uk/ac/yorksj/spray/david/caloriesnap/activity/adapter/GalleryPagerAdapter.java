@@ -62,4 +62,16 @@ public class GalleryPagerAdapter extends FragmentStatePagerAdapter {
         fragment.trySetBitmap();
         return fragmentList.get(position);
     }
+
+    public void recycleBitmaps(){
+        for(GalleryFragment fragment : fragmentList){
+            fragment.recycleBitmap();
+        }
+    }
+
+    public void trySetBitmaps(){
+        for(GalleryFragment fragment : fragmentList){
+            fragment.trySetBitmap();
+        }
+    }
 }

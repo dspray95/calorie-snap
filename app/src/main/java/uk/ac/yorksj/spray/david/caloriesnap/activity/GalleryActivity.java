@@ -122,6 +122,16 @@ public class GalleryActivity extends LocalizationActivity implements
 
     }
 
+    public void onPause() {
+        super.onPause();
+        galleryPagerAdapter.recycleBitmaps();
+    }
+
+    public void onResume(){
+        super.onResume();
+        galleryPagerAdapter.trySetBitmaps();
+    }
+
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
         super.onWindowFocusChanged(hasFocus);

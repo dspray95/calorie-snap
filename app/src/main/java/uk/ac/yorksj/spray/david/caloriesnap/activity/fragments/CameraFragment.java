@@ -964,12 +964,13 @@ public class CameraFragment extends Fragment
             BitmapFactory.decodeByteArray(bytes, 0, bytes.length, iniOptions);
             int iHeight = iniOptions.outHeight;
             int iWidth = iniOptions.outHeight;
+            iniOptions.inJustDecodeBounds = false;
+            iniOptions.inSampleSize = 1;
             Matrix matrix = new Matrix();
             matrix.postRotate(90);
             ByteArrayOutputStream out = new ByteArrayOutputStream();
-            Bitmap bmp = Bitmap.createScaledBitmap(Bitmap.createBitmap(BitmapFactory.decodeByteArray(bytes, 0, bytes.length),
-                    0, 0, iWidth, iHeight, matrix, true), iWidth/2, iHeight/2, false);
-            bmp.compress(Bitmap.CompressFormat.JPEG, 80, out); //TODO Dynamic quality calculation based on available memory
+            Bitmap bmp = BitmapFactory.decodeByteArray(bytes, 0, bytes.length, iniOptions);
+            bmp.compress(Bitmap.CompressFormat.JPEG, 50, out); //TODO Dynamic quality calculation based on available memory
             byte[] compresedBytes = out.toByteArray();
 
             FileOutputStream output = null;

@@ -60,7 +60,7 @@ public class NavigationListener implements View.OnTouchListener {
         new Intent();
         Intent mIntent = new Intent(currentActivity, nextActivity);
         currentActivity.startActivity(mIntent);
-
+        currentActivity.finish();
         switch(newScreenDirection){
             case('d'):
                 currentActivity.overridePendingTransition(R.anim.slide_from_top, R.anim.slide_to_bottom);
