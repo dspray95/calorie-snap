@@ -26,4 +26,19 @@
         <string name="lang_eng">English</string>
         <string name="lang_fra">French</string>
         <string name="lang_ger">German</string>
+
+    <!-- Text to speech gallery screen -->
+    <string name="tts_gallery_1">This meal has </string>
+        <!--#2 string kcal count-->
+    <string name="tts_gallery_3"> calories.</string>
+
+    <!--Text to speech FI screen -->
+    <string name="tts_fi_1">This meal has </string>
+    <!--#2 int percentage female-->
+    <string name="tts_fi_3"> percent of the female, and </string>
+    <!--#4 int percentage male-->
+    <string name="tts_fi_5">" percent of the male caloric R D A"</string>
+    <string name="tts_fi_6">So far, you have counted </string>
+    <!-- #7 int total kcal -->
+    <string name="tts_fi_8"> calories with this app.</string>
 </resources>

@@ -8,6 +8,7 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
+import android.speech.tts.TextToSpeech;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.ViewDragHelper;
@@ -19,6 +20,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import org.w3c.dom.Text;
+
+import java.util.Locale;
 
 import uk.ac.yorksj.spray.david.caloriesnap.FoodItem;
 import uk.ac.yorksj.spray.david.caloriesnap.R;
@@ -34,7 +37,7 @@ import uk.ac.yorksj.spray.david.caloriesnap.activity.listener.NavigationListener
  * Use the {@link GalleryFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class GalleryFragment extends Fragment implements View.OnClickListener {
+public class GalleryFragment extends Fragment implements View.OnClickListener, TextToSpeech.OnInitListener {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String FOOD_ITEM = "food_item";
@@ -47,6 +50,8 @@ public class GalleryFragment extends Fragment implements View.OnClickListener {
     private boolean detailsEnabled = true;
     private GalleryFragmentListener swipeListener;
     private int invertState = 0;
+    private TextToSpeech tts;
+
 
     public GalleryFragment() {
         // Required empty public constructor
@@ -65,6 +70,7 @@ public class GalleryFragment extends Fragment implements View.OnClickListener {
         args.putParcelable(FOOD_ITEM, foodItem);
         fragment.foodItem = foodItem;
         fragment.setArguments(args);
+        //tts init
         return fragment;
     }
 
@@ -100,6 +106,7 @@ public class GalleryFragment extends Fragment implements View.OnClickListener {
                              Bundle savedInstanceState) {
         Log.d(TAG, "oncreateView fired");
         trySetBitmap();
+        tts = new TextToSpeech(getContext(), this);
         return inflater.inflate(R.layout.fragment_gallery, container, false);
     }
 
@@ -120,14 +127,18 @@ public class GalleryFragment extends Fragment implements View.OnClickListener {
             view.findViewById(R.id.img_high_contrast_background).setVisibility(View.INVISIBLE);
         }
 
+        //Add the kcal count to the appropriate label
         TextView lblKcalCount = (TextView) getView().findViewById(R.id.txt_kcalcount);
         lblKcalCount.setText(Integer.toString(foodItem.getKcalCount()));
+
+        //listener setting
         this.swipeListener = new GalleryFragmentListener(getChildFragmentManager(), this, foodItem.getKcalCount(),
                 'd', foodItem.getImagePath());
         view.setOnTouchListener(this.swipeListener);
         view.findViewById(R.id.btn_settings).setOnClickListener(this);
         view.findViewById(R.id.btn_invert).setOnClickListener(this);
         view.findViewById(R.id.btn_help).setOnClickListener(this);
+        view.findViewById(R.id.btn_text_to_speech_gallery).setOnClickListener(this);
         setBackgroundImage();
     }
 
@@ -202,6 +213,26 @@ public class GalleryFragment extends Fragment implements View.OnClickListener {
         }
     }
 
+    public void textToSpeech(){
+        Resources res = getResources();
+        String tts1 = res.getString(R.string.tts_gallery_1);
+        String tts2 = ((TextView) getView().findViewById(R.id.txt_kcalcount)).getText().toString();
+        String tts3 = res.getString(R.string.tts_gallery_3);
+        String speechSequence = tts1 + tts2 + tts3;
+
+        tts.speak(speechSequence, TextToSpeech.QUEUE_FLUSH, null);
+    }
+
+    @Override
+    public void onInit(int status) {
+        if (status == TextToSpeech.SUCCESS) {
+            Locale currentLocale = getResources().getConfiguration().locale;
+            tts.setLanguage(currentLocale);
+        } else {
+            Log.e("TTS", "Initialization failed");
+        }
+    }
+
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btn_settings:
@@ -213,6 +244,9 @@ public class GalleryFragment extends Fragment implements View.OnClickListener {
                 invert();
                 break;
             case R.id.btn_help:
+                break;
+            case R.id.btn_text_to_speech_gallery:
+                textToSpeech();
                 break;
         }
     }

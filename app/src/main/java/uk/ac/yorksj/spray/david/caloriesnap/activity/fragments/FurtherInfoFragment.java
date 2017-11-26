@@ -6,8 +6,10 @@ import android.content.res.Resources;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
+import android.speech.tts.TextToSpeech;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,6 +25,7 @@ import com.github.mikephil.charting.formatter.PercentFormatter;
 import com.github.mikephil.charting.utils.ColorTemplate;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
 import uk.ac.yorksj.spray.david.caloriesnap.R;
 
@@ -36,7 +39,7 @@ import uk.ac.yorksj.spray.david.caloriesnap.R;
  *
  * Uses MPAndroidChart package source: https://github.com/PhilJay/MPAndroidChart
  */
-public class FurtherInfoFragment extends Fragment {
+public class FurtherInfoFragment extends Fragment implements View.OnClickListener, TextToSpeech.OnInitListener{
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
 
@@ -44,14 +47,15 @@ public class FurtherInfoFragment extends Fragment {
     private float RDA_MALE = 2500.0f;
     private float RDA_FEMALE = 2000.0f; //Needs to be float for coversion to percentage on pie chart
 
-    private Resources res;
     private int invertState = 0;
-
     private OnFragmentInteractionListener mListener;
-    // TODO: Rename and change types of parameters
     private PieChart mPieChart;
     private int calorieValue;
     private GalleryFragment parent;
+
+    private TextToSpeech tts;
+    private int ttsPercentageFemale;
+    private int ttsPercentageMale;
 
     public FurtherInfoFragment() {
         // Required empty public constructor
@@ -85,7 +89,7 @@ public class FurtherInfoFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         ConstraintLayout layout = (ConstraintLayout) inflater.inflate(R.layout.fragment_further_info, container, false);
-
+        tts = new TextToSpeech(getContext(), this);
         return layout;
     }
 
@@ -101,7 +105,10 @@ public class FurtherInfoFragment extends Fragment {
         float percentageOfRdaMale = calorieValue/RDA_MALE;
         float percentageOfRdaFemale = calorieValue/RDA_FEMALE;
         float restOfRda = 1 - (percentageOfRdaFemale + percentageOfRdaMale);
-
+        //Create percentage ints for tts
+        ttsPercentageFemale = Math.round(percentageOfRdaFemale*100);
+        ttsPercentageMale = Math.round(percentageOfRdaMale*100);
+        //Pie chart setup
         ArrayList<Entry> pieChartYvalues = new ArrayList<>();
         pieChartYvalues.add(new Entry(percentageOfRdaFemale, 0));
         pieChartYvalues.add(new Entry(percentageOfRdaMale, 1));
@@ -154,6 +161,8 @@ public class FurtherInfoFragment extends Fragment {
         TextView totalKcalCount = (TextView) getView().findViewById(R.id.fi_kcal_count);
         SharedPreferences prefs = getActivity().getSharedPreferences(getResources().getString(R.string.tag_total_kcal), Context.MODE_PRIVATE);
         totalKcalCount.setText(Integer.toString(prefs.getInt(getResources().getString(R.string.tag_total_kcal), Context.MODE_PRIVATE)));
+
+        getView().findViewById(R.id.btn_fi_tts).setOnClickListener(this);
     }
 
     public void setParentFragment(GalleryFragment parent){
@@ -249,5 +258,43 @@ public class FurtherInfoFragment extends Fragment {
         kcalCount.setTextColor(primaryColor);
         divider1.setBackgroundColor(primaryColor);
         divider2.setBackgroundColor(primaryColor);
+    }
+
+    public void textToSpeech(){
+        Resources res = getResources();
+        //This meal contains $percentagefemale% of female and $percentmale % of male caloric rda.
+        String tts1 = res.getString(R.string.tts_fi_1);
+        String tts2 = Integer.toString(ttsPercentageFemale);
+        String tts3 = res.getString(R.string.tts_fi_3);
+        String tts4 = Integer.toString(ttsPercentageMale);
+        String tts5 = res.getString(R.string.tts_fi_5);
+        //you have counted $totalkcalcounted calories with this app.
+        String tts6 = res.getString(R.string.tts_fi_6);
+        String tts7 = ((TextView)getView().findViewById(R.id.fi_lbl_kcal)).getText().toString();
+        String tts8 = res.getString(R.string.tts_fi_8);
+
+        String speechSequence = tts1+tts2+tts3+tts4+tts5+tts6+tts7+tts8;
+        //TODO sort this into an array and assemble the speechsequence from that. More elegant
+        tts.speak(speechSequence, TextToSpeech.QUEUE_FLUSH, null);
+    }
+
+
+    @Override
+    public void onInit(int status) {
+        if (status == TextToSpeech.SUCCESS) {
+            Locale currentLocale = getResources().getConfiguration().locale;
+            tts.setLanguage(currentLocale);
+        } else {
+            Log.e("TTS", "Initialization failed");
+        }
+    }
+
+    @Override
+    public void onClick(View view) {
+        switch(view.getId()){
+            case R.id.btn_fi_tts:
+                textToSpeech();
+                break;
+        }
     }
 }

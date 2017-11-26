@@ -16,4 +16,11 @@
     <string name="remaining">restant</string>
     <string name="total_kcal">kCale Totale Compté</string>
     <string name="prefs_high_constrast">Contraste Élevé</string>
+    <string name="tts_gallery_1">Ce repas a</string>
+    <string name="tts_gallery_3">" calories."</string>
+    <string name="tts_fi_1">Ce repas a</string>
+    <string name="tts_fi_3">" pourcent de la femelle et"</string>
+    <string name="tts_fi_5">" pourcent de la mâle calorique A J R"</string>
+    <string name="tts_fi_8">" calories avec ce application."</string>
+    <string name="tts_fi_6">"Jusqu'ici, vous comptâtes "</string>
 </resources>
