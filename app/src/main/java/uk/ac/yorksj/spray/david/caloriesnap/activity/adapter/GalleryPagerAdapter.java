@@ -18,9 +18,9 @@ import uk.ac.yorksj.spray.david.caloriesnap.asynctask.BitmapAsyncTask;
 
 public class GalleryPagerAdapter extends FragmentStatePagerAdapter {
 
-    ArrayList<FoodItem> itemList;
-    ArrayList<GalleryFragment> fragmentList;
-    ArrayList<Fragment> fragmentListHolder;
+    private ArrayList<FoodItem> itemList;
+    private ArrayList<GalleryFragment> fragmentList;
+    private ArrayList<Fragment> fragmentListHolder;
 //    DetailOnPageChangeListener listener;
 
     public GalleryPagerAdapter(FragmentManager fm, final ArrayList<FoodItem> itemList, Resources res) {

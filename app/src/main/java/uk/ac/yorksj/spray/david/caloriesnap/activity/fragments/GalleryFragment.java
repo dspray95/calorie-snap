@@ -42,8 +42,8 @@ import uk.ac.yorksj.spray.david.caloriesnap.activity.listener.NavigationListener
 public class GalleryFragment extends Fragment implements View.OnClickListener, TextToSpeech.OnInitListener {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String FOOD_ITEM = "food_item";
-    private static final String TAG = "GALLERY_FRAGMENT";
+    private String FOOD_ITEM = "food_item";
+    private String TAG = "GALLERY_FRAGMENT";
 
     // TODO: Rename and change types of parameters
     private FoodItem foodItem;
@@ -69,7 +69,7 @@ public class GalleryFragment extends Fragment implements View.OnClickListener, T
     public static GalleryFragment newInstance(FoodItem foodItem, Resources res, boolean firstFragment) {
         GalleryFragment fragment = new GalleryFragment();
         Bundle args = new Bundle();
-        args.putParcelable(FOOD_ITEM, foodItem);
+        args.putParcelable("food_item", foodItem);
         fragment.foodItem = foodItem;
         fragment.setArguments(args);
         //tts init
@@ -248,6 +248,10 @@ public class GalleryFragment extends Fragment implements View.OnClickListener, T
         }
     }
 
+    public void help(){
+        this.getView().findViewById(R.id.further_info_layout);
+    }
+
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btn_settings:
@@ -259,6 +263,7 @@ public class GalleryFragment extends Fragment implements View.OnClickListener, T
                 invert();
                 break;
             case R.id.btn_help:
+                help();
                 break;
             case R.id.btn_text_to_speech_gallery:
                 textToSpeech();

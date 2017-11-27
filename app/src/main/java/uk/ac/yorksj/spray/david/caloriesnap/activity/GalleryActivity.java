@@ -31,12 +31,12 @@ public class GalleryActivity extends LocalizationActivity implements
         GalleryFragment.OnFragmentInteractionListener,
         FurtherInfoFragment.OnFragmentInteractionListener{
 
-    String ITEM_MANAGER_CREATED = "ITEM_MANAGER_CREATED";
-    FoodItemManager imageManager;
-    String imageManagerFilename;
-    ArrayList<FoodItem> foodItemList;
-    ViewPager viewPager;
-    GalleryPagerAdapter galleryPagerAdapter;
+    private String ITEM_MANAGER_CREATED = "ITEM_MANAGER_CREATED";
+    private FoodItemManager imageManager;
+    private String imageManagerFilename;
+    private ArrayList<FoodItem> foodItemList;
+    private ViewPager viewPager;
+    private GalleryPagerAdapter galleryPagerAdapter;
     private Handler mHandler = new Handler();
 
     @Override
@@ -129,7 +129,7 @@ public class GalleryActivity extends LocalizationActivity implements
 
     public void onResume(){
         super.onResume();
-        galleryPagerAdapter.trySetBitmaps();
+//        galleryPagerAdapter.trySetBitmaps();
     }
 
     @Override

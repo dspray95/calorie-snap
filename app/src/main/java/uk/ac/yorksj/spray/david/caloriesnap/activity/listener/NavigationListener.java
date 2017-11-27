@@ -2,19 +2,13 @@ package uk.ac.yorksj.spray.david.caloriesnap.activity.listener;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.MotionEventCompat;
 import android.view.MotionEvent;
 import android.view.View;
 
 import uk.ac.yorksj.spray.david.caloriesnap.R;
-import uk.ac.yorksj.spray.david.caloriesnap.activity.fragments.FurtherInfoFragment;
-import uk.ac.yorksj.spray.david.caloriesnap.activity.fragments.GalleryFragment;
-
-/**
- * Created by david on 01/11/17.
- */
+import uk.ac.yorksj.spray.david.caloriesnap.activity.GalleryActivity;
+import uk.ac.yorksj.spray.david.caloriesnap.activity.fragments.CameraFragment;
 
 public class NavigationListener implements View.OnTouchListener {
 
@@ -24,12 +18,11 @@ public class NavigationListener implements View.OnTouchListener {
     private int threshhold = 5;
     private Class nextActivity;
     private Activity currentActivity;
+    private CameraFragment parentFragment;
 
-    public NavigationListener(){}
-
-    public NavigationListener(char newScreenDirection, Activity context, Class nextActivity){
+    public NavigationListener(char newScreenDirection, CameraFragment parentFragment, Class nextActivity){
         this.newScreenDirection = newScreenDirection;
-        this.currentActivity = context;
+        this.parentFragment = parentFragment;
         this.nextActivity = nextActivity;
     }
 
@@ -57,17 +50,12 @@ public class NavigationListener implements View.OnTouchListener {
     }
 
     public void changeScreen(char newScreenDirection){
-        new Intent();
-        Intent mIntent = new Intent(currentActivity, nextActivity);
-        currentActivity.startActivity(mIntent);
-        currentActivity.finish();
-        switch(newScreenDirection){
-            case('d'):
-                currentActivity.overridePendingTransition(R.anim.slide_from_top, R.anim.slide_to_bottom);
-                break;
-            case('u'):
-                currentActivity.overridePendingTransition(R.anim.slide_from_bottom, R.anim.slide_to_top);
-                break;
-        }
+        Activity activity = parentFragment.getActivity();
+        Intent intent = new Intent(activity, GalleryActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        activity.startActivity(intent);
+        activity.overridePendingTransition(R.anim.slide_from_top, R.anim.slide_to_bottom);
+        activity.finish();
     }
 }

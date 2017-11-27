@@ -12,7 +12,7 @@ import android.view.View;
 
 public class FurtherInfoPagerAdapter extends FragmentStatePagerAdapter {
 
-    Fragment fragment;
+    private Fragment fragment;
 
     public FurtherInfoPagerAdapter(FragmentManager fm, Fragment fragment){
         super(fm);

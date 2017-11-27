@@ -34,9 +34,9 @@ public class SettingsActivity extends LocalizationActivity
     private ExpandableListView languagesListView;
     private LanguageListAdapter languagesListAdapter;
 
-    ArrayList<String> languageHeaders = new ArrayList<>();
-    HashMap<String, List<String>> subHeadersMap;
-    HashMap<String, List<Drawable>> iconsMap = new HashMap<>();
+    private ArrayList<String> languageHeaders = new ArrayList<>();
+    private HashMap<String, List<String>> subHeadersMap;
+    private HashMap<String, List<Drawable>> iconsMap = new HashMap<>();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

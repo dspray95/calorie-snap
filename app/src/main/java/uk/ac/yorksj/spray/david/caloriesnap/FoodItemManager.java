@@ -10,8 +10,7 @@ import java.io.Serializable;
 
 public class FoodItemManager implements Serializable{
 
-    protected FoodItem[] images;
-//    private SharedPreferences prefs;
+    private FoodItem[] images;
     private String TAG_TOTAL_KCAL;
 
     public FoodItemManager(String totalKcalTag){

@@ -44,7 +44,7 @@ public class FurtherInfoFragment extends Fragment implements View.OnClickListene
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
 
-    private static final String ARG_PARAM1 = "CALORIE_VALUE";
+    private String ARG_PARAM1 = "CALORIE_VALUE";
     private float RDA_MALE = 2500.0f;
     private float RDA_FEMALE = 2000.0f; //Needs to be float for coversion to percentage on pie chart
 

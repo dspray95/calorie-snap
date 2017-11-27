@@ -78,6 +78,7 @@ import java.util.concurrent.Semaphore;
 import java.util.concurrent.TimeUnit;
 
 import uk.ac.yorksj.spray.david.caloriesnap.R;
+import uk.ac.yorksj.spray.david.caloriesnap.activity.CameraActivity;
 import uk.ac.yorksj.spray.david.caloriesnap.activity.GalleryActivity;
 import uk.ac.yorksj.spray.david.caloriesnap.activity.listener.NavigationListener;
 import uk.ac.yorksj.spray.david.caloriesnap.activity.view.AutoFitTextureView;
@@ -231,6 +232,12 @@ public class CameraFragment extends Fragment
             }
         }
 
+//        @Override
+//        public void onClosed(CameraDevice camera) {
+//            // Keep the thread alive until the camera is closed.
+//            stopBackgroundThread();
+//        }
+
     };
 
     /**
@@ -299,6 +306,8 @@ public class CameraFragment extends Fragment
      * Whether the current camera device supports Flash or not.
      */
     private boolean mFlashSupported;
+
+    private CameraActivity mHomeActivity;
 
     /**
      * Orientation of the camera sensor
@@ -447,10 +456,12 @@ public class CameraFragment extends Fragment
         return inflater.inflate(R.layout.fragment_camera, container, false);
     }
 
+
+
     @Override
     public void onViewCreated(final View view, Bundle savedInstanceState) {
         view.findViewById(R.id.button_capture).setOnClickListener(this);
-        view.findViewById(R.id.texture_view).setOnTouchListener(new NavigationListener('d', this.getActivity(), GalleryActivity.class));
+        view.findViewById(R.id.texture_view).setOnTouchListener(new NavigationListener('d', this, GalleryActivity.class));
         mTextureView = (AutoFitTextureView) view.findViewById(R.id.texture_view);
         mFeedbackFlash= (ImageView) view.findViewById(R.id.camera_screen_flash);
     }
@@ -514,7 +525,7 @@ public class CameraFragment extends Fragment
     @SuppressWarnings("SuspiciousNameCombination")
     private void setUpCameraOutputs(int width, int height) {
         Activity activity = getActivity();
-        CameraManager manager = (CameraManager) activity.getSystemService(Context.CAMERA_SERVICE);
+        CameraManager manager = (CameraManager) activity.getApplicationContext().getSystemService(Context.CAMERA_SERVICE);
         try {
             for (String cameraId : manager.getCameraIdList()) {
                 CameraCharacteristics characteristics
@@ -631,7 +642,7 @@ public class CameraFragment extends Fragment
         setUpCameraOutputs(width, height);
         configureTransform(width, height);
         Activity activity = getActivity();
-        CameraManager manager = (CameraManager) activity.getSystemService(Context.CAMERA_SERVICE);
+        CameraManager manager = (CameraManager) activity.getApplicationContext().getSystemService(Context.CAMERA_SERVICE);
         try {
             if (!mCameraOpenCloseLock.tryAcquire(2500, TimeUnit.MILLISECONDS)) {
                 throw new RuntimeException("Time out waiting to lock camera opening.");
@@ -647,7 +658,7 @@ public class CameraFragment extends Fragment
     /**
      * Closes the current {@link CameraDevice}.
      */
-    private void closeCamera() {
+    public void closeCamera() {
         try {
             mCameraOpenCloseLock.acquire();
             if (null != mCaptureSession) {
@@ -681,7 +692,7 @@ public class CameraFragment extends Fragment
     /**
      * Stops the background thread and its {@link Handler}.
      */
-    private void stopBackgroundThread() {
+    public void stopBackgroundThread() {
         mBackgroundThread.quitSafely();
         try {
             mBackgroundThread.join();
@@ -795,7 +806,7 @@ public class CameraFragment extends Fragment
     /**
      * Lock the focus as the first step for a still image capture.
      */
-    private void lockFocus() {
+    public void lockFocus() {
         try {
             // This is how to tell the camera to lock focus.
             mPreviewRequestBuilder.set(CaptureRequest.CONTROL_AF_TRIGGER,
@@ -919,7 +930,7 @@ public class CameraFragment extends Fragment
                 mFeedbackFlash.setVisibility(View.VISIBLE);
                 mFeedbackFlash.setAlpha(1.0f); //Instantly set the alpha to 100%
                 takePicture();
-                mFeedbackFlash.animate().alpha(0.0f).setDuration(1500);   //Fade feedback back down to 0% (invisible)
+                mFeedbackFlash.animate().alpha(0.0f).setDuration(2000);   //Fade feedback back down to 0% (invisible)
 //                mFeedbackFlash.setVisibility(View.INVISIBLE);
                 break;
             }

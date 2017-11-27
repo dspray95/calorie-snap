@@ -18,14 +18,12 @@ public class BitmapAsyncTask extends AsyncTask<Void, Void, Void> {
     }
 
     public AsyncResponse delegate = null;
-    String path;
-    Bitmap bitmap;
-    FoodItem foodItem;
+    private Bitmap bitmap;
+    private FoodItem foodItem;
 
     public BitmapAsyncTask(AsyncResponse delegate, FoodItem foodItem){
         super();
         this.delegate = delegate;;
-//        this.path = path;
         this.foodItem = foodItem;
     }
 

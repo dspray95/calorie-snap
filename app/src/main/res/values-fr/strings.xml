@@ -23,4 +23,5 @@
     <string name="tts_fi_5">" pourcent de la mâle calorique A J R"</string>
     <string name="tts_fi_8">" calories avec ce application."</string>
     <string name="tts_fi_6">"Jusqu'ici, vous comptâtes "</string>
+    <string name="help_title">Menu d\'Aide</string>
 </resources>
