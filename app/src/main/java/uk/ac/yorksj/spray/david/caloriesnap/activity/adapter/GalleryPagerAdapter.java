@@ -10,7 +10,7 @@ import java.util.ArrayList;
 
 import uk.ac.yorksj.spray.david.caloriesnap.FoodItem;
 import uk.ac.yorksj.spray.david.caloriesnap.activity.fragments.GalleryFragment;
-import uk.ac.yorksj.spray.david.caloriesnap.asynctask.BitmapAsyncTask;
+import uk.ac.yorksj.spray.david.caloriesnap.tools.asynctask.BitmapAsyncTask;
 
 /**
  * Created by david on 02/11/17.

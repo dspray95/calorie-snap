@@ -44,7 +44,17 @@
 
     <!-- Help -->
     <string name="help_title">" Help"</string>
-
+        <!--gallery help-->
+        <string name="help_gallery_settings">Navigate to settings</string>
+        <string name="help_gallery_invert">Inverts the color of text items</string>
+        <string name="help_gallery_help">Navigate to the help screen</string>
+        <string name="help_gallery_tts">Reads aloud the kcal count</string>
+        <string name="help_gallery_swipe_u">Swiping up returns to the camera screen</string>
+        <string name="help_gallery_swipe_d">Swiping down shows more information about your meal</string>
+        <string name="help_gallery_swipe_lr">Swiping left or right cycles through your meals</string>
+        <!--camera help-->
+        <string name="help_camera_capture">Take a photo of a meal and calculate its kcal count</string>
+        <string name="help_camera_swipe_d">Swiping down navigates to the gallery screen</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

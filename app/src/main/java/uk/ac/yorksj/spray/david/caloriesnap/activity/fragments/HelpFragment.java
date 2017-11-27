@@ -1,14 +1,17 @@
 package uk.ac.yorksj.spray.david.caloriesnap.activity.fragments;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
 
 import uk.ac.yorksj.spray.david.caloriesnap.R;
+import uk.ac.yorksj.spray.david.caloriesnap.activity.adapter.HelpMenuListAdapter;
 
 
 /**
@@ -66,9 +69,51 @@ public class HelpFragment extends Fragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
 
+        String[] descriptions = getDescriptions(mHelpType);
+        Integer[] images = getImages(mHelpType);
+
+        HelpMenuListAdapter listAdapter = new HelpMenuListAdapter(getActivity(),
+                descriptions, images);
+
+        ListView helpList = getView().findViewById(R.id.help_list);
+        helpList.setAdapter(listAdapter);
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
+    public String[] getDescriptions(String helpType){
+
+        Resources res = getResources();
+
+        switch(helpType){
+            case "gallery":
+                return new String[]{
+                        res.getString(R.string.help_gallery_settings),
+                        res.getString(R.string.help_gallery_invert),
+                        res.getString(R.string.help_gallery_help),
+                        res.getString(R.string.help_gallery_tts),
+                        res.getString(R.string.help_gallery_swipe_u),
+                        res.getString(R.string.help_gallery_swipe_d),
+                        res.getString(R.string.help_gallery_swipe_lr)
+                };
+        }
+        return null; //throw a nullpointer exception if we dont have a helptype, TODO handle
+    }
+
+    public Integer[] getImages(String helpType){
+        switch(helpType){
+            case "gallery":
+                return new Integer[]{
+                        R.drawable.ic_settings_black_24dp,
+                        R.drawable.ic_invert_colors_black_24dp,
+                        R.drawable.ic_help_outline_black_24dp,
+                        R.drawable.ic_volume_up_black_24dp,
+                        R.drawable.ic_keyboard_arrow_up_black_24dp,
+                        R.drawable.ic_keyboard_arrow_down_black_24dp,
+                        R.drawable.ic_lr_arrows_black_24dp
+                };
+        }
+        return null;
+    }
+
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
             mListener.onFragmentInteraction(uri);
