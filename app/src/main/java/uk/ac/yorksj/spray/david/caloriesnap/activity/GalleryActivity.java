@@ -26,10 +26,12 @@ import uk.ac.yorksj.spray.david.caloriesnap.R;
 import uk.ac.yorksj.spray.david.caloriesnap.activity.adapter.GalleryPagerAdapter;
 import uk.ac.yorksj.spray.david.caloriesnap.activity.fragments.FurtherInfoFragment;
 import uk.ac.yorksj.spray.david.caloriesnap.activity.fragments.GalleryFragment;
+import uk.ac.yorksj.spray.david.caloriesnap.activity.fragments.HelpFragment;
 
 public class GalleryActivity extends LocalizationActivity implements
         GalleryFragment.OnFragmentInteractionListener,
-        FurtherInfoFragment.OnFragmentInteractionListener{
+        FurtherInfoFragment.OnFragmentInteractionListener,
+        HelpFragment.OnFragmentInteractionListener{
 
     private String ITEM_MANAGER_CREATED = "ITEM_MANAGER_CREATED";
     private FoodItemManager imageManager;

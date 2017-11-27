@@ -248,10 +248,6 @@ public class GalleryFragment extends Fragment implements View.OnClickListener, T
         }
     }
 
-    public void help(){
-        this.getView().findViewById(R.id.further_info_layout);
-    }
-
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btn_settings:
@@ -263,7 +259,7 @@ public class GalleryFragment extends Fragment implements View.OnClickListener, T
                 invert();
                 break;
             case R.id.btn_help:
-                help();
+                swipeListener.addHelpFragment();
                 break;
             case R.id.btn_text_to_speech_gallery:
                 textToSpeech();

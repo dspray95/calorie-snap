@@ -101,10 +101,14 @@ public class GalleryFragmentListener implements View.OnTouchListener{
         FragmentTransaction ft = fm.beginTransaction();
         FrameLayout holder = (FrameLayout) parentGalleryFragment.getView().findViewById(R.id.further_info_layout);
         ft.setCustomAnimations(R.anim.slide_from_top, R.anim.slide_to_bottom);
-        ft.add(holder.getId(), furtherInfoFragment, HELP_IDENTIFIER);
+        ft.add(holder.getId(), helpFragment, HELP_IDENTIFIER);
+        parentGalleryFragment.toggleDetails();
+        ft.commit();
+        fm.executePendingTransactions();
+
         state = 2;
         newScreenDirection = 'u';
-        Log.d(TAG, "Adding further info fragment");
+        Log.d(TAG, "Adding help fragment");
     }
 
     public FurtherInfoFragment getFurtherInfoFragment(){
