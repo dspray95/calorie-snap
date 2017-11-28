@@ -21,7 +21,7 @@ import uk.ac.yorksj.spray.david.caloriesnap.activity.fragments.HelpFragment;
  * Created by david on 12/11/17.
  */
 
-public class GalleryFragmentListener implements View.OnTouchListener{
+public class GalleryNavigationListener implements View.OnTouchListener{
 
     private String TAG = "FRAGMENT_LISTENER";
     private String FI_IDENTIFIER;
@@ -40,8 +40,8 @@ public class GalleryFragmentListener implements View.OnTouchListener{
     private Handler mHandler;
     int kcalCount;
 
-    public GalleryFragmentListener(FragmentManager fm, GalleryFragment parentGalleryFragment, int kcalCount,
-                                   char newScreenDirection, String filename){
+    public GalleryNavigationListener(FragmentManager fm, GalleryFragment parentGalleryFragment, int kcalCount,
+                                     char newScreenDirection, String filename){
         this.fm = fm;
         this.parentGalleryFragment = parentGalleryFragment;
         this.kcalCount = kcalCount;

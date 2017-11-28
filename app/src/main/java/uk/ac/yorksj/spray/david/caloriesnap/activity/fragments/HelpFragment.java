@@ -94,6 +94,11 @@ public class HelpFragment extends Fragment {
                         res.getString(R.string.help_gallery_swipe_d),
                         res.getString(R.string.help_gallery_swipe_lr)
                 };
+            case "camera":
+                return new String[]{
+                        res.getString(R.string.help_camera_capture),
+                        res.getString(R.string.help_camera_swipe_d)
+                };
         }
         return null; //throw a nullpointer exception if we dont have a helptype, TODO handle
     }
@@ -109,6 +114,11 @@ public class HelpFragment extends Fragment {
                         R.drawable.ic_keyboard_arrow_up_black_24dp,
                         R.drawable.ic_keyboard_arrow_down_black_24dp,
                         R.drawable.ic_lr_arrows_black_24dp
+                };
+            case "camera":
+                return new Integer[]{
+                        R.drawable.ic_camera_capture_150dp,
+                        R.drawable.ic_keyboard_arrow_down_black_24dp
                 };
         }
         return null;

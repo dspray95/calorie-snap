@@ -51,6 +51,8 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.util.Size;
@@ -60,6 +62,7 @@ import android.view.Surface;
 import android.view.TextureView;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -80,7 +83,7 @@ import java.util.concurrent.TimeUnit;
 import uk.ac.yorksj.spray.david.caloriesnap.R;
 import uk.ac.yorksj.spray.david.caloriesnap.activity.CameraActivity;
 import uk.ac.yorksj.spray.david.caloriesnap.activity.GalleryActivity;
-import uk.ac.yorksj.spray.david.caloriesnap.activity.listener.NavigationListener;
+import uk.ac.yorksj.spray.david.caloriesnap.activity.listener.CameraNavigationListener;
 import uk.ac.yorksj.spray.david.caloriesnap.activity.view.AutoFitTextureView;
 
 public class CameraFragment extends Fragment
@@ -307,7 +310,7 @@ public class CameraFragment extends Fragment
      */
     private boolean mFlashSupported;
 
-    private CameraActivity mHomeActivity;
+    private CameraNavigationListener mNavigationListener;
 
     /**
      * Orientation of the camera sensor
@@ -460,8 +463,10 @@ public class CameraFragment extends Fragment
 
     @Override
     public void onViewCreated(final View view, Bundle savedInstanceState) {
+        mNavigationListener = new CameraNavigationListener(getChildFragmentManager(), 'd', this, GalleryActivity.class);
         view.findViewById(R.id.button_capture).setOnClickListener(this);
-        view.findViewById(R.id.texture_view).setOnTouchListener(new NavigationListener('d', this, GalleryActivity.class));
+        view.findViewById(R.id.camera_help).setOnClickListener(this);
+        view.findViewById(R.id.texture_view).setOnTouchListener(mNavigationListener);
         mTextureView = (AutoFitTextureView) view.findViewById(R.id.texture_view);
         mFeedbackFlash= (ImageView) view.findViewById(R.id.camera_screen_flash);
     }
@@ -926,14 +931,16 @@ public class CameraFragment extends Fragment
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.button_capture: {
+            case R.id.button_capture:
                 mFeedbackFlash.setVisibility(View.VISIBLE);
                 mFeedbackFlash.setAlpha(1.0f); //Instantly set the alpha to 100%
                 takePicture();
                 mFeedbackFlash.animate().alpha(0.0f).setDuration(2000);   //Fade feedback back down to 0% (invisible)
 //                mFeedbackFlash.setVisibility(View.INVISIBLE);
                 break;
-            }
+            case R.id.camera_help:
+                mNavigationListener.addHelpFragment();
+                break;
         }
     }
 

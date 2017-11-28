@@ -5,14 +5,11 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
-import android.graphics.Color;
-import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
 import android.speech.tts.TextToSpeech;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
-import android.support.v4.widget.ViewDragHelper;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,15 +18,12 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import org.w3c.dom.Text;
-
 import java.util.Locale;
 
 import uk.ac.yorksj.spray.david.caloriesnap.FoodItem;
 import uk.ac.yorksj.spray.david.caloriesnap.R;
 import uk.ac.yorksj.spray.david.caloriesnap.activity.SettingsActivity;
-import uk.ac.yorksj.spray.david.caloriesnap.activity.listener.GalleryFragmentListener;
-import uk.ac.yorksj.spray.david.caloriesnap.activity.listener.NavigationListener;
+import uk.ac.yorksj.spray.david.caloriesnap.activity.listener.GalleryNavigationListener;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -50,7 +44,7 @@ public class GalleryFragment extends Fragment implements View.OnClickListener, T
     private Bitmap bitmap;
     private OnFragmentInteractionListener mListener;
     private boolean detailsEnabled = true;
-    private GalleryFragmentListener swipeListener;
+    private GalleryNavigationListener swipeListener;
     private int invertState = 0;
     private TextToSpeech tts;
 
@@ -140,7 +134,7 @@ public class GalleryFragment extends Fragment implements View.OnClickListener, T
         lblKcalCount.setText(Integer.toString(foodItem.getKcalCount()));
 
         //listener setting
-        this.swipeListener = new GalleryFragmentListener(getChildFragmentManager(), this, foodItem.getKcalCount(),
+        this.swipeListener = new GalleryNavigationListener(getChildFragmentManager(), this, foodItem.getKcalCount(),
                 'd', foodItem.getImagePath());
         view.setOnTouchListener(this.swipeListener);
         view.findViewById(R.id.btn_settings).setOnClickListener(this);

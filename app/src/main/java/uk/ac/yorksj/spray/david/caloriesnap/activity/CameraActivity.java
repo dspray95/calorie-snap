@@ -17,6 +17,7 @@
 package uk.ac.yorksj.spray.david.caloriesnap.activity;
 
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -26,8 +27,9 @@ import com.akexorcist.localizationactivity.ui.LocalizationActivity;
 
 import uk.ac.yorksj.spray.david.caloriesnap.R;
 import uk.ac.yorksj.spray.david.caloriesnap.activity.fragments.CameraFragment;
+import uk.ac.yorksj.spray.david.caloriesnap.activity.fragments.HelpFragment;
 
-public class CameraActivity extends LocalizationActivity {
+public class CameraActivity extends LocalizationActivity implements HelpFragment.OnFragmentInteractionListener {
 
     CameraFragment fragment;
 
@@ -69,4 +71,8 @@ public class CameraActivity extends LocalizationActivity {
         }
     }
 
+    @Override
+    public void onFragmentInteraction(Uri uri) {
+
+    }
 }
