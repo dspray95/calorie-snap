@@ -17,10 +17,6 @@ import uk.ac.yorksj.spray.david.caloriesnap.activity.fragments.FurtherInfoFragme
 import uk.ac.yorksj.spray.david.caloriesnap.activity.fragments.GalleryFragment;
 import uk.ac.yorksj.spray.david.caloriesnap.activity.fragments.HelpFragment;
 
-/**
- * Created by david on 12/11/17.
- */
-
 public class GalleryNavigationListener implements View.OnTouchListener{
 
     private String TAG = "FRAGMENT_LISTENER";

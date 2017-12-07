@@ -39,16 +39,18 @@ import uk.ac.yorksj.spray.david.caloriesnap.R;
  * create an instance of this fragment.
  *
  * Uses MPAndroidChart package source: https://github.com/PhilJay/MPAndroidChart
+ *
+ * Fragment that contains more info for each entry in the gallery
+ * Currently displays a pie chart with a representation of the entries caloric %RDA,
+ * and the total amount of kcal counted with the application
  */
 public class FurtherInfoFragment extends Fragment implements View.OnClickListener, TextToSpeech.OnInitListener{
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
 
     private String ARG_PARAM1 = "CALORIE_VALUE";
-    private float RDA_MALE = 2500.0f;
+    private float RDA_MALE = 2500.0f;   //RDA percentage is the same worldwide
     private float RDA_FEMALE = 2000.0f; //Needs to be float for coversion to percentage on pie chart
 
-    private int invertState = 0;
+    private int invertState = 0;    //state of GUI color inversion
     private OnFragmentInteractionListener mListener;
     private PieChart mPieChart;
     private int calorieValue;
@@ -66,6 +68,7 @@ public class FurtherInfoFragment extends Fragment implements View.OnClickListene
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
      *
+     * @param calorieValue the number of calories from the associated gallery fragment
      * @return A new instance of fragment FurtherInfoFragment.
      */
     // TODO: Rename and change types and number of parameters
@@ -98,6 +101,7 @@ public class FurtherInfoFragment extends Fragment implements View.OnClickListene
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        //Get the color information fro the pie chart
         int primaryColor = getPrimaryColor();
         setColors(primaryColor);
         mPieChart = (PieChart) view.findViewById(R.id.fi_pie_chart);
@@ -121,7 +125,7 @@ public class FurtherInfoFragment extends Fragment implements View.OnClickListene
                 R.color.pie_chart_male,
                 R.color.textBright};
         pieChartDataSet.setColors(ColorTemplate.createColors(getResources(), colorsArray)); //Always should be bright
-
+        //Building the pie chart
         pieChartDataSet.setValueTextColor(getResources().getColor(R.color.textBright));
         pieChartDataSet.setValueTextSize(14f);
         ArrayList<String> pieChartKey = new ArrayList<>();
@@ -208,6 +212,10 @@ public class FurtherInfoFragment extends Fragment implements View.OnClickListene
         void onFragmentInteraction(Uri uri);
     }
 
+    /**
+     * Returns the ID of the current primary color based on the invert state of the fragment
+     * @return
+     */
     public int getPrimaryColor(){
         int primaryColor;
         switch(invertState){
@@ -244,6 +252,10 @@ public class FurtherInfoFragment extends Fragment implements View.OnClickListene
         this.invertState = invertState;
     }
 
+    /**
+     * Sets the color of each GUI object based on the result of getPrimaryColor
+     * @param primaryColor
+     */
     public void setColors(int primaryColor){
         //Get views
         TextView lblPieChart = (TextView) getView().findViewById(R.id.fi_lbl_pie);
@@ -263,6 +275,9 @@ public class FurtherInfoFragment extends Fragment implements View.OnClickListene
         btnTTS.setColorFilter(primaryColor);
     }
 
+    /**
+     * 
+     */
     public void textToSpeech(){
         Resources res = getResources();
         //This meal contains $percentagefemale% of female and $percentmale % of male caloric rda.

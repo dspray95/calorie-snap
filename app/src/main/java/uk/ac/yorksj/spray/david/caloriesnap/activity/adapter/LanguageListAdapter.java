@@ -1,9 +1,5 @@
 package uk.ac.yorksj.spray.david.caloriesnap.activity.adapter;
 
-/**
- * Created by david on 24/11/17.
- */
-
 import java.util.HashMap;
 import java.util.List;
 import android.content.Context;
@@ -17,13 +13,23 @@ import android.widget.TextView;
 
 import uk.ac.yorksj.spray.david.caloriesnap.R;
 
+/**
+ * Expandable list adapter for the languages expandable list
+ */
 public class LanguageListAdapter extends BaseExpandableListAdapter {
 
     private Context context;
     private List<String> languagesHeaders; //Headers
     private HashMap<String, List<String>> languagesEntries; //<HeaderTitle, ChildTitle>
-    private HashMap<String, List<Drawable>> languageFlags;
+    private HashMap<String, List<Drawable>> languageFlags; //flag images
 
+    /**
+     * Constructor
+     * @param context
+     * @param languagesHeaders header for the language list (should only contain one entry)
+     * @param languagesEntries string representation each language supported
+     * @param languageFlags drawable flag associated with each language entry
+     */
     public LanguageListAdapter(Context context, List<String> languagesHeaders,
                                        HashMap<String, List<String>> languagesEntries,
                                        HashMap<String, List<Drawable>> languageFlags) {
@@ -44,6 +50,15 @@ public class LanguageListAdapter extends BaseExpandableListAdapter {
         return expandedListPosition;
     }
 
+    /**
+     * Expands the list and displays children
+     * @param listPosition
+     * @param expandedListPosition
+     * @param isLastChild
+     * @param convertView
+     * @param parent
+     * @return
+     */
     @Override
     public View getChildView(int listPosition, final int expandedListPosition,
                              boolean isLastChild, View convertView, ViewGroup parent) {

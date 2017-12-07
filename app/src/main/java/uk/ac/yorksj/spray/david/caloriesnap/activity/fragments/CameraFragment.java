@@ -86,6 +86,12 @@ import uk.ac.yorksj.spray.david.caloriesnap.activity.GalleryActivity;
 import uk.ac.yorksj.spray.david.caloriesnap.activity.listener.CameraNavigationListener;
 import uk.ac.yorksj.spray.david.caloriesnap.activity.view.AutoFitTextureView;
 
+/**
+ * Fragment that displays the camera viewfinder and allows the user to take a picture
+ * Also contains a help menu button which displays a help menu fragment when tapped
+ * Uses googles Camera2BasicFragment open source example
+ *  source: https://github.com/googlesamples/android-Camera2Basic
+ */
 public class CameraFragment extends Fragment
         implements View.OnClickListener, ActivityCompat.OnRequestPermissionsResultCallback {
 
@@ -95,9 +101,6 @@ public class CameraFragment extends Fragment
     private static final SparseIntArray ORIENTATIONS = new SparseIntArray();
     private static final int REQUEST_CAMERA_PERMISSION = 1;
     private static final String FRAGMENT_DIALOG = "dialog";
-
-    private String mFilePath;
-    private String mFileName;
 
     static {
         ORIENTATIONS.append(Surface.ROTATION_0, 90);
@@ -421,7 +424,6 @@ public class CameraFragment extends Fragment
         // Try to find an size match aspect ratio and size
         for (Size size : sizes)
         {
-//          Log.d("CameraActivity", "Checking size " + size.width + "w " + size.height + "h");
             double ratio = (double) size.getWidth() / size.getHeight();
             if (Math.abs(ratio - targetRatio) > ASPECT_TOLERANCE)
                 continue;
@@ -474,7 +476,6 @@ public class CameraFragment extends Fragment
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-//        mFile = new File(getActivity().getExternalFilesDir(null), "pic.jpg");
     }
 
     @Override
@@ -875,7 +876,6 @@ public class CameraFragment extends Fragment
                 public void onCaptureCompleted(@NonNull CameraCaptureSession session,
                                                @NonNull CaptureRequest request,
                                                @NonNull TotalCaptureResult result) {
-                    showToast("Saved: " + mFile);
                     Log.d(TAG, mFile.toString());
                     unlockFocus();
                     Intent intent = new Intent(getActivity(), GalleryActivity.class);
@@ -976,18 +976,17 @@ public class CameraFragment extends Fragment
             byte[] bytes = new byte[buffer.remaining()];
             buffer.get(bytes);
 
-
+            //Bitmap operations
             BitmapFactory.Options iniOptions = new BitmapFactory.Options();
             iniOptions.inJustDecodeBounds = true;
             BitmapFactory.decodeByteArray(bytes, 0, bytes.length, iniOptions);
-            int iHeight = iniOptions.outHeight;
-            int iWidth = iniOptions.outHeight;
             iniOptions.inJustDecodeBounds = false;
             iniOptions.inSampleSize = 1;
             Matrix matrix = new Matrix();
             matrix.postRotate(90);
             ByteArrayOutputStream out = new ByteArrayOutputStream();
             Bitmap bmp = BitmapFactory.decodeByteArray(bytes, 0, bytes.length, iniOptions);
+            bmp = Bitmap.createBitmap(bmp, 0, 0, bmp.getWidth(), bmp.getHeight(), matrix, true);
             bmp.compress(Bitmap.CompressFormat.JPEG, 50, out); //TODO Dynamic quality calculation based on available memory
             byte[] compresedBytes = out.toByteArray();
 
@@ -1007,6 +1006,7 @@ public class CameraFragment extends Fragment
                         e.printStackTrace();
                     }
                 }
+                compresedBytes = null;
             }
         }
 

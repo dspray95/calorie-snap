@@ -11,7 +11,8 @@ import android.widget.TextView;
 import uk.ac.yorksj.spray.david.caloriesnap.R;
 
 /**
- * Created by david on 27/11/17.
+ * List adapter for the help menu
+ * Handles the creation of help menu lists (for both the gallery and camera help screens)
  */
 
 public class HelpMenuListAdapter extends ArrayAdapter<String> {
@@ -20,14 +21,26 @@ public class HelpMenuListAdapter extends ArrayAdapter<String> {
     private String[] descriptions;
     private Integer[] images;
 
+    /**
+     * Constructor
+     * @param context parent context
+     * @param descriptions entries for the help list
+     * @param images associated images for the descriptions
+     */
     public HelpMenuListAdapter(Activity context, String[] descriptions, Integer[] images) {
         super(context, R.layout.help_list_entry, descriptions);
         this.context = context;
         this.descriptions = descriptions;
         this.images = images;
-
     }
 
+    /**
+     * Inflates each object of the list
+     * @param position list item position
+     * @param view View
+     * @param parent ViewGroup
+     * @return
+     */
     @Override
     public View getView(int position, View view, ViewGroup parent) {
         LayoutInflater inflater = context.getLayoutInflater();
