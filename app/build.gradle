@@ -36,6 +36,7 @@ dependencies {
     compile 'com.akexorcist:localizationactivity:1.2.2'
     compile 'junit:junit:4.12'
     testCompile 'junit:junit:4.12'
+    testCompile 'org.mockito:mockito-core:1.10.19'
 }
 
 
