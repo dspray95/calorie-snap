@@ -5,19 +5,24 @@ import android.content.SharedPreferences;
 import java.io.Serializable;
 
 /**
- * Created by david on 31/10/17.
+ * Handler object for the previour 5 foodItems created
  */
 
 public class FoodItemManager implements Serializable{
 
-    private FoodItem[] images;
     private String TAG_TOTAL_KCAL;
+    private FoodItem[] images; //List of previous 5 food items
 
     public FoodItemManager(String totalKcalTag){
         this.TAG_TOTAL_KCAL = totalKcalTag;
         this.images = new FoodItem[5];
     }
 
+    /**
+     * Adds food item to the list and removes the oldest item
+     * @param img FoodItem to add
+     * @param prefs
+     */
     public void addFoodItem(FoodItem img, SharedPreferences prefs){
         img.writeKCalTotal(prefs, TAG_TOTAL_KCAL);
         if(checkFoodItemsFull()){
@@ -32,6 +37,11 @@ public class FoodItemManager implements Serializable{
         }
     }
 
+    /**
+     * Delete food item
+     * @param foodItems
+     * @return
+     */
     public FoodItem[] removeFoodItem(FoodItem[] foodItems){
         String imageToDelete = foodItems[0].getImagePath();
         //todo delete image
@@ -39,6 +49,10 @@ public class FoodItemManager implements Serializable{
         return images;
     }
 
+    /**
+     * Check if there are already 5 FoodItems in the food item array
+     * @return
+     */
     public boolean checkFoodItemsFull(){
         int imageCount = 0;
         for(FoodItem img : images){
@@ -49,6 +63,10 @@ public class FoodItemManager implements Serializable{
         return imageCount==images.length;
     }
 
+    /**
+     * Used when the food item array is not full
+     * @return the first index that does not hold an object
+     */
     public int getFirstEmptyFoodItem(){
         int firstEmptyItem = 0;
         for(int i = 0; i<=images.length; i++){

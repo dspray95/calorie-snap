@@ -28,6 +28,9 @@ import uk.ac.yorksj.spray.david.caloriesnap.activity.fragments.FurtherInfoFragme
 import uk.ac.yorksj.spray.david.caloriesnap.activity.fragments.GalleryFragment;
 import uk.ac.yorksj.spray.david.caloriesnap.activity.fragments.HelpFragment;
 
+/**
+ * Holder activity for the gallery fragments
+ */
 public class GalleryActivity extends LocalizationActivity implements
         GalleryFragment.OnFragmentInteractionListener,
         FurtherInfoFragment.OnFragmentInteractionListener,
@@ -39,15 +42,21 @@ public class GalleryActivity extends LocalizationActivity implements
     private ArrayList<FoodItem> foodItemList;
     private ViewPager viewPager;
     private GalleryPagerAdapter galleryPagerAdapter;
-    private Handler mHandler = new Handler();
+    private Handler mHandler = new Handler(); //used to run a background thread
 
+    /**
+     * Initialise the activity
+     * @param savedInstanceState
+     */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_gallery);
+        //First get an image manager object
+        //Try to load an image manager file
         imageManagerFilename = getExternalFilesDir(null) + "/item.manager";
         File imageManagerFile = new File(imageManagerFilename);
-        //We need an image manager if we dont have one.
+        //We need to create an image manager if we dont have one.
         String TAG_TOTAL_KCAL = getResources().getString(R.string.tag_total_kcal);
         if(imageManagerFile.exists()) {
                 imageManager = loadImageManager(imageManagerFilename);
@@ -93,6 +102,11 @@ public class GalleryActivity extends LocalizationActivity implements
         }, 3000);
     }
 
+    /**
+     * Write the image manager to internal storage for later use
+     * @param imageManager
+     * @param filename
+     */
     public void saveImageManager(FoodItemManager imageManager, String filename){
         try {
             ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(new File(filename)));
@@ -106,6 +120,11 @@ public class GalleryActivity extends LocalizationActivity implements
         }
     }
 
+    /**
+     * Load the image manager from internal storage
+     * @param imageManagerFilename
+     * @return
+     */
     public FoodItemManager loadImageManager(String imageManagerFilename){
         try {
             ObjectInputStream ois = new ObjectInputStream(new FileInputStream(imageManagerFilename));

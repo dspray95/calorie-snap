@@ -14,20 +14,28 @@ import uk.ac.yorksj.spray.david.caloriesnap.tools.BitmapHandler;
 
 
 /**
- * Created by david on 31/10/17.
+ * Stores information regarding a meal image taken by the user
  */
 
 public class FoodItem implements Serializable, Parcelable{
 
     private int kcalCount;
     private String imagePath;
-    private transient Bitmap bitmap;
+    private transient Bitmap bitmap; //transient as Bitmap objects arent serializable
 
+    /**
+     * Constructor
+     * @param imagePath Absolute filepath of the related image
+     */
     public FoodItem(String imagePath){
         this.imagePath = imagePath;
         this.kcalCount = calculateKcalCount();
     }
 
+    /**
+     * Currently generates a random value for GUI development
+     * @return
+     */
     protected int calculateKcalCount(){ //Writing a neural net to do this may take some considerable time...
         return new Random().nextInt(1000);
     }
@@ -36,6 +44,11 @@ public class FoodItem implements Serializable, Parcelable{
         return this.kcalCount;
     }
 
+    /**
+     * Adds the kcal count of this item to the total kcal count of the application
+     * @param prefs
+     * @param TAG
+     */
     public void writeKCalTotal(SharedPreferences prefs, String TAG){
         int val = prefs.getInt(TAG, Context.MODE_PRIVATE);
         val += this.kcalCount;
@@ -49,6 +62,9 @@ public class FoodItem implements Serializable, Parcelable{
         return this.imagePath;
     }
 
+    /**
+     * Creates a bitmap handler and creates the bitmap with it
+     */
     public void createImageBitmap(){
         try {
             bitmap = new BitmapHandler().getBitmapFromPath(this.imagePath);

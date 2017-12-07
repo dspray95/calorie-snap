@@ -29,6 +29,9 @@ import uk.ac.yorksj.spray.david.caloriesnap.R;
 import uk.ac.yorksj.spray.david.caloriesnap.activity.fragments.CameraFragment;
 import uk.ac.yorksj.spray.david.caloriesnap.activity.fragments.HelpFragment;
 
+/**
+ * Holder activity for the camera operations
+ */
 public class CameraActivity extends LocalizationActivity implements HelpFragment.OnFragmentInteractionListener {
 
     CameraFragment fragment;

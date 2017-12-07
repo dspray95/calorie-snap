@@ -32,6 +32,11 @@ import uk.ac.yorksj.spray.david.caloriesnap.activity.listener.GalleryNavigationL
  * to handle interaction events.
  * Use the {@link GalleryFragment#newInstance} factory method to
  * create an instance of this fragment.
+ *
+ * Gallery fragment displays calorie information for a specific meal,
+ * with an image of the meal in the background.
+ * Also contains functionality for settings, invert, and help buttons.
+ * Contains the navigation manager which created a further information fragment on swiping down
  */
 public class GalleryFragment extends Fragment implements View.OnClickListener, TextToSpeech.OnInitListener {
     // TODO: Rename parameter arguments, choose names that match
@@ -115,8 +120,6 @@ public class GalleryFragment extends Fragment implements View.OnClickListener, T
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
-
         //High contrast mode (set in SettingsActivity) will ensure that there is always a large amount
         //of contrast between the foreground text and the background image by applying a brightness screen
         SharedPreferences prefs = getActivity().getSharedPreferences(getResources().getString(R.string.app_name), Context.MODE_PRIVATE);
@@ -173,6 +176,10 @@ public class GalleryFragment extends Fragment implements View.OnClickListener, T
         void onFragmentInteraction(Uri uri);
     }
 
+    /**
+     * Toggles the information and buttons of the fragment between visible/invisible
+     * Used when creating the further information frgament.
+     */
     public void toggleDetails(){
         ConstraintLayout detailsLayout = (ConstraintLayout) getView().findViewById(R.id.details);
         if(detailsEnabled){
@@ -185,6 +192,9 @@ public class GalleryFragment extends Fragment implements View.OnClickListener, T
         }
     }
 
+    /**
+     * Inverts the colors of the GUI items
+     */
     public void invert(){
         Resources res = getResources();
         TextView lblKcal = (TextView) getView().findViewById(R.id.txt_kcal);
@@ -222,6 +232,9 @@ public class GalleryFragment extends Fragment implements View.OnClickListener, T
         }
     }
 
+    /**
+     * Readout of the information on screen
+     */
     public void textToSpeech(){
         Resources res = getResources();
         String tts1 = res.getString(R.string.tts_gallery_1);
@@ -232,6 +245,10 @@ public class GalleryFragment extends Fragment implements View.OnClickListener, T
         tts.speak(speechSequence, TextToSpeech.QUEUE_FLUSH, null);
     }
 
+    /**
+     * Text to speech initialisation
+     * @param status
+     */
     @Override
     public void onInit(int status) {
         if (status == TextToSpeech.SUCCESS) {

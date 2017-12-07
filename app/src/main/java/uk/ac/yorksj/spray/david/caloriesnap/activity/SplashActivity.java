@@ -6,6 +6,9 @@ import android.os.Bundle;
 
 import uk.ac.yorksj.spray.david.caloriesnap.R;
 
+/**
+ * Used to create a 'splash' display when the application is loading
+ */
 public class SplashActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -23,6 +23,8 @@ import uk.ac.yorksj.spray.david.caloriesnap.R;
 import uk.ac.yorksj.spray.david.caloriesnap.activity.adapter.LanguageListAdapter;
 
 /**
+ * Handles user preferences
+ * Includes high-contrast mode, auto-text-to-speech settings, and lanugage settings
  * Uses Android-LocalizationActivity package. Source: https://github.com/akexorcist/Android-LocalizationActivity
  */
 public class SettingsActivity extends LocalizationActivity
@@ -30,7 +32,6 @@ public class SettingsActivity extends LocalizationActivity
 
     private String HIGH_CONTRAST_TAG = "HIGH_CONTRAST";
 
-    private String languagesHeader;
     private ExpandableListView languagesListView;
     private LanguageListAdapter languagesListAdapter;
 
@@ -70,6 +71,13 @@ public class SettingsActivity extends LocalizationActivity
         highContrastSwitch.setOnCheckedChangeListener(this);
     }
 
+    /**
+     * Creates subheader entries for the language list
+     * Lists all supported languages
+     * @param res
+     * @param headers List of all subheaders (eg. English, French, German...)
+     * @return
+     */
     public HashMap<String, List<String>> createLanguagesSubHeaders(Resources res, List<String> headers){
 
         HashMap<String, List<String>> subHeadersMap = new HashMap<>();
@@ -81,6 +89,12 @@ public class SettingsActivity extends LocalizationActivity
         return subHeadersMap;
     }
 
+    /**
+     * Create the language flag icons for the related subheaders
+     * @param res
+     * @param headers
+     * @return
+     */
     public HashMap<String, List<Drawable>> createLanguagesIcons(Resources res, List<String> headers){
 
         HashMap<String, List<Drawable>> iconsMap = new HashMap<>();
@@ -93,6 +107,11 @@ public class SettingsActivity extends LocalizationActivity
         return iconsMap;
     }
 
+    /**
+     * Listener for switches
+     * @param buttonView
+     * @param isChecked
+     */
     @Override
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 
@@ -108,6 +127,16 @@ public class SettingsActivity extends LocalizationActivity
         editor.commit();
     }
 
+    /**
+     * Listener for language subheaders
+     * Sets the locale to the tapped language
+     * @param parent
+     * @param v
+     * @param groupPosition
+     * @param childPosition
+     * @param id
+     * @return
+     */
     public boolean onChildClick(ExpandableListView parent, View v,
                                 int groupPosition, int childPosition, long id) {
                 switch (childPosition){ //TODO make more explicit

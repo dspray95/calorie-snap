@@ -276,7 +276,7 @@ public class FurtherInfoFragment extends Fragment implements View.OnClickListene
     }
 
     /**
-     * 
+     * Handles the text to speech aspects of the further information page
      */
     public void textToSpeech(){
         Resources res = getResources();
@@ -296,7 +296,7 @@ public class FurtherInfoFragment extends Fragment implements View.OnClickListene
         tts.speak(speechSequence, TextToSpeech.QUEUE_FLUSH, null);
     }
 
-
+    //Initialisation of the text to speech functionality
     @Override
     public void onInit(int status) {
         if (status == TextToSpeech.SUCCESS) {

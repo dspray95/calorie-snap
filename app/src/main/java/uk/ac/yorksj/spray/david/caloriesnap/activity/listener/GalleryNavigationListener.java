@@ -17,11 +17,15 @@ import uk.ac.yorksj.spray.david.caloriesnap.activity.fragments.FurtherInfoFragme
 import uk.ac.yorksj.spray.david.caloriesnap.activity.fragments.GalleryFragment;
 import uk.ac.yorksj.spray.david.caloriesnap.activity.fragments.HelpFragment;
 
+//TODO create a parent abstract class between for the CameraNavigationListener and the GalleryNavigationListener
+/**
+ * Swipe navigation listener for the gallery screen
+ */
 public class GalleryNavigationListener implements View.OnTouchListener{
 
     private String TAG = "FRAGMENT_LISTENER";
-    private String FI_IDENTIFIER;
-    private String HELP_IDENTIFIER;
+    private String FI_IDENTIFIER; //Fragment manager identifier for the further information fragment
+    private String HELP_IDENTIFIER; //Fragment manager identifier for the help fragment
 
     private float yEventStart;
     private int threshhold = 5;
@@ -36,6 +40,14 @@ public class GalleryNavigationListener implements View.OnTouchListener{
     private Handler mHandler;
     int kcalCount;
 
+    /**
+     * Constructor
+     * @param fm parent fragment manager
+     * @param parentGalleryFragment creator gallery fragment
+     * @param kcalCount creator gallery fragent kcal count
+     * @param newScreenDirection direction of the intended swipe
+     * @param filename
+     */
     public GalleryNavigationListener(FragmentManager fm, GalleryFragment parentGalleryFragment, int kcalCount,
                                      char newScreenDirection, String filename){
         this.fm = fm;
@@ -47,7 +59,12 @@ public class GalleryNavigationListener implements View.OnTouchListener{
         this.HELP_IDENTIFIER = "help_fragment";
     }
 
-
+    /**
+     * Fired from swiping, changes the screen depending on the state of the activity.
+     * State 0: Add further info fragment
+     * State 1: Remove further info fragment
+     * Sate 2: Remove help fragment
+     */
     public void changeScreen(){
         FrameLayout holder = (FrameLayout) parentGalleryFragment.getView().findViewById(R.id.further_info_layout);
 
@@ -90,6 +107,10 @@ public class GalleryNavigationListener implements View.OnTouchListener{
         }, 500);
     }
 
+    /**
+     * Fired when the user taps the help button
+     * Creates and animates in a help fragment for the camera screen
+     */
     public void addHelpFragment(){
 
         HelpFragment helpFragment = HelpFragment.newInstance("gallery");
@@ -111,6 +132,13 @@ public class GalleryNavigationListener implements View.OnTouchListener{
         return this.furtherInfoFragment;
     }
 
+    /**
+     * Fires when the user taps the screen
+     * Checks if the user is swiping down or up then acts accordingly
+     * @param v
+     * @param event
+     * @return
+     */
     public boolean onTouch(View v, MotionEvent event) {
         int action = MotionEventCompat.getActionMasked(event);
         switch (action) {

@@ -21,6 +21,8 @@ import uk.ac.yorksj.spray.david.caloriesnap.activity.adapter.HelpMenuListAdapter
  * to handle interaction events.
  * Use the {@link HelpFragment#newInstance} factory method to
  * create an instance of this fragment.
+ *
+ * Displays help information for relevant screens
  */
 public class HelpFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
@@ -79,6 +81,11 @@ public class HelpFragment extends Fragment {
         helpList.setAdapter(listAdapter);
     }
 
+    /**
+     * Gather help descriptions depending on the helpType variable (usually the previous screen)
+     * @param helpType
+     * @return
+     */
     public String[] getDescriptions(String helpType){
 
         Resources res = getResources();
@@ -103,6 +110,11 @@ public class HelpFragment extends Fragment {
         return null; //throw a nullpointer exception if we dont have a helptype, TODO handle
     }
 
+    /**
+     * Gathers the relative images for the relative descriptions
+     * @param helpType
+     * @return
+     */
     public Integer[] getImages(String helpType){
         switch(helpType){
             case "gallery":

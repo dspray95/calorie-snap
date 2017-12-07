@@ -16,6 +16,9 @@ import uk.ac.yorksj.spray.david.caloriesnap.activity.GalleryActivity;
 import uk.ac.yorksj.spray.david.caloriesnap.activity.fragments.CameraFragment;
 import uk.ac.yorksj.spray.david.caloriesnap.activity.fragments.HelpFragment;
 
+/**
+ * Handles swipe navigation for the camera fragament
+ */
 public class CameraNavigationListener implements View.OnTouchListener {
 
     private String HELP_IDENTIFIER = "camera";
@@ -30,6 +33,14 @@ public class CameraNavigationListener implements View.OnTouchListener {
     private FragmentManager fm;
     private int state = 0;
 
+    /**
+     * Constructor
+     *
+     * @param fm parent fragment manager
+     * @param newScreenDirection direction of swiping
+     * @param parentFragment creator camera fragment
+     * @param nextActivity gallery activity
+     */
     public CameraNavigationListener(FragmentManager fm, char newScreenDirection, CameraFragment parentFragment, Class nextActivity){
         this.newScreenDirection = newScreenDirection;
         this.parentFragment = parentFragment;
@@ -37,6 +48,13 @@ public class CameraNavigationListener implements View.OnTouchListener {
         this.fm = fm;
     }
 
+    /**
+     * Fires when the user taps the screen
+     * Checks if the user is swiping down or up then acts accordingly
+     * @param v
+     * @param event
+     * @return
+     */
     @Override
     public boolean onTouch(View v, MotionEvent event) {
             int action = MotionEventCompat.getActionMasked(event);
@@ -61,6 +79,10 @@ public class CameraNavigationListener implements View.OnTouchListener {
             return true;
     }
 
+    /**
+     * Fired when the user taps the help button
+     * Creates and animates in a help fragment for the camera screen
+     */
     public void addHelpFragment(){
 
         HelpFragment helpFragment = HelpFragment.newInstance("camera");
@@ -77,6 +99,11 @@ public class CameraNavigationListener implements View.OnTouchListener {
         newScreenDirection = 'u';
     }
 
+    /**
+     * Fired from swiping, changes the screen depending on the state of the activity.
+     * On state 0 we go to the gallery activity
+     * State 1 means that the help fragment is active, so we hide it
+     */
     public void changeScreen(){
         switch(state) {
             case 0:

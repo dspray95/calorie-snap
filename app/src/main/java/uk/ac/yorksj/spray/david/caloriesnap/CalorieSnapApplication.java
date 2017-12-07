@@ -6,6 +6,9 @@ import android.content.res.Configuration;
 
 import com.akexorcist.localizationactivity.core.LocalizationApplicationDelegate;
 
+/**
+ * Needed for localisation functions
+ */
 public class CalorieSnapApplication extends Application {
     LocalizationApplicationDelegate localizationDelegate = new LocalizationApplicationDelegate(this);
 
